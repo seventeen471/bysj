@@ -18,29 +18,33 @@ github使用方法介绍
 
 > **我们的项目有不少是相通的，如果有需要别人帮助实现的功能，或者是问题，可以在issue中提出，issue是我们沟通问题的主要地方**
 
-### 2、Fork 本仓库
-
-访问 [bysj 仓库的主页](https://github.com/LeeWilli/bysj)，并 Fork 到自己的账号下。
-
-![Fork 仓库](./static/fork-repo.png)
 
 > 注：以下内容是在命令行终端里面操作，如果没有git指令，可能需要安装 [Git](https://git-scm.com/).
 
 如果不涉及到修改他人程序，我们可以在 master 分支进行开发修改。如果设计到别人写的模块数据可以从3开始看
 
-### 2.1 查看状态
+### 1.0 clone并下载
+git clone https://github.com/LeeWilli/bysj.git
+
+### 1.1 查看状态
 
 Git status
 
-### 2.2 提交修改后文件到本地仓库
+### 1.2 提交修改后文件到本地仓库
 
  git add <file1> <file2> … <fileN> (或者git add .)
   
  git commit
 
-### 2.3 从本地仓库提交到远程仓库
+### 1.3 从本地仓库提交到远程仓库
 
 git push
+
+### 2、Fork 本仓库
+
+访问 [bysj 仓库的主页](https://github.com/LeeWilli/bysj)，并 Fork 到自己的账号下。
+
+![Fork 仓库](./static/fork-repo.png)
 
 ### 3、Clone 仓库
 
