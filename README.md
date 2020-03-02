@@ -21,7 +21,7 @@ github使用方法介绍
 
 > 注：以下内容是在命令行终端里面操作，如果没有git指令，可能需要安装 [Git](https://git-scm.com/).
 
-如果不涉及到修改他人程序，我们可以在 master 分支进行开发修改。如果设计到别人写的模块数据可以从3开始看
+如果不涉及到修改他人程序，我们可以在 master 分支进行开发修改。如果涉及到别人写的模块数据可以从2开始看
 
 ### 1.0 clone并下载
 git clone https://github.com/LeeWilli/bysj.git
