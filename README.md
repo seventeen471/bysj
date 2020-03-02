@@ -40,6 +40,8 @@ Git status
 
 git push
 
+下面的内容参考了 https://github.com/wuhan2020/wuhan2020/edit/master/CONTRIBUTING.md
+
 ### 2、Fork 本仓库
 
 访问 [bysj 仓库的主页](https://github.com/LeeWilli/bysj)，并 Fork 到自己的账号下。
