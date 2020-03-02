@@ -18,16 +18,6 @@ github使用方法介绍
 
 > **我们的项目有不少是相通的，如果有需要别人帮助实现的功能，或者是问题，可以在issue中提出，issue是我们沟通问题的主要地方**
 
-在 [Issue 列表](https://github.com/LeeWilli/bysj/issues) 中挑选任务。然后在该 `issue` 中使用 `/self-assign`命令领取任务。项目的机器人将会自动将该`issue`的`Assignees`指定为自己。
-
-```
-/self-assign
-```
-
-示意图如下：
-
-![self-assign 示意图](./static/self-assign.png)
-
 ### 2、Fork 本仓库
 
 访问 [bysj 仓库的主页](https://github.com/LeeWilli/bysj)，并 Fork 到自己的账号下。
@@ -44,8 +34,8 @@ Git status
 
 ### 2.2 提交修改后文件到本地仓库
 
- git add <file1> <file2> … <fileN>
- git add .
+ git add <file1> <file2> … <fileN> (或者git add .)
+  
  git commit
 
 ### 2.3 从本地仓库提交到远程仓库
@@ -99,7 +89,7 @@ git commit --amend -sm "hotel: update HOTEL.csv, fix #1"
 同步上游仓库变更(即 [bysj/bysj](https://github.com/LeeWilli/bysj) )，因为可能有其他人先于你提交到上游仓库，防止冲突：
 
 ```bash
-$ git remote add upstream git@github.com:wuhan2020/wuhan2020.git
+$ git remote add upstream git@github.com:bysj/bysj.git
 $ git fetch upstream
 ```
 
