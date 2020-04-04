@@ -1,17 +1,21 @@
 <template>
     <div id="home">
       <div class="header">
+        <div :style="'opacity:' + headerOpacity">
         <van-icon name="location" color="#fff" size="0.8rem" class="location"/>
         <span>朗诗寓</span>
         <van-icon name="play" color="#fff" style="transform: rotateZ(90deg) scale(0.5) translate(2.2rem)"/>
         <van-icon name="bell" color="#fff" size="0.6rem" class="message" info="2" style="transform: translate(5.3rem,1.2rem)"/>
+        </div>
+        <div :style="scrollTop <= 32 ? searchCSS1 : searchCSS2">
         <van-search
           input-align="center"
           shape="round"
           background="#FA8072"
           placeholder="冬瓜"
-          style="transform: translateY(0.95rem); width: 9.95rem"
+          style="transform: translateY(0.95rem); width: 10rem;"
         />
+        </div>
       </div>
       <div class="swipe">
         <mt-swipe :auto="6000">
@@ -31,9 +35,9 @@
       </div>
       <div class="body">
         <div class="ico">
-        <van-icon name="clock-o" color="#FA8072" size="0.44rem" style="transform: translate(0.267rem,-0.08rem)"/><span>最快29分钟送达</span>
-        <van-icon name="gold-coin-o" color="#FA8072" size="0.44rem" style="transform: translate(0.267rem,-0.08rem)" /><span>满28元免配送费</span>
-        <van-icon name="passed" color="#FA8072" size="0.44rem" style="transform: translate(0.267rem,-0.08rem)" /><span>安心退</span>
+        <van-icon name="clock-o" color="#FA8072" size="0.44rem" style="transform: translate(0.35rem,-0.06rem)"/><span>最快29分钟送达</span>
+        <van-icon name="gold-coin-o" color="#FA8072" size="0.44rem" style="transform: translate(0.35rem,-0.06rem)" /><span>满28元免配送费</span>
+        <van-icon name="passed" color="#FA8072" size="0.44rem" style="transform: translate(0.35rem,-0.06rem)" /><span>安心退</span>
         </div>
         <div class="homeClass">
           <div class="class1">
@@ -51,12 +55,12 @@
           </div>
           <div class="className"><span>乳品烘焙</span><span>米面粮油</span><span>方便速食</span><span>酒饮零食</span></div>
         </div>
-        <div style="width: 100%; height: 0.267rem;background-color: #F5F5F5"></div>
+        <div style="margin-top: -2.05rem">
         <div style="width: 100%;background-color: #F5F5F5">
         <div class="vip">
-          <van-icon name="vip-card" color="#FFD700" size="0.8rem" style="transform: translate(-4.4rem, 0.06rem)"/>
+          <van-icon name="vip-card" color="#FFD700" size="0.8rem" style="transform: translate(-4.4rem, 0.06rem);"/>
           <p>开通会员，享9.5折</p>
-          <p style="transform: translate(3.7rem,0.12rem)">开通</p><van-icon name="arrow" size="0.4rem" color="#FA8072" style="transform: translate(3rem,-0.15rem)"/>
+          <p style="transform: translate(3.7rem,0.12rem);">开通</p><van-icon name="arrow" size="0.4rem" color="#FA8072" style="transform: translate(3rem,-0.15rem)"/>
         </div>
         </div>
         <div style="width: 100%; height: 0.267rem;background-color: #F5F5F5"></div>
@@ -106,6 +110,7 @@
         </div>
         <div style="text-align: center;color: #bfbfbf;font-size:0.4rem;padding-bottom:0.9rem;margin-bottom:1.5rem;padding-top:0.6rem;background-color: #F5F5F5"> -- 已经到底了 -- </div>
       </div>
+      </div>
       <div class="footer" v-show="hidshow">
         <div :style="index === 1 ? yellow : grey" @click="index = 1">
           <van-icon v-if="index !== 1 ? true : false" name="shop-o" size="0.9rem" color="#bfbfbf"/>
@@ -152,10 +157,55 @@
             h: 4,
             docmHeight: document.documentElement.clientHeight,  //默认屏幕高度
             showHeight: document.documentElement.clientHeight,   //实时屏幕高度
-            hidshow: true  //显示或者隐藏footer
+            hidshow: true,  //显示或者隐藏footer
+            scrollTop: '0',
+            searchCSS1: '',
+            searchCSS2: 'transform: translateY(-0.95rem);position: fixed;background-color:#FA8072;z-index:999;'
           }
       },
       methods: {
+        homeScroll() {
+          document.getElementsByTagName('body')[0].addEventListener('scroll',() => {
+            this.scrollTop = document.documentElement.scrollTop ? JSON.stringify(document.documentElement.scrollTop) : JSON.stringify(document.body.scrollTop);
+          },false);
+        },
+        touchMove() {
+          let dom = document.getElementsByTagName('html')[0];
+          dom.addEventListener('touchstart', (e) => {
+              let startX = e.targetTouches[0].pageX;
+              let startY = e.targetTouches[0].pageY;
+            dom.addEventListener('touchmove', (e) => {
+              //获取滑动屏幕时的X,Y
+              let endX = e.targetTouches[0].pageX;
+              let endY = e.targetTouches[0].pageY;
+              //获取滑动距离
+              let distanceX = endX-startX;
+              let distanceY = endY-startY;
+              if (Math.abs(distanceX) === 0) {
+                // dom.style.paddingRight = '0';
+                dom.style.position = 'static';
+              } else {
+                // dom.removeEventListener('touchmove', (e) => { e.preventDefault() }, false);
+                dom.style.position = 'fixed';
+                // dom.style.paddingRight = '5rem';
+              }
+              //判断滑动方向
+              // if(Math.abs(distanceX)>Math.abs(distanceY) && distanceX>0){
+              //   console.log('往左滑动');
+              // }else if(Math.abs(distanceX)>Math.abs(distanceY) && distanceX<0){
+              //   console.log('往右滑动');
+              // }else if(Math.abs(distanceX)<Math.abs(distanceY) && distanceY<0){
+              //   console.log('往上滑动'+distanceY);
+              //   dom.removeEventListener('touchmove', (e) => { e.preventDefault() }, false);
+              // }else if(Math.abs(distanceX)<Math.abs(distanceY) && distanceY>0){
+              //   console.log('往下滑动'+distanceY);
+              //   dom.removeEventListener('touchmove', (e) => { e.preventDefault() }, false);
+              // }else{
+              //   console.log('点击未滑动');
+              // }
+            },false);
+          },false);
+        },
         startTimeSub() {
           let si = setInterval(() => {
             if (this.s === 0) {
@@ -201,12 +251,19 @@
           }
         }
       },
+      computed: {
+        headerOpacity() {
+          return 1 - this.scrollTop * 0.03125;
+        }
+      },
       filters: {
           two(value) {
             return value.toString().padStart(2,'0');
           }
       },
       mounted() {
+          this.touchMove();
+          this.homeScroll();
           this.startTimeSub();
           window.onresize = ()=>{
           return(()=>{
@@ -218,12 +275,9 @@
 </script>
 
 <style lang="less" scoped>
-  div::-webkit-scrollbar { display: none; }
   #home{
     width: 100%;
-    background-color: #fff;
-    overflow-x: hidden;
-    overflow-y: scroll;
+    /*background-color: #fff;*/
   }
   .location{
     margin-left: 0.3rem;
@@ -255,7 +309,8 @@
     position: fixed;
     background-color: #fff;
     padding-top: 0.267rem;
-    margin-bottom: 1.2%;
+    padding-bottom: 1%;
+    z-index: 2;
     p{
       margin-top: 0;
     }
@@ -279,10 +334,13 @@
       transform: translate(0.373rem, -2.8rem);
       img{
         width: 100%;
+        z-index: 1;
       }
     }
   .body{
+    position: relative;
     width: 100%;
+    z-index: 1;
     img{
       width: 100%;
     }
@@ -299,8 +357,9 @@
       }
     }
     .homeClass{
-      height: 2.8rem;
-      transform: translateY(-2.18rem);
+      height: 4.8rem;
+      transform: translate(-0.1rem,-2.3rem);
+      background-color: #fff;
       .class1,.class2{
         width: 100%;
         display: flex;
@@ -334,12 +393,14 @@
         font-size: 0.45rem;
         float: left;
         transform: translate(1.453rem,0.12rem);
+        /*clear: both;*/
       }
     }
     .timeShop{
       position: relative;
       width: 100%;
       height: 4.7rem;
+      background-color: #fff;
       .timeShopHerder{
         width: 100%;
         position: absolute;
@@ -416,6 +477,8 @@
     .recommend{
       width: 99%;
       background-color: #F5F5F5;
+      /*position: absolute;*/
+      z-index: -1;
       header{
         text-align: center;
         font-size: 0.4rem;
@@ -429,12 +492,14 @@
         justify-content: space-around;
         border-right: 0.08rem solid #F5F5F5;
         border-left: 0.053rem solid #F5F5F5;
+        z-index: 1;
         div{
           width: 50%;
           height: 6.2rem;
           background-color: #fff;
           border: 0.133rem solid #F5F5F5;
           border-radius: 0.267rem;
+          z-index: 1;
         }
       }
     }
