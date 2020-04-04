@@ -7,7 +7,7 @@
         <van-icon name="play" color="#fff" style="transform: rotateZ(90deg) scale(0.5) translate(2.2rem)"/>
         <van-icon name="bell" color="#fff" size="0.6rem" class="message" info="2" style="transform: translate(5.3rem,1.2rem)"/>
         </div>
-        <div :style="scrollTop <= 32 ? searchCSS1 : searchCSS2">
+        <div :style="scrollTop <= 34 ? searchCSS1 : searchCSS2">
         <van-search
           input-align="center"
           shape="round"
@@ -160,13 +160,14 @@
             hidshow: true,  //显示或者隐藏footer
             scrollTop: '0',
             searchCSS1: '',
-            searchCSS2: 'transform: translateY(-0.95rem);position: fixed;background-color:#FA8072;z-index:999;'
+            searchCSS2: 'transform: translateY(-0.95rem);position: fixed;background-color:#FA8072;z-index:999;',
+            distanceY: 0,
           }
       },
       methods: {
         homeScroll() {
           document.getElementsByTagName('body')[0].addEventListener('scroll',() => {
-            this.scrollTop = document.documentElement.scrollTop ? JSON.stringify(document.documentElement.scrollTop) : JSON.stringify(document.body.scrollTop);
+            this.scrollTop = Math.abs(document.getElementsByClassName('header')[0].getBoundingClientRect().y);
           },false);
         },
         touchMove() {
@@ -182,27 +183,10 @@
               let distanceX = endX-startX;
               let distanceY = endY-startY;
               if (Math.abs(distanceX) === 0) {
-                // dom.style.paddingRight = '0';
                 dom.style.position = 'static';
               } else {
-                // dom.removeEventListener('touchmove', (e) => { e.preventDefault() }, false);
                 dom.style.position = 'fixed';
-                // dom.style.paddingRight = '5rem';
               }
-              //判断滑动方向
-              // if(Math.abs(distanceX)>Math.abs(distanceY) && distanceX>0){
-              //   console.log('往左滑动');
-              // }else if(Math.abs(distanceX)>Math.abs(distanceY) && distanceX<0){
-              //   console.log('往右滑动');
-              // }else if(Math.abs(distanceX)<Math.abs(distanceY) && distanceY<0){
-              //   console.log('往上滑动'+distanceY);
-              //   dom.removeEventListener('touchmove', (e) => { e.preventDefault() }, false);
-              // }else if(Math.abs(distanceX)<Math.abs(distanceY) && distanceY>0){
-              //   console.log('往下滑动'+distanceY);
-              //   dom.removeEventListener('touchmove', (e) => { e.preventDefault() }, false);
-              // }else{
-              //   console.log('点击未滑动');
-              // }
             },false);
           },false);
         },
@@ -249,11 +233,11 @@
           }else{
             this.hidshow = true
           }
-        }
+        },
       },
       computed: {
         headerOpacity() {
-          return 1 - this.scrollTop * 0.03125;
+          return 1 - this.scrollTop * 0.0294;
         }
       },
       filters: {
@@ -270,6 +254,12 @@
             this.showHeight = document.body.clientHeight;
           })()
         }
+      },
+      destroyed() {
+        document.getElementsByTagName('body')[0].removeEventListener('scroll',() => {
+          this.scrollTop = document.documentElement.scrollTop ? JSON.stringify(document.documentElement.scrollTop) : JSON.stringify(document.body.scrollTop);
+          this.scrollTop = Math.abs(document.getElementsByClassName('header')[0].getBoundingClientRect().y);
+        },false);
       }
     }
 </script>
