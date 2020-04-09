@@ -7,13 +7,14 @@
         <van-icon name="play" color="#fff" style="transform: rotateZ(90deg) scale(0.5) translate(2.2rem)"/>
         <van-icon name="bell" color="#fff" size="0.6rem" class="message" info="2" style="transform: translate(5.3rem,1.2rem)"/>
         </div>
-        <div :style="scrollTop <= 34 ? searchCSS1 : searchCSS2">
+        <div :style="scrollTop <= 32 ? searchCSS1 : searchCSS2">
         <van-search
           input-align="center"
           shape="round"
           background="#FA8072"
           placeholder="冬瓜"
           style="transform: translateY(0.95rem); width: 10rem;"
+          disabled
         />
         </div>
       </div>
@@ -108,32 +109,10 @@
             <div></div>
           </div>
         </div>
-        <div style="text-align: center;color: #bfbfbf;font-size:0.4rem;padding-bottom:0.9rem;margin-bottom:1.5rem;padding-top:0.6rem;background-color: #F5F5F5"> -- 已经到底了 -- </div>
+        <div style="text-align: center;color: #bfbfbf;font-size:0.4rem;margin-bottom:15%;padding-bottom:0.9rem;padding-top:0.6rem;background-color: #F5F5F5"> -- 已经到底了 -- </div>
       </div>
       </div>
-      <div class="footer" v-show="hidshow">
-        <div :style="index === 1 ? yellow : grey" @click="index = 1">
-          <van-icon v-if="index !== 1 ? true : false" name="shop-o" size="0.9rem" color="#bfbfbf"/>
-          <van-icon v-if="index === 1 ? true : false" name="shop" color="#FA8072" size="0.9rem"/>
-          <p style="margin-left: 0.1rem">首页</p>
-        </div>
-
-        <div class="classify" :style="index === 2 ? yellow : grey" @click="index = 2">
-          <img src="../assets/classify1.png" v-if="index !== 2 ? true : false">
-          <img src="../assets/classify2.png" v-if="index === 2 ? true : false">
-          <p>分类</p>
-        </div>
-        <div :style="index === 3 ? yellow : grey" @click="index = 3" class="shopCar">
-          <van-icon name="shopping-cart-o" size="0.9rem" color="#bfbfbf" v-if="index !== 3 ? true : false"/>
-          <van-icon name="shopping-cart" color="#FA8072" size="0.9rem" v-if="index === 3 ? true : false"/>
-          <p>购物车</p>
-        </div>
-        <div :style="index === 4 ? yellow : grey" @click="index = 4">
-          <van-icon name="manager-o" size="0.9rem" color="#bfbfbf" v-if="index !== 4 ? true : false"/>
-          <van-icon name="manager" color="#FA8072" size="0.9rem" v-if="index === 4 ? true : false"/>
-          <p style="margin-left: 0.1rem">我的</p>
-        </div>
-      </div>
+      <myFooter></myFooter>
     </div>
 </template>
 
@@ -141,6 +120,7 @@
   import Vue from 'vue';
   import 'mint-ui/lib/style.css'
   import { Swipe, SwipeItem } from 'mint-ui';
+  import myFooter from './myFooter';
 
 
   Vue.component(Swipe.name, Swipe);
@@ -149,15 +129,12 @@
         name: "home",
       data() {
           return{
-            index: 1,
-            yellow: 'color: #FA8072',
-            grey: 'color: #bfbfbf',
             s: 0,
             m: 0,
             h: 4,
-            docmHeight: document.documentElement.clientHeight,  //默认屏幕高度
-            showHeight: document.documentElement.clientHeight,   //实时屏幕高度
-            hidshow: true,  //显示或者隐藏footer
+            // docmHeight: document.documentElement.clientHeight,  //默认屏幕高度
+            // showHeight: document.documentElement.clientHeight,   //实时屏幕高度
+            // hidshow: true,  //显示或者隐藏footer
             scrollTop: '0',
             searchCSS1: '',
             searchCSS2: 'transform: translateY(-0.95rem);position: fixed;background-color:#FA8072;z-index:999;',
@@ -166,30 +143,31 @@
       },
       methods: {
         homeScroll() {
-          document.getElementsByTagName('body')[0].addEventListener('scroll',() => {
-            this.scrollTop = Math.abs(document.getElementsByClassName('header')[0].getBoundingClientRect().y);
-          },false);
+          document.getElementById('app').addEventListener('scroll', () => {
+            // this.scrollTop = Math.abs(document.getElementsByClassName('header')[0].getBoundingClientRect().y);
+            this.scrollTop = document.getElementById('app').scrollTop;
+          }, false);
         },
-        touchMove() {
-          let dom = document.getElementsByTagName('html')[0];
-          dom.addEventListener('touchstart', (e) => {
-              let startX = e.targetTouches[0].pageX;
-              let startY = e.targetTouches[0].pageY;
-            dom.addEventListener('touchmove', (e) => {
-              //获取滑动屏幕时的X,Y
-              let endX = e.targetTouches[0].pageX;
-              let endY = e.targetTouches[0].pageY;
-              //获取滑动距离
-              let distanceX = endX-startX;
-              let distanceY = endY-startY;
-              if (Math.abs(distanceX) === 0) {
-                dom.style.position = 'static';
-              } else {
-                dom.style.position = 'fixed';
-              }
-            },false);
-          },false);
-        },
+        // touchMove() {
+        //   let dom = document.getElementsByTagName('html')[0];
+        //   dom.addEventListener('touchstart', (e) => {
+        //       let startX = e.targetTouches[0].pageX;
+        //       let startY = e.targetTouches[0].pageY;
+        //     dom.addEventListener('touchmove', (e) => {
+        //       //获取滑动屏幕时的X,Y
+        //       let endX = e.targetTouches[0].pageX;
+        //       let endY = e.targetTouches[0].pageY;
+        //       //获取滑动距离
+        //       let distanceX = endX-startX;
+        //       let distanceY = endY-startY;
+        //       if (Math.abs(distanceX) === 0) {
+        //         dom.style.position = 'static';
+        //       } else {
+        //         // dom.style.position = 'fixed';
+        //       }
+        //     },false);
+        //   },false);
+        // },
         startTimeSub() {
           let si = setInterval(() => {
             if (this.s === 0) {
@@ -227,17 +205,20 @@
               }
             }
           },
-        showHeight() {
-          if(this.docmHeight > this.showHeight){
-            this.hidshow = false
-          }else{
-            this.hidshow = true
-          }
-        },
+        // showHeight() {
+        //   if(this.docmHeight > this.showHeight){
+        //     this.hidshow = false
+        //   }else{
+        //     this.hidshow = true
+        //   }
+        // },
+        $route() {
+          document.getElementById('app').scrollTop = parseFloat(window.sessionStorage.getItem(this.$route.meta.who));
+        }
       },
       computed: {
         headerOpacity() {
-          return 1 - this.scrollTop * 0.0294;
+          return 1 - this.scrollTop * 0.03125;
         }
       },
       filters: {
@@ -246,27 +227,32 @@
           }
       },
       mounted() {
-          this.touchMove();
-          this.homeScroll();
+          // this.touchMove();
+        this.homeScroll();
           this.startTimeSub();
           window.onresize = ()=>{
           return(()=>{
             this.showHeight = document.body.clientHeight;
           })()
-        }
+        };
+      },
+      components: {
+          myFooter
       },
       destroyed() {
-        document.getElementsByTagName('body')[0].removeEventListener('scroll',() => {
-          this.scrollTop = document.documentElement.scrollTop ? JSON.stringify(document.documentElement.scrollTop) : JSON.stringify(document.body.scrollTop);
-          this.scrollTop = Math.abs(document.getElementsByClassName('header')[0].getBoundingClientRect().y);
-        },false);
+        document.getElementById('app').removeEventListener('scroll', () => {
+          this.scrollTop = document.getElementById('app').scrollTop;
+        }, false);
       }
     }
 </script>
 
 <style lang="less" scoped>
   #home{
-    width: 100%;
+    /*width: 100%;*/
+    /*height: 100%;*/
+    /*overflow-x: hidden;*/
+    /*overflow-y: scroll;*/
     /*background-color: #fff;*/
   }
   .location{
@@ -286,35 +272,6 @@
       font-size: 0.45rem;
       transform: translateY(1rem);
     }
-  }
-  .footer{
-    display: flex;
-    width: 100%;
-    justify-content: space-around;
-    /*top: 19.7rem;*/
-    bottom: 0;
-    /*top: 0;*/
-    font-size: 0.35rem;
-    /*transform: translateY(19.8rem);*/
-    position: fixed;
-    background-color: #fff;
-    padding-top: 0.267rem;
-    padding-bottom: 1%;
-    z-index: 2;
-    p{
-      margin-top: 0;
-    }
-  }
-
-  .classify{
-    transform: translateX(0.113rem);
-    img {
-      width: 0.78rem;
-      margin-top: 0.12rem;
-    }
-  }
-  .shopCar{
-    transform: translateX(0.213rem);
   }
     .swipe{
       width: 9.2rem;

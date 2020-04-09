@@ -1,16 +1,33 @@
 <template>
-  <div id="app">
-    <router-view/>
+  <div id="appDiv">
+  <div id="app" ref="app">
+    <keep-alive>
+    <router-view v-if="$route.meta.keepAlive"/>
+    </keep-alive>
+    <router-view v-if="!$route.meta.keepAlive"/>
+  </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  mounted() {
+  }
 }
 </script>
 
-<style>
-#app {
+<style lang="less">
+  #app {
+  width: 10rem;
+  height: 100vh;
+  /*overflow: hidden;*/
+  overflow-x: hidden;
+  padding-right: 5rem;
+  overflow-y: scroll;
 }
+  #appDiv{
+    width: 10rem;
+    overflow-x: hidden;
+  }
 </style>
