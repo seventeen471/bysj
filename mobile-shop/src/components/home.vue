@@ -319,7 +319,7 @@
         transform: translate(0.107rem,0.18rem);
         height: 0.8rem;
         span{
-          color: black;
+          color: rgba(0,0,0,0.8);
           font-size: 0.38rem;
         }
       }

@@ -21,9 +21,7 @@ export default {
   #app {
   width: 10rem;
   height: 100vh;
-  /*overflow: hidden;*/
   overflow-x: hidden;
-  padding-right: 5rem;
   overflow-y: scroll;
 }
   #appDiv{

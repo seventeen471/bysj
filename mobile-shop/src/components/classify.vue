@@ -55,7 +55,7 @@
           return {
             topIndex: 1,
             topStyle1: 'border-color:'+'#FA8072'+';'+'color:'+'#FA8072',
-            topStyle2: 'border-color:'+'#fff'+';'+'color:'+'grey',
+            topStyle2: 'border-color:'+'#fff'+';'+'color:'+'rgba(0,0,0,0.7)',
             leftIndex: 1,
             oderIndex: 1,
             isUp: true,
@@ -141,7 +141,7 @@
       height: 46%;
       position: absolute;
       top: 0;
-      background-color: rgba(0,0,0,0.1);
+      background-color: rgba(0,0,0,0.12);
     }
     .search{
       position: absolute;
