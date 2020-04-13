@@ -30,23 +30,15 @@
         </div>
         <div class="recommend">
           <header> -- 猜你喜欢 --</header>
-          <div class="two">
+          <div class="recommendBody">
             <div></div>
             <div></div>
-          </div>
-          <div class="two">
             <div></div>
             <div></div>
-          </div>
-          <div class="two">
             <div></div>
             <div></div>
-          </div>
-          <div class="two">
             <div></div>
             <div></div>
-          </div>
-          <div class="two">
             <div></div>
             <div></div>
           </div>
@@ -76,9 +68,9 @@
             allChecked: false,
             bodyScroll: 0,
             result: ['a', 'b'],
-            goodsArr: [{id:'a',img: 'http://192.168.1.4/shop/img/goods1.jpg',name:'进口香蕉 约500g',charge:5.9,mount:1},
-              {id:'b',img: 'http://192.168.1.4/shop/img/goods2.jpg',name:'恒都精选冷冻肥牛卷 300g',charge:23.8,mount:1},
-              {id:'c',img: 'http://192.168.1.4/shop/img/goods3.jpg',name:'可口可乐 2L/瓶',charge:6.9,mount:2}],
+            goodsArr: [{id:'a',img: 'http://192.168.43.218/shop/img/goods1.jpg',name:'进口香蕉 约500g',charge:5.9,mount:1},
+              {id:'b',img: 'http://192.168.43.218/shop/img/goods2.jpg',name:'恒都精选冷冻肥牛卷 300g',charge:23.8,mount:1},
+              {id:'c',img: 'http://192.168.43.218/shop/img/goods3.jpg',name:'可口可乐 2L/瓶',charge:6.9,mount:2}],
           }
         },
       mounted(){
@@ -290,19 +282,17 @@
       margin-bottom: 0.3rem;
       font-weight: bold;
     }
-    .two{
-      width: 100%;
+    .recommendBody{
       display: flex;
       justify-content: space-around;
-      border-right: 0.08rem solid #F5F5F5;
-      border-left: 0.053rem solid #F5F5F5;
-      z-index: 1;
+      flex-wrap: wrap;
+      background-color: #f5f5f5;
       div{
-        width: 50%;
+        width: 47.5%;
         height: 6.2rem;
         background-color: #fff;
-        border: 0.133rem solid #F5F5F5;
-        border-radius: 0.267rem;
+        border-radius: 0.2rem;
+        margin-top: 0.2rem;
         z-index: 1;
       }
     }

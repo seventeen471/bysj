@@ -5,7 +5,7 @@
         <van-icon name="location" color="#fff" size="0.8rem" class="location"/>
         <span>朗诗寓</span>
         <van-icon name="play" color="#fff" style="transform: rotateZ(90deg) scale(0.5) translate(2.2rem)"/>
-        <van-icon name="bell" color="#fff" size="0.6rem" class="message" info="2" style="transform: translate(5.3rem,1.2rem)"/>
+        <van-icon name="bell" color="#fff" size="0.6rem" class="message" info="2" style="transform: translate(5.3rem,1.1rem)"/>
         </div>
         <div :style="scrollTop <= 32 ? searchCSS1 : searchCSS2">
         <van-search
@@ -88,26 +88,18 @@
         </div>
         <div class="recommend">
           <header> -- 热销推荐 --</header>
-          <div class="two">
+          <div class="recommendBody">
             <div></div>
             <div></div>
-          </div>
-          <div class="two">
             <div></div>
             <div></div>
-          </div>
-          <div class="two">
             <div></div>
             <div></div>
-          </div>
-          <div class="two">
             <div></div>
             <div></div>
-          </div>
-          <div class="two">
             <div></div>
             <div></div>
-          </div>
+        </div>
         </div>
         <div style="text-align: center;color: #bfbfbf;font-size:0.4rem;margin-bottom:15%;padding-bottom:0.9rem;padding-top:0.6rem;background-color: #F5F5F5"> -- 已经到底了 -- </div>
       </div>
@@ -433,19 +425,17 @@
         margin-bottom: 0.3rem;
         font-weight: bold;
       }
-      .two{
-        width: 100%;
+      .recommendBody{
         display: flex;
         justify-content: space-around;
-        border-right: 0.08rem solid #F5F5F5;
-        border-left: 0.053rem solid #F5F5F5;
-        z-index: 1;
+        flex-wrap: wrap;
+        background-color: #f5f5f5;
         div{
-          width: 50%;
+          width: 47.5%;
           height: 6.2rem;
           background-color: #fff;
-          border: 0.133rem solid #F5F5F5;
-          border-radius: 0.267rem;
+          border-radius: 0.2rem;
+          margin-top: 0.2rem;
           z-index: 1;
         }
       }
