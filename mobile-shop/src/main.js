@@ -8,10 +8,39 @@ import 'vant/lib/index.css'
 // import '../static/normalize.css'
 import '../static/flexible.min'
 import store from './store'
+import '../static/animate.css'
 
 Vue.use(Vant);
 Vue.config.productionTip = false;
 
+document.addEventListener('plusready', () => {
+  let now = false;
+  let time = null;
+  plus.key.addEventListener('backbutton', () => {
+    if (
+      router.currentRoute.path === '/home' ||
+      router.currentRoute.path === '/classify' ||
+      router.currentRoute.path === '/shopCar' ||
+      router.currentRoute.path === '/mine'
+    ) {
+      time = null
+      if (now) {
+        now = false;
+        plus.runtime.quit();
+      } else {
+        now = true;
+        plus.nativeUI.toast('再按一次退出', { duration: 'short' });
+        time = setTimeout(() => {
+          now = false
+        }, 1000)
+      }
+    } else {
+      setTimeout(() => {
+        router.go(-1);
+      },150)
+    }
+  },false);
+});
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

@@ -7,7 +7,7 @@
       <div class="shopCarBody">
         <div class="emptyDiv" v-if="goodsArr.length===0">
         <div class="empty">
-         <img src="../assets/shopCar.png">
+         <img src="../../assets/shopCar.png">
         </div>
           <p>购物车里空空如也</p>
           <van-button type="primary" size="small" color="#FA8072" class="goSeeSee">去逛逛</van-button>
@@ -60,7 +60,7 @@
 </template>
 
 <script>
-  import myFooter from './myFooter'
+  import myFooter from '../common/myFooter'
     export default {
         name: "shopCar",
         data() {

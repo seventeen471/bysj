@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '../components/home'
-import Classify from '../components/classify'
-import ShopCar from '../components/shopCar'
-import Mine from '../components/mine'
+import Home from '../components/home/home'
+import Classify from '../components/classify/classify'
+import ShopCar from '../components/shop-car/shopCar'
+import Mine from '../components/mine/mine'
+// import search from "../components/common/search";
 
 Vue.use(Router);
 
@@ -49,6 +50,10 @@ const router = new Router({
         scrollTop: window.sessionStorage.getItem('mineScrollTop')
       }
     },
+    {
+      path: '/search',
+      component: () => import("../components/common/search"),
+    }
   ],
   scrollBehavior (to, from, savedPosition) {
     // let top = parseFloat(window.sessionStorage.getItem(to.meta.who));

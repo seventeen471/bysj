@@ -8,6 +8,7 @@
         <van-icon name="bell" color="#fff" size="0.6rem" class="message" info="2" style="transform: translate(5.3rem,1.1rem)"/>
         </div>
         <div :style="scrollTop <= 32 ? searchCSS1 : searchCSS2">
+          <router-link to="search">
         <van-search
           input-align="center"
           shape="round"
@@ -16,6 +17,7 @@
           style="transform: translateY(0.95rem); width: 10rem;"
           disabled
         />
+          </router-link>
         </div>
       </div>
       <div class="swipe">
@@ -42,17 +44,17 @@
         </div>
         <div class="homeClass">
           <div class="class1">
-          <div><img class="classImg1" src="../assets/classAll.jpg"></div>
-          <div><img class="classImg2" src="../assets/classAll.jpg"></div>
-          <div><img class="classImg3" src="../assets/classAll.jpg"></div>
-          <div><img class="classImg4" src="../assets/classAll.jpg"></div>
+          <div><img class="classImg1" src="../../assets/classAll.jpg"></div>
+          <div><img class="classImg2" src="../../assets/classAll.jpg"></div>
+          <div><img class="classImg3" src="../../assets/classAll.jpg"></div>
+          <div><img class="classImg4" src="../../assets/classAll.jpg"></div>
           </div>
           <div class="className"><span>蔬菜豆品</span><span>肉禽蛋类</span><span>水产海鲜</span><span>新鲜水果</span></div>
           <div class="class2">
-          <div><img class="classImg5" src="../assets/classAll.jpg"></div>
-          <div><img class="classImg6" src="../assets/classAll.jpg"></div>
-          <div><img class="classImg7" src="../assets/classAll.jpg"></div>
-          <div><img class="classImg8" src="../assets/classAll.jpg"></div>
+          <div><img class="classImg5" src="../../assets/classAll.jpg"></div>
+          <div><img class="classImg6" src="../../assets/classAll.jpg"></div>
+          <div><img class="classImg7" src="../../assets/classAll.jpg"></div>
+          <div><img class="classImg8" src="../../assets/classAll.jpg"></div>
           </div>
           <div class="className"><span>乳品烘焙</span><span>米面粮油</span><span>方便速食</span><span>酒饮零食</span></div>
         </div>
@@ -112,7 +114,7 @@
   import Vue from 'vue';
   import 'mint-ui/lib/style.css'
   import { Swipe, SwipeItem } from 'mint-ui';
-  import myFooter from './myFooter';
+  import myFooter from '../common/myFooter';
 
 
   Vue.component(Swipe.name, Swipe);

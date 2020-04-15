@@ -5,7 +5,7 @@
         <van-icon name="bell" color="#fff" size="0.6rem" class="message" info="2"/>
         </div>
         <div class="info">
-          <img src="../assets/touxiang.jpg">
+          <img src="../../assets/touxiang.jpg">
           <span>一枚小橘子</span>
           <p>普通用户</p>
 <!--          <van-icon name="calender-o" size="1rem" style="position: absolute;top: 50%;right: 16%;opacity: 0.8" />-->
@@ -84,7 +84,7 @@
 </template>
 
 <script>
-  import myFooter from './myFooter'
+  import myFooter from '../common/myFooter'
     export default {
         name: "mine",
         components: {

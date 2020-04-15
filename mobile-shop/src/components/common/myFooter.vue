@@ -10,8 +10,8 @@
         </router-link>
         <router-link to="classify">
           <div class="classify" :style="$store.state.footerIndex === 'classify' ? yellow : grey" @click="$store.commit('footerIndexChange', 'classify')">
-            <img src="../assets/classify1.png" v-if="$store.state.footerIndex !== 'classify'">
-            <img src="../assets/classify2.png" v-if="$store.state.footerIndex === 'classify'">
+            <img src="../../assets/classify1.png" v-if="$store.state.footerIndex !== 'classify'">
+            <img src="../../assets/classify2.png" v-if="$store.state.footerIndex === 'classify'">
             <p>分类</p>
           </div>
         </router-link>

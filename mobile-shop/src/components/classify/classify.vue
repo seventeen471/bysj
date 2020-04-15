@@ -2,8 +2,10 @@
     <div id="classify">
       <div class="header">
         <div class="topDiv"></div>
+        <router-link to="search">
         <input value="冬瓜">
         <van-icon class="search" size="0.5rem" name="search" />
+        </router-link>
       </div>
       <div class="content">
         <div class="top-nav">
@@ -48,7 +50,7 @@
 </template>
 
 <script>
-  import myFooter from './myFooter'
+  import myFooter from '../common/myFooter'
     export default {
         name: "classify",
         data() {
