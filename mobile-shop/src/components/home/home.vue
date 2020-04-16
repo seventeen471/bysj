@@ -44,19 +44,21 @@
         </div>
         <div class="homeClass">
           <div class="class1">
-          <div><img class="classImg1" src="../../assets/classAll.jpg"></div>
-          <div><img class="classImg2" src="../../assets/classAll.jpg"></div>
-          <div><img class="classImg3" src="../../assets/classAll.jpg"></div>
-          <div><img class="classImg4" src="../../assets/classAll.jpg"></div>
+          <div @click="classClick(1)"><img class="classImg1" src="../../assets/classAll.jpg"></div>
+          <div @click="classClick(2)"><img class="classImg2" src="../../assets/classAll.jpg"></div>
+          <div @click="classClick(3)"><img class="classImg3" src="../../assets/classAll.jpg"></div>
+          <div @click="classClick(4)"><img class="classImg4" src="../../assets/classAll.jpg"></div>
           </div>
-          <div class="className"><span>蔬菜豆品</span><span>肉禽蛋类</span><span>水产海鲜</span><span>新鲜水果</span></div>
+          <div class="className"><span @click="classClick(1)">蔬菜豆品</span><span @click="classClick(2)">肉禽蛋类</span>
+            <span @click="classClick(3)">水产海鲜</span><span @click="classClick(4)">新鲜水果</span></div>
           <div class="class2">
-          <div><img class="classImg5" src="../../assets/classAll.jpg"></div>
-          <div><img class="classImg6" src="../../assets/classAll.jpg"></div>
-          <div><img class="classImg7" src="../../assets/classAll.jpg"></div>
-          <div><img class="classImg8" src="../../assets/classAll.jpg"></div>
+          <div @click="classClick(5)"><img class="classImg5" src="../../assets/classAll.jpg"></div>
+          <div @click="classClick(6)"><img class="classImg6" src="../../assets/classAll.jpg"></div>
+          <div @click="classClick(7)"><img class="classImg7" src="../../assets/classAll.jpg"></div>
+          <div @click="classClick(8)"><img class="classImg8" src="../../assets/classAll.jpg"></div>
           </div>
-          <div class="className"><span>乳品烘焙</span><span>米面粮油</span><span>方便速食</span><span>酒饮零食</span></div>
+          <div class="className"><span @click="classClick(5)">乳品烘焙</span><span @click="classClick(6)">米面粮油</span>
+            <span @click="classClick(7)">方便速食</span><span @click="classClick(8)">酒饮零食</span></div>
         </div>
         <div style="margin-top: -2.05rem">
         <div style="width: 100%;background-color: #F5F5F5">
@@ -132,7 +134,8 @@
             scrollTop: '0',
             searchCSS1: '',
             searchCSS2: 'transform: translateY(-0.95rem);position: fixed;background-color:#FA8072;z-index:999;',
-            distanceY: 0,
+            // distanceY: 0,
+            leftScroll: 0,
           }
       },
       methods: {
@@ -178,6 +181,10 @@
               this.s --;
             }
           }, 1000);
+        },
+        classClick(index) {
+          this.$router.push('/classify?index='+index);
+          // this.$store.commit('classIndexChange',index);
         }
       },
       watch: {
@@ -208,6 +215,10 @@
         // },
         $route() {
           document.getElementById('app').scrollTop = parseFloat(window.sessionStorage.getItem(this.$route.meta.who));
+          try {
+            document.getElementsByClassName('timeShopBody')[0].scrollLeft = parseFloat(this.leftScroll);
+          } catch (e) {
+          }
         }
       },
       computed: {
@@ -224,11 +235,14 @@
           // this.touchMove();
         this.homeScroll();
           this.startTimeSub();
-          window.onresize = ()=>{
-          return(()=>{
-            this.showHeight = document.body.clientHeight;
-          })()
-        };
+        document.getElementsByClassName('timeShopBody')[0].addEventListener('scroll', () => {
+          this.leftScroll = document.getElementsByClassName('timeShopBody')[0].scrollLeft.toString();
+        }, false);
+        //   window.onresize = ()=>{
+        //   return(()=>{
+        //     this.showHeight = document.body.clientHeight;
+        //   })()
+        // };
       },
       components: {
           myFooter
@@ -236,6 +250,9 @@
       destroyed() {
         document.getElementById('app').removeEventListener('scroll', () => {
           this.scrollTop = document.getElementById('app').scrollTop;
+        }, false);
+        document.getElementsByClassName('timeShopBody')[0].removeEventListener('scroll', () => {
+          this.leftScroll = document.getElementsByClassName('timeShopBody')[0].scrollLeft.toString();
         }, false);
       }
     }
@@ -305,6 +322,10 @@
         width: 100%;
         display: flex;
         justify-content: space-around;
+        padding-top: 1%;
+        /*div{*/
+        /*  !*margin-top: 5%;*!*/
+        /*}*/
       }
       .className{
         display: flex;
@@ -416,7 +437,7 @@
       }
     }
     .recommend{
-      width: 99%;
+      width: 100%;
       background-color: #F5F5F5;
       /*position: absolute;*/
       z-index: -1;
@@ -428,16 +449,16 @@
         font-weight: bold;
       }
       .recommendBody{
-        display: flex;
-        justify-content: space-around;
-        flex-wrap: wrap;
+        padding-left: 3%;
+        padding-top: 1%;
         background-color: #f5f5f5;
         div{
+          display: inline-block;
           width: 47.5%;
           height: 6.2rem;
           background-color: #fff;
           border-radius: 0.2rem;
-          margin-top: 0.2rem;
+          /*margin-top: 0.2rem;*/
           z-index: 1;
         }
       }

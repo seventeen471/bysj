@@ -271,7 +271,7 @@
     }
   }
   .recommend{
-    width: 99%;
+    width: 100%;
     background-color: #F5F5F5;
     z-index: -1;
     margin-top: 5%;
@@ -283,16 +283,16 @@
       font-weight: bold;
     }
     .recommendBody{
-      display: flex;
-      justify-content: space-around;
-      flex-wrap: wrap;
+      padding-left: 3%;
+      padding-top: 1%;
       background-color: #f5f5f5;
       div{
+        display: inline-block;
         width: 47.5%;
         height: 6.2rem;
         background-color: #fff;
         border-radius: 0.2rem;
-        margin-top: 0.2rem;
+        /*margin-top: 0.2rem;*/
         z-index: 1;
       }
     }

@@ -1,13 +1,17 @@
 <template>
-  <transition mode="out-in">
+  <transition>
     <div id="search" v-if="show">
+      <div v-if="$route.path === '/search'">
       <div class="header">
         <div class="topDiv"></div>
-        <van-icon name="arrow-left" color="rgba(0,0,0,0.4)" size="0.75rem" style="position: absolute;top: 55%;left: 0.5%" @click="back()"/>
+        <van-icon name="arrow-left" color="rgba(0,0,0,0.6)" size="0.6rem" style="position: absolute;top: 57%;left: 0.5%" @click="back()"/>
         <input v-focus placeholder="冬瓜" v-model="searchValue" @click="searchClick = false">
         <van-icon class="search" size="0.5rem" name="search" />
-        <span v-if="!searchClick" @click="search()">搜索</span>
-        <van-icon name="cart-o" size="0.85rem" color="#bfbfbf" info="2" class="shop-car" v-if="searchClick"/>
+<!--        <span v-if="!searchClick" @click="search()">搜索</span>-->
+<!--        <router-link to="shopCar">-->
+<!--        <van-icon name="cart-o" size="0.85rem" color="#bfbfbf" info="2" class="shop-car" v-if="searchClick"/>-->
+<!--        </router-link>-->
+        <span @click="search()">搜索</span>
       </div>
       <div class="search-body">
         <div v-if="!searchClick">
@@ -28,14 +32,16 @@
         </div>
         </div>
         <div v-if="searchClick" class="result">
+          <router-view></router-view>
           <div class="resultBody">
+            <div></div>
             <div></div>
             <div></div>
             <div></div>
             <div></div>
           </div>
           <div class="recommend">
-            <header> -- 猜你喜欢 --</header>
+            <header> -- 你可能还需要 --</header>
             <div class="recommendBody">
               <div></div>
               <div></div>
@@ -52,6 +58,7 @@
           <div style="text-align: center;color: #bfbfbf;font-size:0.4rem;padding-bottom:0.9rem;padding-top:0.6rem;background-color: #F5F5F5"> -- 已经到底了 -- </div>
         </div>
         </div>
+      </div>
       </div>
   </transition>
 </template>
@@ -128,7 +135,7 @@
       display: flex;
       justify-content: center;
       align-items: flex-end;
-
+      z-index: 2;
       .topDiv {
         width: 100vw;
         height: 38.36%;
@@ -229,6 +236,7 @@
     width: 100%;
     background-color: #F5F5F5;
     /*position: absolute;*/
+    margin-top: 1%;
     z-index: -1;
     header{
       text-align: center;
@@ -238,18 +246,25 @@
       font-weight: bold;
     }
     .resultBody, .recommendBody{
-      display: flex;
-      justify-content: space-around;
-      flex-wrap: wrap;
+      /*display: flex;*/
+      /*justify-content: space-evenly;*/
+      /*flex-wrap: wrap;*/
+      padding-left: 3%;
+      padding-top: 1%;
       background-color: #f5f5f5;
       div{
+        display: inline-block;
         width: 47.5%;
         height: 6.2rem;
         background-color: #fff;
         border-radius: 0.2rem;
-        margin-top: 0.2rem;
+        /*margin-top: 0.2rem;*/
+        /*margin: 0.1rem 0 0.1rem 0;*/
         z-index: 1;
       }
     }
+  }
+  .recommend{
+    margin-top: 5%;
   }
 </style>

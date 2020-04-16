@@ -2,30 +2,30 @@
     <div>
       <div class="footer">
         <router-link to="home">
-          <div :style="$store.state.footerIndex === 'home' ? yellow : grey" @click="$store.commit('footerIndexChange', 'home')">
-            <van-icon v-if="$store.state.footerIndex !== 'home'" name="shop-o" size="0.9rem" color="#bfbfbf"/>
-            <van-icon v-if="$store.state.footerIndex === 'home'" name="shop" color="#FA8072" size="0.9rem"/>
+          <div :style="$route.path === '/home' ? yellow : grey">
+            <van-icon v-if="$route.path !== '/home'" name="shop-o" size="0.9rem" color="#bfbfbf"/>
+            <van-icon v-if="$route.path === '/home'" name="shop" color="#FA8072" size="0.9rem"/>
             <p style="margin-left: 0.1rem">首页</p>
           </div>
         </router-link>
         <router-link to="classify">
-          <div class="classify" :style="$store.state.footerIndex === 'classify' ? yellow : grey" @click="$store.commit('footerIndexChange', 'classify')">
-            <img src="../../assets/classify1.png" v-if="$store.state.footerIndex !== 'classify'">
-            <img src="../../assets/classify2.png" v-if="$store.state.footerIndex === 'classify'">
+          <div class="classify" :style="$route.path === '/classify' ? yellow : grey">
+            <img src="../../assets/classify1.png" v-if="$route.path !== '/classify'">
+            <img src="../../assets/classify2.png" v-if="$route.path === '/classify'">
             <p>分类</p>
           </div>
         </router-link>
         <router-link to="shopCar">
-          <div :style="$store.state.footerIndex === 'shopCar' ? yellow : grey" @click="$store.commit('footerIndexChange', 'shopCar')" class="shopCar">
-            <van-icon name="shopping-cart-o" size="0.9rem" color="#bfbfbf" v-if="$store.state.footerIndex !== 'shopCar'"/>
-            <van-icon name="shopping-cart" color="#FA8072" size="0.9rem" v-if="$store.state.footerIndex === 'shopCar'"/>
+          <div :style="$route.path === '/shopCar' ? yellow : grey" class="shopCar">
+            <van-icon name="shopping-cart-o" size="0.9rem" color="#bfbfbf" v-if="$route.path !== '/shopCar'"/>
+            <van-icon name="shopping-cart" color="#FA8072" size="0.9rem" v-if="$route.path === '/shopCar'"/>
             <p>购物车</p>
           </div>
         </router-link>
         <router-link to="mine">
-          <div :style="$store.state.footerIndex === 'mine' ? yellow : grey" @click="$store.commit('footerIndexChange', 'mine')">
-            <van-icon name="manager-o" size="0.9rem" color="#bfbfbf" v-if="$store.state.footerIndex !== 'mine'"/>
-            <van-icon name="manager" color="#FA8072" size="0.9rem" v-if="$store.state.footerIndex === 'mine'"/>
+          <div :style="$route.path === '/mine' ? yellow : grey">
+            <van-icon name="manager-o" size="0.9rem" color="#bfbfbf" v-if="$route.path !== '/mine'"/>
+            <van-icon name="manager" color="#FA8072" size="0.9rem" v-if="$route.path === '/mine'"/>
             <p style="margin-left: 0.1rem">我的</p>
           </div>
         </router-link>
@@ -41,6 +41,8 @@
             yellow: 'color: #FA8072',
             grey: 'color: #bfbfbf',
           }
+      },
+      methods: {
       }
     }
 </script>

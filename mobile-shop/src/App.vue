@@ -28,4 +28,10 @@ export default {
     width: 10rem;
     overflow-x: hidden;
   }
+  .v-enter, .v-leave-to{
+    transform: translateX(10rem);
+  }
+  .v-enter-active, .v-leave-active{
+    transition: all 0.3s ease;
+  }
 </style>

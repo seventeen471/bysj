@@ -20,7 +20,6 @@ const router = new Router({
       meta: {
         keepAlive: true,
         who: 'homeScrollTop',
-        scrollTop: window.sessionStorage.getItem('homeScrollTop')
       }
     },
     {
@@ -28,8 +27,6 @@ const router = new Router({
       component: Classify,
       meta: {
         keepAlive: true,
-        who: 'classifyScrollTop',
-        scrollTop: window.sessionStorage.getItem('classifyScrollTop')
       }
     },
     {
@@ -37,8 +34,6 @@ const router = new Router({
       component: ShopCar,
       meta: {
         keepAlive: true,
-        who: 'shopCarScrollTop',
-        scrollTop: window.sessionStorage.getItem('shopCarScrollTop')
       }
     },
     {
@@ -46,13 +41,20 @@ const router = new Router({
       component: Mine,
       meta: {
         keepAlive: true,
-        who: 'mineScrollTop',
-        scrollTop: window.sessionStorage.getItem('mineScrollTop')
       }
     },
     {
       path: '/search',
-      component: () => import("../components/common/search"),
+      component: () => import("../components/common/search/search"),
+      meta: {
+        keepAlive: false
+      },
+      // children: [
+      //   {
+      //     path: 'result',
+      //     component: () => import('../components/common/search/result')
+      //   }
+      // ]
     }
   ],
   scrollBehavior (to, from, savedPosition) {

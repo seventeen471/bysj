@@ -23,7 +23,7 @@ document.addEventListener('plusready', () => {
       router.currentRoute.path === '/shopCar' ||
       router.currentRoute.path === '/mine'
     ) {
-      time = null
+      time = null;
       if (now) {
         now = false;
         plus.runtime.quit();
