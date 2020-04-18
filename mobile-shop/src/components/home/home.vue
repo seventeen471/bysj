@@ -8,7 +8,6 @@
         <van-icon name="bell" color="#fff" size="0.6rem" class="message" info="2" style="transform: translate(5.3rem,1.1rem)"/>
         </div>
         <div :style="scrollTop <= 32 ? searchCSS1 : searchCSS2">
-          <router-link to="search">
         <van-search
           input-align="center"
           shape="round"
@@ -16,8 +15,8 @@
           placeholder="冬瓜"
           style="transform: translateY(0.95rem); width: 10rem;"
           disabled
+          @click="goToSearch()"
         />
-          </router-link>
         </div>
       </div>
       <div class="swipe">
@@ -63,9 +62,9 @@
         <div style="margin-top: -2.05rem">
         <div style="width: 100%;background-color: #F5F5F5">
         <div class="vip">
-          <van-icon name="vip-card" color="#FFD700" size="0.8rem" style="transform: translate(-4.4rem, 0.06rem);"/>
+          <van-icon name="vip-card" color="#FFD700" size="0.8rem" style="transform: translate(-4rem, 0.06rem);"/>
           <p>开通会员，享9.5折</p>
-          <p style="transform: translate(3.7rem,0.12rem);">开通</p><van-icon name="arrow" size="0.4rem" color="#FA8072" style="transform: translate(3rem,-0.15rem)"/>
+          <p style="transform: translate(4.4rem,0.15rem);">开通</p><van-icon name="arrow" size="0.4rem" color="#FA8072" style="transform: translate(3.6rem,-0.15rem)"/>
         </div>
         </div>
         <div style="width: 100%; height: 0.267rem;background-color: #F5F5F5"></div>
@@ -79,30 +78,34 @@
           </div>
           <div class="timeShopBody">
             <ul>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
+              <li v-for="item in timeShoppingArr" :key="item.id">
+                <img :src="item.src">
+                <div class="p1-div">
+                  <p class="p1">{{item['big_title']}}</p>
+                </div>
+                <p class="p2">{{item['small_title']}}</p>
+                <div class="charge-add">
+                  <span class="charge">￥{{item['charge']}}</span>
+                  <van-icon name="add" size="0.5rem" color="#FF6347" class="shop-car" @click="addThis(item)"/>
+                </div>
+              </li>
             </ul>
           </div>
         </div>
         <div class="recommend">
           <header> -- 热销推荐 --</header>
           <div class="recommendBody">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
+            <div class="goods" v-for="item in hotRecommendArr" :key="item.id">
+              <img :src="item.src">
+              <div class="p1-div">
+                <p class="p1">{{item['big_title']}}</p>
+              </div>
+              <p class="p2">{{item['small_title']}}</p>
+              <div class="charge-add">
+                <span class="charge">￥{{item['charge']}}</span>
+                <van-icon name="add" size="0.55rem" color="#FF6347" class="shop-car" @click="addThis(item)"/>
+              </div>
+            </div>
         </div>
         </div>
         <div style="text-align: center;color: #bfbfbf;font-size:0.4rem;margin-bottom:15%;padding-bottom:0.9rem;padding-top:0.6rem;background-color: #F5F5F5"> -- 已经到底了 -- </div>
@@ -115,8 +118,13 @@
 <script>
   import Vue from 'vue';
   import 'mint-ui/lib/style.css'
+  import axios from 'axios'
   import { Swipe, SwipeItem } from 'mint-ui';
+  import { Indicator } from 'mint-ui';
   import myFooter from '../common/myFooter';
+  import { Dialog } from 'vant';
+
+  Vue.use(Dialog);
 
 
   Vue.component(Swipe.name, Swipe);
@@ -127,7 +135,7 @@
           return{
             s: 0,
             m: 0,
-            h: 4,
+            h: 0,
             // docmHeight: document.documentElement.clientHeight,  //默认屏幕高度
             // showHeight: document.documentElement.clientHeight,   //实时屏幕高度
             // hidshow: true,  //显示或者隐藏footer
@@ -136,6 +144,8 @@
             searchCSS2: 'transform: translateY(-0.95rem);position: fixed;background-color:#FA8072;z-index:999;',
             // distanceY: 0,
             leftScroll: 0,
+            hotRecommendArr: [],
+            timeShoppingArr: []
           }
       },
       methods: {
@@ -182,9 +192,39 @@
             }
           }, 1000);
         },
+        goToSearch(){
+          this.$router.push('search');
+        },
         classClick(index) {
           this.$router.push('/classify?index='+index);
           // this.$store.commit('classIndexChange',index);
+        },
+        getHotRecommend() {
+          // Indicator.open('加载中...');
+          axios.get('http://192.168.43.218/shop/getHotRecommend.php').then((data) => {
+            // Indicator.close();
+            this.hotRecommendArr = data.data;
+          }).catch(() => {
+            // Indicator.close();
+            Dialog.alert({
+              message: '连接服务器失败',
+            }).then(() => {
+              plus.runtime.quit();
+            });
+          });
+          },
+        getTimeShopping() {
+          axios.get('http://192.168.43.218/shop/getTimeShopping.php').then((data) => {
+            // Indicator.close();
+            this.timeShoppingArr = data.data.data;
+            this.h = data.data.h;
+            this.m = data.data.m;
+            this.s = data.data.s;
+          })
+        },
+        addThis(item){
+          item['myMount'] = 1;
+          this.$store.commit('addShopCar',item);
         }
       },
       watch: {
@@ -230,6 +270,10 @@
           two(value) {
             return value.toString().padStart(2,'0');
           }
+      },
+      created() {
+       this.getHotRecommend();
+       this.getTimeShopping();
       },
       mounted() {
           // this.touchMove();
@@ -352,21 +396,22 @@
       border-radius: 0.2rem;
       color: #FFA07A;
       p{
-        font-size: 0.45rem;
+        font-size: 0.4rem;
         float: left;
-        transform: translate(1.453rem,0.12rem);
+        transform: translate(1.453rem,0.15rem);
         /*clear: both;*/
       }
     }
     .timeShop{
       position: relative;
       width: 100%;
-      height: 4.7rem;
+      height: 4.9rem;
       background-color: #fff;
       .timeShopHerder{
         width: 100%;
         position: absolute;
         height: 0.8rem;
+        z-index: 3;
         .l{
           /*transform: translate(0.3rem,0.02rem);*/
           position: absolute;
@@ -413,25 +458,28 @@
         }
       }
       .timeShopBody{
-        width: 9.95rem;
-        height: 80%;
+        width: 9.28rem;
+        height: 88%;
         position: absolute;
-        top: 17%;
+        top: 10%;
+        left: 4%;
         /*border: 0.027rem solid green;*/
         /*transform: translateY(-3.6rem);*/
         overflow-x: scroll;
         overflow-y: hidden;
+        z-index: 1;
+
         ul{
-          width: 208%;
           height: 3.6rem;
+          /*padding-left: 0.4rem;*/
           display: flex;
-          justify-content: space-around;
-          padding-left: 0.4rem;
+          flex-wrap: nowrap;
           li{
-            width: 3rem;
-            height: 3.6rem;
-            border: 1px solid red;
-            margin-right: 0.053rem;
+            display: inline-block;
+            width: 2.65rem;
+            height: 3.8rem;
+            margin-right: 0.06rem;
+            z-index: 2;
           }
         }
       }
@@ -452,14 +500,55 @@
         padding-left: 3%;
         padding-top: 1%;
         background-color: #f5f5f5;
-        div{
+        .goods{
           display: inline-block;
           width: 47.5%;
           height: 6.2rem;
           background-color: #fff;
           border-radius: 0.2rem;
-          /*margin-top: 0.2rem;*/
           z-index: 1;
+          margin: 1% 2% 2% 0;
+          img{
+            width: 3rem;
+            height: 3rem;
+            margin-top: 5%;
+            margin-left: 20%;
+          }
+          .p1-div {
+            width: 90%;
+            margin: 0 auto;
+            height: 20%;
+            position: relative;
+            .p1 {
+              font-size: 0.42rem;
+              color: rgba(0, 0, 0, 0.8);
+              position: absolute;
+              bottom: 0;
+            }
+          }
+          .p2{
+            width: 90%;
+            margin: 0 auto;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 0.33rem;
+            color: rgba(0,0,0,0.3);
+          }
+          .charge-add {
+            width: 88%;
+            margin: 0 auto;
+            height: 15%;
+            padding-top: 6%;
+            .charge {
+              color: #FF6347;
+              font-size: 0.45rem;
+              float: left;
+            }
+            .shop-car{
+              float: right;
+            }
+          }
         }
       }
     }
@@ -487,5 +576,53 @@
   }
   .classImg8{
     transform: scale(6.5) translate(0,-0.067rem);
+  }
+  .timeShopBody {
+    ul {
+      img {
+        width: 2.6rem;
+        height: 2.6rem;
+      }
+
+      .p1-div {
+        width: 90%;
+        margin: 0 auto;
+        height: 10%;
+        position: relative;
+        .p1 {
+          font-size: 0.3rem;
+          color: rgba(0, 0, 0, 0.8);
+          position: absolute;
+          bottom: 0;
+        }
+      }
+
+      .p2 {
+        width: 90%;
+        margin: 0 auto;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 0.24rem;
+        color: rgba(0, 0, 0, 0.3);
+      }
+
+      .charge-add {
+        width: 88%;
+        margin: 0 auto;
+        height: 15%;
+        padding-top: 6%;
+
+        .charge {
+          color: #FF6347;
+          font-size: 0.45rem;
+          float: left;
+        }
+
+        .shop-car {
+          margin-left: 18%;
+        }
+      }
+    }
   }
 </style>

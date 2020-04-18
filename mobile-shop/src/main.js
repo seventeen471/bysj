@@ -9,9 +9,15 @@ import 'vant/lib/index.css'
 import '../static/flexible.min'
 import store from './store'
 import '../static/animate.css'
+import axios from 'axios'
 
 Vue.use(Vant);
 Vue.config.productionTip = false;
+
+// axios.get('http://192.168.43.218/shop/getHotRecommend.php').then(data => {
+// }).catch(() => {
+//   alert('123');
+// });
 
 document.addEventListener('plusready', () => {
   let now = false;

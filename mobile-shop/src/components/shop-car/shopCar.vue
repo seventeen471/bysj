@@ -5,24 +5,26 @@
         <p>购物车</p>
       </div>
       <div class="shopCarBody">
-        <div class="emptyDiv" v-if="goodsArr.length===0">
+        <div class="emptyDiv" v-if="!$store.state.shopCarArr.length">
         <div class="empty">
          <img src="../../assets/shopCar.png">
         </div>
           <p>购物车里空空如也</p>
+          <router-link to="home">
           <van-button type="primary" size="small" color="#FA8072" class="goSeeSee">去逛逛</van-button>
+          </router-link>
         </div>
         <div class="goodsDiv">
           <van-checkbox-group v-model="result">
-            <van-checkbox class="goods" checked-color="#FA8072" icon-size="0.55rem" v-for="(item,i) in goodsArr" :name="item.id" :key="item.id">
-              <img :src="item.img">
+            <van-checkbox class="goods" checked-color="#FA8072" icon-size="0.55rem" v-for="(item,i) in $store.state.shopCarArr" :name="item.id" :key="item.id">
+              <img :src="item['src']">
               <div class="goodsInfo">
-              <span class="name">{{item.name}}</span>
-              <span class="charge">￥{{item.charge}}</span>
+              <span class="name">{{item['big_title']}}</span>
+              <span class="charge">￥{{item['charge']}}</span>
               <span class="do">
-                <span>-</span>
-                <span>{{item.mount}}</span>
-                <span>+</span>
+                <span @click="subThis(item)">-</span>
+                <span>{{item['myMount']}}</span>
+                <span @click="addThis(item)">+</span>
               </span>
               </div>
             </van-checkbox>
@@ -31,16 +33,17 @@
         <div class="recommend">
           <header> -- 猜你喜欢 --</header>
           <div class="recommendBody">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
+            <div class="goods" v-for="item in hotRecommendArr" :key="item.id">
+              <img :src="item.src">
+              <div class="p1-div">
+                <p class="p1">{{item['big_title']}}</p>
+              </div>
+              <p class="p2">{{item['small_title']}}</p>
+              <div class="charge-add">
+                <span class="charge">￥{{item['charge']}}</span>
+                <van-icon name="add" size="0.55rem" color="#FF6347" class="shop-car" @click="addThis(item)"/>
+              </div>
+            </div>
           </div>
           <div style="text-align: center;color: #bfbfbf;font-size:0.4rem;margin-bottom:5%;padding-top:0.6rem;background-color: #F5F5F5"> -- 已经到底了 -- </div>
         </div>
@@ -61,6 +64,7 @@
 
 <script>
   import myFooter from '../common/myFooter'
+  import axios from 'axios'
     export default {
         name: "shopCar",
         data() {
@@ -68,11 +72,20 @@
             allChecked: false,
             bodyScroll: 0,
             result: ['a', 'b'],
-            goodsArr: [{id:'a',img: 'http://192.168.43.218/shop/img/goods1.jpg',name:'进口香蕉 约500g',charge:5.9,mount:1},
+            goodsArr: [{id:'a',img: 'http://192.168.43.218/shop/img/hotRecommend/1.jpg',name:'进口香蕉 约500g',charge:5.9,mount:1},
               {id:'b',img: 'http://192.168.43.218/shop/img/goods2.jpg',name:'恒都精选冷冻肥牛卷 300g',charge:23.8,mount:1},
               {id:'c',img: 'http://192.168.43.218/shop/img/goods3.jpg',name:'可口可乐 2L/瓶',charge:6.9,mount:2}],
+            hotRecommendArr: []
           }
         },
+      methods: {
+        addThis(item){
+          this.$store.commit('addShopCar',item);
+        },
+        subThis(item){
+          this.$store.commit('subShopCar',item);
+        }
+      },
       mounted(){
         document.getElementsByClassName('shopCarBody')[0].addEventListener('scroll', () => {
           this.bodyScroll = document.getElementsByClassName('shopCarBody')[0].scrollTop.toString();
@@ -84,7 +97,12 @@
             document.getElementsByClassName('shopCarBody')[0].scrollTop = parseFloat(this.bodyScroll);
           } catch (e) {
           }
-        }
+        },
+      },
+      beforeMount(){
+        axios.get('http://192.168.43.218/shop/getHotRecommend.php').then(data => {
+          this.hotRecommendArr = data.data.reverse();
+        });
       },
         components: {
           myFooter
@@ -163,8 +181,9 @@
         padding-left: 3%;
         position: relative;
           img {
-            width: 2.8rem;
-            height: 2.8rem;
+            width: 2.2rem;
+            height: 2.2rem;
+            margin-left: 10%;
           }
         .goodsInfo {
           position: absolute;
@@ -282,18 +301,73 @@
       margin-bottom: 0.3rem;
       font-weight: bold;
     }
+    /*.recommendBody{*/
+    /*  padding-left: 3%;*/
+    /*  padding-top: 1%;*/
+    /*  background-color: #f5f5f5;*/
+    /*  div{*/
+    /*    display: inline-block;*/
+    /*    width: 47.5%;*/
+    /*    height: 6.2rem;*/
+    /*    background-color: #fff;*/
+    /*    border-radius: 0.2rem;*/
+    /*    !*margin-top: 0.2rem;*!*/
+    /*    z-index: 1;*/
+    /*  }*/
+    /*}*/
     .recommendBody{
       padding-left: 3%;
       padding-top: 1%;
       background-color: #f5f5f5;
-      div{
+      .goods{
         display: inline-block;
         width: 47.5%;
         height: 6.2rem;
         background-color: #fff;
         border-radius: 0.2rem;
-        /*margin-top: 0.2rem;*/
         z-index: 1;
+        margin: 1% 2% 2% 0;
+        img{
+          width: 3rem;
+          height: 3rem;
+          margin-top: 5%;
+          margin-left: 20%;
+        }
+        .p1-div {
+          width: 90%;
+          margin: 0 auto;
+          height: 20%;
+          position: relative;
+          .p1 {
+            font-size: 0.42rem;
+            color: rgba(0, 0, 0, 0.8);
+            position: absolute;
+            bottom: 0;
+          }
+        }
+        .p2{
+          width: 90%;
+          margin: 0 auto;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          font-size: 0.33rem;
+          color: rgba(0,0,0,0.3);
+        }
+        .charge-add {
+          width: 88%;
+          margin: 0 auto;
+          height: 15%;
+          padding-top: 6%;
+          .charge {
+            color: #FF6347;
+            font-size: 0.45rem;
+            float: left;
+          }
+          .shop-car{
+            float: right;
+          }
+        }
       }
     }
   }

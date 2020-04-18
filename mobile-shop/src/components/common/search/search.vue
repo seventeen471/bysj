@@ -5,7 +5,7 @@
       <div class="header">
         <div class="topDiv"></div>
         <van-icon name="arrow-left" color="rgba(0,0,0,0.6)" size="0.6rem" style="position: absolute;top: 57%;left: 0.5%" @click="back()"/>
-        <input v-focus placeholder="冬瓜" v-model="searchValue" @click="searchClick = false">
+        <input v-focus placeholder="冬瓜" v-model="searchValue" @click="inputFocus()">
         <van-icon class="search" size="0.5rem" name="search" />
 <!--        <span v-if="!searchClick" @click="search()">搜索</span>-->
 <!--        <router-link to="shopCar">-->
@@ -34,25 +34,36 @@
         <div v-if="searchClick" class="result">
           <router-view></router-view>
           <div class="resultBody">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
+            <div class="goods" v-for="item in searchResultArr" :key="item.id">
+              <img :src="item.src">
+              <div class="p1-div">
+                <p class="p1">{{item['big_title']}}</p>
+              </div>
+              <p class="p2">{{item['small_title']}}</p>
+              <div class="charge-add">
+                <span class="charge">￥{{item['charge']}}</span>
+                <van-icon name="add" size="0.55rem" color="#FF6347" class="shop-car" @click="addThis(item)"/>
+              </div>
+            </div>
+            <div class="resultEmpty" v-if="resultIsEmpty">
+              <img src="../../../assets/empty.png">
+              <p>未找到相关内容</p>
+            </div>
           </div>
           <div class="recommend">
             <header> -- 你可能还需要 --</header>
             <div class="recommendBody">
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
+              <div class="goods" v-for="item in hotRecommendArr" :key="item.id">
+                <img :src="item.src">
+                <div class="p1-div">
+                  <p class="p1">{{item['big_title']}}</p>
+                </div>
+                <p class="p2">{{item['small_title']}}</p>
+                <div class="charge-add">
+                  <span class="charge">￥{{item['charge']}}</span>
+                  <van-icon name="add" size="0.55rem" color="#FF6347" class="shop-car" @click="addThis(item)"/>
+                </div>
+              </div>
             </div>
           </div>
           <div style="text-align: center;color: #bfbfbf;font-size:0.4rem;padding-bottom:0.9rem;padding-top:0.6rem;background-color: #F5F5F5"> -- 已经到底了 -- </div>
@@ -64,6 +75,7 @@
 </template>
 
 <script>
+  import axios from 'axios'
     export default {
         name: "search",
         data() {
@@ -73,11 +85,17 @@
             searchValue: '',
             myWords: JSON.parse(window.localStorage.getItem('myWords')),
             hotWords: ['牛肉','鸡蛋','火锅','牛排','排骨','牛奶','虾','鸡胸肉','豆腐','土豆','水饺','面包'],
+            hotRecommendArr: [],
+            searchResultArr: [],
+            resultIsEmpty: false,
           }
         },
       methods: {
           search() {
             this.searchClick = true; // 显示购物车图标
+            // setTimeout(() => {
+            //   this.showNeed = true;
+            // },500);
             if (!this.searchValue) {
               this.searchValue = '冬瓜';
             }
@@ -92,6 +110,7 @@
                 window.localStorage.setItem('myWords', JSON.stringify(this.myWords));
               }
             // const arr = Array.from(new Set([...this.myWords]));
+            this.getSearchResult();
           },
           back(){
             this.show = false;
@@ -99,6 +118,12 @@
               this.$router.go(-1);
             },150)
           },
+        inputFocus() {
+          this.searchClick = false;
+          this.resultIsEmpty = false;
+          this.searchResultArr = [];
+          this.hotRecommendArr = [];
+        },
         deleteWords(){
             this.myWords = [];
           window.localStorage.setItem('myWords', JSON.stringify(this.myWords));
@@ -106,6 +131,26 @@
         wordsClick(item){
             this.searchValue = item;
             this.search();
+        },
+       getSearchResult() {
+          let param = new URLSearchParams();
+          param.append('key_words', this.searchValue);
+          axios.post('http://192.168.43.218/shop/search.php',param).then((data) => {
+            // Indicator.close();
+            if (data.data) {
+              this.resultIsEmpty = false;
+              this.searchResultArr = data.data;
+            } else {
+              this.resultIsEmpty = true;
+            }
+            axios.get('http://192.168.43.218/shop/getHotRecommend.php').then(data => {
+              this.hotRecommendArr = data.data.reverse();
+            });
+          })
+        },
+        addThis(item){
+          item['myMount'] = 1;
+          this.$store.commit('addShopCar',item);
         }
       },
       mounted() {
@@ -245,26 +290,103 @@
       margin-bottom: 0.3rem;
       font-weight: bold;
     }
-    .resultBody, .recommendBody{
-      /*display: flex;*/
-      /*justify-content: space-evenly;*/
-      /*flex-wrap: wrap;*/
-      padding-left: 3%;
-      padding-top: 1%;
-      background-color: #f5f5f5;
-      div{
-        display: inline-block;
-        width: 47.5%;
-        height: 6.2rem;
-        background-color: #fff;
-        border-radius: 0.2rem;
-        /*margin-top: 0.2rem;*/
-        /*margin: 0.1rem 0 0.1rem 0;*/
-        z-index: 1;
-      }
-    }
+    /*.resultBody{*/
+    /*  !*display: flex;*!*/
+    /*  !*justify-content: space-evenly;*!*/
+    /*  !*flex-wrap: wrap;*!*/
+    /*  padding-left: 3%;*/
+    /*  padding-top: 1%;*/
+    /*  background-color: #f5f5f5;*/
+    /*  div{*/
+    /*    display: inline-block;*/
+    /*    width: 47.5%;*/
+    /*    height: 6.2rem;*/
+    /*    background-color: #fff;*/
+    /*    border-radius: 0.2rem;*/
+    /*    !*margin-top: 0.2rem;*!*/
+    /*    !*margin: 0.1rem 0 0.1rem 0;*!*/
+    /*    z-index: 1;*/
+    /*  }*/
+    /*}*/
   }
   .recommend{
     margin-top: 5%;
+  }
+  .recommendBody, .resultBody{
+    padding-left: 3%;
+    padding-top: 1%;
+    background-color: #f5f5f5;
+    .goods{
+      display: inline-block;
+      width: 47.5%;
+      height: 6.2rem;
+      background-color: #fff;
+      border-radius: 0.2rem;
+      z-index: 1;
+      margin: 1% 2% 2% 0;
+      img{
+        width: 3rem;
+        height: 3rem;
+        margin-top: 5%;
+        margin-left: 20%;
+      }
+      .p1-div {
+        width: 90%;
+        margin: 0 auto;
+        height: 20%;
+        position: relative;
+        .p1 {
+          font-size: 0.42rem;
+          color: rgba(0, 0, 0, 0.8);
+          position: absolute;
+          bottom: 0;
+        }
+      }
+      .p2{
+        width: 90%;
+        margin: 0 auto;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 0.33rem;
+        color: rgba(0,0,0,0.3);
+      }
+      .charge-add {
+        width: 88%;
+        margin: 0 auto;
+        height: 15%;
+        padding-top: 6%;
+        .charge {
+          color: #FF6347;
+          font-size: 0.45rem;
+          float: left;
+        }
+        .shop-car{
+          float: right;
+        }
+      }
+    }
+  }
+  .resultEmpty{
+    width: 10rem;
+    height: 5rem;
+    background-color: #fff;
+    margin-left: -3%;
+    padding-top: 12%;
+    margin-top: -1%;
+    img{
+      display: block;
+      width: 2rem;
+      margin: 0 auto;
+    }
+    p{
+      text-align: center;
+      margin-top: 5%;
+      font-size: 0.45rem;
+      color: rgba(0,0,0,0.8);
+    }
+  }
+  .header{
+    border-bottom: 1px solid #f5f5f5;
   }
 </style>

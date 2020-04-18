@@ -104,12 +104,41 @@
               this.isUp = !this.isUp;
             }
         },
+        gotoScrollLeft() {
+          if (this.$route.query.index) {
+            this.topClick(parseInt(this.$route.query.index));
+            switch (parseInt(this.$route.query.index)) {
+              case 3:
+                document.getElementsByClassName('top-nav')[0].scrollLeft = 73;
+                break;
+              case 4:
+                document.getElementsByClassName('top-nav')[0].scrollLeft = 180;
+                break;
+              case 5:
+                document.getElementsByClassName('top-nav')[0].scrollLeft = 285;
+                break;
+              case 6:
+                document.getElementsByClassName('top-nav')[0].scrollLeft = 390;
+                break;
+              case 7:
+                document.getElementsByClassName('top-nav')[0].scrollLeft = 472;
+                break;
+              case 8:
+                document.getElementsByClassName('top-nav')[0].scrollLeft = 472;
+                break;
+              default:
+                document.getElementsByClassName('top-nav')[0].scrollLeft = 0;
+            }
+
+          }
+        }
       },
       beforeMount(){
           this.classArr = this.classArr1;
       },
       mounted(){
-          document.getElementsByClassName('top-nav')[0].addEventListener('scroll', () => {
+          this.gotoScrollLeft();
+        document.getElementsByClassName('top-nav')[0].addEventListener('scroll', () => {
             this.topScroll = document.getElementsByClassName('top-nav')[0].scrollLeft.toString();
           }, false);
           document.getElementsByClassName('left-nav')[0].addEventListener('scroll', () => {
@@ -127,32 +156,7 @@
               document.getElementsByClassName('classBody')[0].scrollTop = parseFloat(this.bodyScroll);
             } catch (e) {
             }
-            if (this.$route.query.index) {
-                this.topClick(parseInt(this.$route.query.index));
-                switch (parseInt(this.$route.query.index)) {
-                  case 3:
-                    document.getElementsByClassName('top-nav')[0].scrollLeft = 73;
-                    break;
-                  case 4:
-                    document.getElementsByClassName('top-nav')[0].scrollLeft = 180;
-                    break;
-                  case 5:
-                    document.getElementsByClassName('top-nav')[0].scrollLeft = 285;
-                    break;
-                  case 6:
-                    document.getElementsByClassName('top-nav')[0].scrollLeft = 390;
-                    break;
-                  case 7:
-                    document.getElementsByClassName('top-nav')[0].scrollLeft = 472;
-                    break;
-                  case 8:
-                    document.getElementsByClassName('top-nav')[0].scrollLeft = 472;
-                    break;
-                  default:
-                    document.getElementsByClassName('top-nav')[0].scrollLeft = 0;
-                }
-
-            }
+            this.gotoScrollLeft();
           }
       },
         components: {

@@ -17,8 +17,10 @@
         </router-link>
         <router-link to="shopCar">
           <div :style="$route.path === '/shopCar' ? yellow : grey" class="shopCar">
-            <van-icon name="shopping-cart-o" size="0.9rem" color="#bfbfbf" v-if="$route.path !== '/shopCar'"/>
-            <van-icon name="shopping-cart" color="#FA8072" size="0.9rem" v-if="$route.path === '/shopCar'"/>
+            <van-icon name="shopping-cart-o" size="0.9rem" color="#bfbfbf" v-if="$route.path !== '/shopCar' && !$store.state.shopCarArr.length"/>
+            <van-icon name="shopping-cart" color="#FA8072" size="0.9rem" v-if="$route.path === '/shopCar' && !$store.state.shopCarArr.length"/>
+            <van-icon name="shopping-cart-o" size="0.9rem" color="#bfbfbf" :info="$store.state.shopCarArr.length" v-if="$route.path !== '/shopCar' && $store.state.shopCarArr.length"/>
+            <van-icon name="shopping-cart" color="#FA8072" size="0.9rem" :info="$store.state.shopCarArr.length" v-if="$route.path === '/shopCar' && $store.state.shopCarArr.length"/>
             <p>购物车</p>
           </div>
         </router-link>
