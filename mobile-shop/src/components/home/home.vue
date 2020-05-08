@@ -86,7 +86,7 @@
                 <p class="p2">{{item['small_title']}}</p>
                 <div class="charge-add">
                   <span class="charge">￥{{item['charge']}}</span>
-                  <van-icon name="add" size="0.5rem" color="#FF6347" class="shop-car" @click="addThis(item)"/>
+                  <van-icon name="add" size="0.5rem" color="#FF6347" class="shop-car" @click="addThis(item, $event)"/>
                 </div>
               </li>
             </ul>
@@ -103,7 +103,7 @@
               <p class="p2">{{item['small_title']}}</p>
               <div class="charge-add">
                 <span class="charge">￥{{item['charge']}}</span>
-                <van-icon name="add" size="0.55rem" color="#FF6347" class="shop-car" @click="addThis(item)"/>
+                <van-icon name="add" size="0.55rem" color="#FF6347" class="shop-car" @click="addThis(item, $event)"/>
               </div>
             </div>
         </div>
@@ -123,6 +123,9 @@
   import { Indicator } from 'mint-ui';
   import myFooter from '../common/myFooter';
   import { Dialog } from 'vant';
+  import { Toast } from 'vant';
+
+  Vue.use(Toast);
 
   Vue.use(Dialog);
 
@@ -222,9 +225,18 @@
             this.s = data.data.s;
           })
         },
-        addThis(item){
-          item['myMount'] = 1;
+        addThis(item, event){
           this.$store.commit('addShopCar',item);
+          document.getElementsByClassName('transitionImg')[0].style.display = 'inline-block';
+          const width = document.getElementsByClassName('transitionImg')[0].clientWidth;
+          const height = document.getElementsByClassName('transitionImg')[0].clientHeight;
+          document.getElementsByClassName('transitionImg')[0].src = item.src;
+          this.$store.commit('changePageX',event.pageX - width);
+          this.$store.commit('changePageY',event.pageY - height);
+          setTimeout(() => {
+            document.getElementsByClassName('transitionImg')[0].style.display = 'none';
+          },950);
+          // Toast.success('添加成功');
         }
       },
       watch: {
@@ -259,6 +271,7 @@
             document.getElementsByClassName('timeShopBody')[0].scrollLeft = parseFloat(this.leftScroll);
           } catch (e) {
           }
+          document.getElementsByClassName('transitionImg')[0].style.display = 'none';
         }
       },
       computed: {
@@ -624,5 +637,14 @@
         }
       }
     }
+  }
+  @keyframes addTransition {
+    from{
+      transform: scale(1);
+    }
+    to{
+      transform: scale(0.1);
+    }
+
   }
 </style>

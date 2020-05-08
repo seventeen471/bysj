@@ -15,8 +15,11 @@
           </router-link>
         </div>
         <div class="goodsDiv">
-          <van-checkbox-group v-model="result">
-            <van-checkbox class="goods" checked-color="#FA8072" icon-size="0.55rem" v-for="(item,i) in $store.state.shopCarArr" :name="item.id" :key="item.id">
+          <van-checkbox-group v-model="checkArr">
+            <van-checkbox class="goods" label-disabled checked-color="#FA8072" icon-size="0.55rem" v-for="item in $store.state.shopCarArr" :name="item.id" :key="item.id">
+<!--            <van-checkbox class="goods" checked-color="#FA8072" icon-size="0.55rem" v-for="(item,i) in $store.state.shopCarObj" :name="i" :key="i">-->
+<!--              <div>{{i}}</div>-->
+<!--              <div>{{item}}</div>-->
               <img :src="item['src']">
               <div class="goodsInfo">
               <span class="name">{{item['big_title']}}</span>
@@ -24,7 +27,7 @@
               <span class="do">
                 <span @click="subThis(item)">-</span>
                 <span>{{item['myMount']}}</span>
-                <span @click="addThis(item)">+</span>
+                <span @click="addThis(item,$event)">+</span>
               </span>
               </div>
             </van-checkbox>
@@ -41,7 +44,7 @@
               <p class="p2">{{item['small_title']}}</p>
               <div class="charge-add">
                 <span class="charge">￥{{item['charge']}}</span>
-                <van-icon name="add" size="0.55rem" color="#FF6347" class="shop-car" @click="addThis(item)"/>
+                <van-icon name="add" size="0.55rem" color="#FF6347" class="shop-car" @click="addThis(item,$event)"/>
               </div>
             </div>
           </div>
@@ -49,14 +52,15 @@
         </div>
       </div>
       <div class="bottomDiv">
-        <van-checkbox v-model="allChecked" checked-color="#FA8072" icon-size="0.55rem" class="allCheck">全选</van-checkbox>
-        <div>
+        <van-checkbox v-model="allChecked" checked-color="#FA8072" icon-size="0.55rem" class="allCheck" @click="allCheckClick()">全选</van-checkbox>
+        <div class="spanDiv">
+          <div style="float: right;margin-right: -2%">
         <span>不含运费</span>
         <span>合计：</span>
-        <span>￥</span>
-        <span>34.8</span>
+        <span>￥{{allCharge}}</span>
+          </div>
         </div>
-        <van-button type="primary" color="#FA8072" class="goPay">去结算 ({{3}})</van-button>
+        <van-button type="primary" color="#FA8072" class="goPay">去结算 ({{checkedMount}})</van-button>
       </div>
       <my-footer></my-footer>
     </div>
@@ -71,19 +75,39 @@
           return {
             allChecked: false,
             bodyScroll: 0,
-            result: ['a', 'b'],
+            checkArr: [],
             goodsArr: [{id:'a',img: 'http://192.168.43.218/shop/img/hotRecommend/1.jpg',name:'进口香蕉 约500g',charge:5.9,mount:1},
               {id:'b',img: 'http://192.168.43.218/shop/img/goods2.jpg',name:'恒都精选冷冻肥牛卷 300g',charge:23.8,mount:1},
               {id:'c',img: 'http://192.168.43.218/shop/img/goods3.jpg',name:'可口可乐 2L/瓶',charge:6.9,mount:2}],
-            hotRecommendArr: []
+            hotRecommendArr: [],
           }
         },
       methods: {
-        addThis(item){
+        addThis(item, event){
           this.$store.commit('addShopCar',item);
+          document.getElementsByClassName('transitionImg')[0].style.display = 'inline-block';
+          const width = document.getElementsByClassName('transitionImg')[0].clientWidth;
+          const height = document.getElementsByClassName('transitionImg')[0].clientHeight;
+          document.getElementsByClassName('transitionImg')[0].src = item.src;
+          this.$store.commit('changePageX',event.pageX - width);
+          this.$store.commit('changePageY',event.pageY - height);
+          setTimeout(() => {
+            document.getElementsByClassName('transitionImg')[0].style.display = 'none';
+          },950);
+          // Toast.success('添加成功');
         },
         subThis(item){
           this.$store.commit('subShopCar',item);
+        },
+        allCheckClick() {
+          if (!this.allChecked) {
+            this.checkArr = [];
+            for (let item of this.$store.state.shopCarArr) {
+              this.checkArr.push(item.id);
+            }
+          } else {
+            this.checkArr = [];
+          }
         }
       },
       mounted(){
@@ -98,6 +122,46 @@
           } catch (e) {
           }
         },
+        checkArr(){
+          let has = 0;
+          for (let id of this.checkArr){
+            for (let item of this.$store.state.shopCarArr) {
+              if (id === item.id) {
+                has ++;
+                break;
+              }
+            }
+          }
+          if (this.$store.state.shopCarArr.length === has) {
+            this.allChecked = true;
+          } else {
+            this.allChecked = false;
+          }
+        },
+      },
+      computed: {
+          allCharge(){
+            let charge = 0;
+            for (let id of this.checkArr){
+              for (let item of this.$store.state.shopCarArr) {
+                if (id === item.id) {
+                  charge += item.charge * item.myMount;
+                }
+              }
+            }
+            return charge.toFixed(1);
+          },
+        checkedMount() {
+          let checkedMount = 0;
+          for (let id of this.checkArr){
+            for (let item of this.$store.state.shopCarArr) {
+              if (id === item.id) {
+                checkedMount += item.myMount;
+              }
+            }
+          }
+          return checkedMount;
+        }
       },
       beforeMount(){
         axios.get('http://192.168.43.218/shop/getHotRecommend.php').then(data => {
@@ -268,10 +332,12 @@
       padding: 0 0 12%;
       border-radius: 0.2rem;
     }
-    div{
+    .spanDiv{
+      width: 50%;
+      height: 45%;
       position: absolute;
-      right: 28%;
       top: 28%;
+      left: 21%;
       span:nth-child(1), span:nth-child(2){
         font-size: 0.35rem;
         color: rgba(0,0,0,0.5);
@@ -279,13 +345,8 @@
       span:nth-child(3){
         font-size: 0.5rem;
         color: #FA8072;
-        margin-left: -8%;
-      }
-      span:nth-child(4){
-        font-size: 0.5rem;
         font-weight: bold;
-        color: #FA8072;
-        margin-left: -3%;
+        margin-left: -6%;
       }
     }
   }
@@ -301,20 +362,6 @@
       margin-bottom: 0.3rem;
       font-weight: bold;
     }
-    /*.recommendBody{*/
-    /*  padding-left: 3%;*/
-    /*  padding-top: 1%;*/
-    /*  background-color: #f5f5f5;*/
-    /*  div{*/
-    /*    display: inline-block;*/
-    /*    width: 47.5%;*/
-    /*    height: 6.2rem;*/
-    /*    background-color: #fff;*/
-    /*    border-radius: 0.2rem;*/
-    /*    !*margin-top: 0.2rem;*!*/
-    /*    z-index: 1;*/
-    /*  }*/
-    /*}*/
     .recommendBody{
       padding-left: 3%;
       padding-top: 1%;

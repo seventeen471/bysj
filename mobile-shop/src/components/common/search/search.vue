@@ -76,6 +76,10 @@
 
 <script>
   import axios from 'axios'
+  import Vue from 'vue'
+  import { Toast } from 'vant';
+
+  Vue.use(Toast);
     export default {
         name: "search",
         data() {
@@ -149,8 +153,8 @@
           })
         },
         addThis(item){
-          item['myMount'] = 1;
           this.$store.commit('addShopCar',item);
+          Toast.success('添加成功');
         }
       },
       mounted() {

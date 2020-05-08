@@ -19,9 +19,9 @@
           <div :style="$route.path === '/shopCar' ? yellow : grey" class="shopCar">
             <van-icon name="shopping-cart-o" size="0.9rem" color="#bfbfbf" v-if="$route.path !== '/shopCar' && !$store.state.shopCarArr.length"/>
             <van-icon name="shopping-cart" color="#FA8072" size="0.9rem" v-if="$route.path === '/shopCar' && !$store.state.shopCarArr.length"/>
-            <van-icon name="shopping-cart-o" size="0.9rem" color="#bfbfbf" :info="$store.state.shopCarArr.length" v-if="$route.path !== '/shopCar' && $store.state.shopCarArr.length"/>
-            <van-icon name="shopping-cart" color="#FA8072" size="0.9rem" :info="$store.state.shopCarArr.length" v-if="$route.path === '/shopCar' && $store.state.shopCarArr.length"/>
-            <p>购物车</p>
+            <van-icon name="shopping-cart-o" size="0.9rem" color="#bfbfbf" :info="info" v-if="$route.path !== '/shopCar' && $store.state.shopCarArr.length"/>
+            <van-icon name="shopping-cart" color="#FA8072" size="0.9rem" :info="info" v-if="$route.path === '/shopCar' && $store.state.shopCarArr.length"/>
+            <p @click="startAnimation()">购物车</p>
           </div>
         </router-link>
         <router-link to="mine">
@@ -32,6 +32,7 @@
           </div>
         </router-link>
       </div>
+        <img :style="'left:'+$store.state.pageX+'px;'+'top:'+$store.state.pageY+'px'" class="transitionImg">
     </div>
 </template>
 
@@ -44,7 +45,22 @@
             grey: 'color: #bfbfbf',
           }
       },
+      computed: {
+          info(){
+            let sum = 0;
+            for (let item of this.$store.state.shopCarArr) {
+              sum += item.myMount;
+            }
+            return sum;
+          }
+      },
       methods: {
+        startAnimation() {
+          document.getElementsByClassName('transitionImg')[0].style.display = 'inline-block';
+          setTimeout(() => {
+            document.getElementsByClassName('transitionImg')[0].style.display = 'none';
+          },950);
+        }
       }
     }
 </script>
@@ -78,5 +94,31 @@
   }
   .shopCar{
     transform: translateX(0.213rem);
+  }
+  .transitionImg{
+    display: none;
+    width: 2.5rem;
+    position: absolute;
+    z-index: 9999;
+    animation: img 1s ease;
+  }
+  @keyframes img {
+    0%{
+      opacity: 1;
+      transform: scale(1);
+    }
+    25%{
+      opacity: 1;
+      transform: scale(1);
+    }
+    50%{
+      opacity: 1;
+    }
+    100%{
+      opacity: 0;
+      transform: scale(0);
+      top: 88%;
+      left: 51%;
+    }
   }
 </style>
