@@ -3,6 +3,7 @@
       <div class="header">
         <div class="topDiv"></div>
         <p>购物车</p>
+        <span v-if="checkArr.length" @click="deleteChoosed()">删除</span>
       </div>
       <div class="shopCarBody">
         <div class="emptyDiv" v-if="!$store.state.shopCarArr.length">
@@ -108,6 +109,17 @@
           } else {
             this.checkArr = [];
           }
+        },
+        deleteChoosed(){
+          this.checkArr.forEach((e,index) => {
+            const obj = {};
+            obj['id'] = e;
+            this.$store.commit('changeIsDeleteChoosed',true);
+            this.$store.commit('subShopCar',obj);
+            this.$store.commit('changeIsDeleteChoosed',false);
+            this.checkArr.splice(index,1);
+            this.deleteChoosed();
+          });
         }
       },
       mounted(){
@@ -194,6 +206,13 @@
     p{
       text-align: center;
       margin-top: 2.5%;
+      font-size: 0.47rem;
+      color: rgba(0,0,0,0.8);
+    }
+    span{
+      position: absolute;
+      top: 57%;
+      right: 4%;
       font-size: 0.47rem;
       color: rgba(0,0,0,0.8);
     }

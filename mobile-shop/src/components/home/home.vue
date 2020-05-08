@@ -271,7 +271,6 @@
             document.getElementsByClassName('timeShopBody')[0].scrollLeft = parseFloat(this.leftScroll);
           } catch (e) {
           }
-          document.getElementsByClassName('transitionImg')[0].style.display = 'none';
         }
       },
       computed: {

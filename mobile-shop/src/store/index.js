@@ -10,7 +10,8 @@ const store = new Vuex.Store({
     // isAnimate: false,
     shopCarArr: [],
     pageX: '',
-    pageY: ''
+    pageY: '',
+    isDeleteChoosed: false
   },
   mutations: {
     // isAnimateChange(state, is) {
@@ -57,6 +58,9 @@ const store = new Vuex.Store({
       let newArr = [];
       for (let i = 0; i < state.shopCarArr.length; i++) {
         if (state.shopCarArr[i].id === obj.id) {
+          if (state.isDeleteChoosed) {
+            continue;
+          }
           obj.myMount = state.shopCarArr[i].myMount - 1;
           if (obj.myMount !== 0) {
             newArr.push(obj);
@@ -72,6 +76,9 @@ const store = new Vuex.Store({
     },
     changePageY(state,value){
       state.pageY = value;
+    },
+    changeIsDeleteChoosed(state,value) {
+      state.isDeleteChoosed = value;
     }
   },
   getters: {},

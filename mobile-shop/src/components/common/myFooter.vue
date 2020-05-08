@@ -38,28 +38,33 @@
 
 <script>
     export default {
-        name: "myFooter",
-        data() {
-          return {
-            yellow: 'color: #FA8072',
-            grey: 'color: #bfbfbf',
-          }
+      name: "myFooter",
+      data() {
+        return {
+          yellow: 'color: #FA8072',
+          grey: 'color: #bfbfbf',
+        }
       },
       computed: {
-          info(){
-            let sum = 0;
-            for (let item of this.$store.state.shopCarArr) {
-              sum += item.myMount;
-            }
-            return sum;
+        info() {
+          let sum = 0;
+          for (let item of this.$store.state.shopCarArr) {
+            sum += item.myMount;
           }
+          return sum;
+        }
       },
       methods: {
         startAnimation() {
           document.getElementsByClassName('transitionImg')[0].style.display = 'inline-block';
           setTimeout(() => {
             document.getElementsByClassName('transitionImg')[0].style.display = 'none';
-          },950);
+          }, 950);
+        }
+      },
+      watch: {
+        $route() {
+          document.getElementsByClassName('transitionImg')[0].style.display = 'none';
         }
       }
     }
