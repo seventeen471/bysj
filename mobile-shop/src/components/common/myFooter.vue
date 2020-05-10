@@ -64,7 +64,11 @@
       },
       watch: {
         $route() {
-          document.getElementsByClassName('transitionImg')[0].style.display = 'none';
+          try {
+            document.getElementsByClassName('transitionImg')[0].style.display = 'none';
+          } catch (e) {
+          }
+
         }
       }
     }

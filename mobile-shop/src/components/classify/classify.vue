@@ -33,16 +33,59 @@
           </span>
         </div>
         <div class="body classBody">
-          <div>1</div>
-          <div>2</div>
-          <div>3</div>
-          <div>4</div>
-          <div>5</div>
-          <div>6</div>
-          <div>7</div>
-          <div>8</div>
-          <div>9</div>
-          <div>10</div>
+          <div class="one">
+            <img src="../../assets/touxiang.jpg">
+            <div class="oneRightDiv">
+              <div>
+                <p>陕西洛川红富士苹果4个680g起</p>
+                <p>西北很难有这么光滑的苹果，啊哈哈哈哈</p>
+              </div>
+              <div>
+                <span class="charge">￥{{12}}</span>
+                <van-icon name="add" size="0.5rem" color="#FF6347" class="addTo" @click="addThis(item, $event)"/>
+              </div>
+            </div>
+          </div>
+          <div class="one">
+            <img src="../../assets/touxiang.jpg">
+            <div class="oneRightDiv">
+              <div>
+                <p>陕西洛川红富士苹果4个680g起</p>
+                <p>西北很难有这么光滑的苹果，啊哈哈哈哈</p>
+              </div>
+              <div>
+                <span class="charge">￥{{12}}</span>
+                <van-icon name="add" size="0.5rem" color="#FF6347" class="addTo" @click="addThis(item, $event)"/>
+              </div>
+            </div>
+          </div>
+          <div class="one">
+            <img src="../../assets/touxiang.jpg">
+            <div class="oneRightDiv">
+              <div>
+                <p>陕西洛川红富士苹果4个680g起</p>
+                <p>西北很难有这么光滑的苹果，啊哈哈哈哈</p>
+              </div>
+              <div>
+                <span class="charge">￥{{12}}</span>
+                <van-icon name="add" size="0.5rem" color="#FF6347" class="addTo" @click="addThis(item, $event)"/>
+              </div>
+            </div>
+          </div>
+          <div class="one">
+            <img src="../../assets/touxiang.jpg">
+            <div class="oneRightDiv">
+              <div>
+                <p>陕西洛川红富士苹果4个680g起</p>
+                <p>西北很难有这么光滑的苹果，啊哈哈哈哈</p>
+              </div>
+              <div>
+                <span class="charge">￥{{12}}</span>
+                <van-icon name="add" size="0.5rem" color="#FF6347" class="addTo" @click="addThis(item, $event)"/>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
       <myFooter></myFooter>
@@ -93,6 +136,7 @@
       methods: {
         topClick(index) {
             this.topIndex = index;
+            this.leftIndex = 1;
             this.classArr = this['classArr' + index];
           },
         leftNavClick(index) {
@@ -291,5 +335,69 @@
         text-align: center;
       }
     }
+  }
+  .one{
+    display: flex;
+    /*justify-content: space-around;*/
+    align-items: center;
+    padding-left: 3%;
+    padding-right: 3%;
+    border: 1px solid #f5f5f5!important;
+    border-bottom:  none!important;
+    img{
+      width: 33%;
+      height: 70%;
+    }
+    .oneRightDiv{
+      margin-left: 2%;
+      width: 60%!important;
+      height: 80%!important;
+      display: flex;
+      flex-direction: column;
+      div:nth-child(1){
+        height: 65%;
+        display: flex;
+        flex-direction: column;
+        border: none!important;
+        /*justify-content: space-around;*/
+        p{
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        p:nth-child(1){
+          /*height: 60%;*/
+          margin-top: 4%;
+          font-size: 0.38rem;
+          white-space: nowrap;
+          opacity: 0.8;
+        }
+        p:nth-child(2){
+          margin-top: 2%;
+          font-size: 0.32rem;
+          opacity: 0.4;
+          /*height: 40%;*/
+        }
+      }
+      div:nth-child(2){
+        height: 35%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: none!important;
+        span{
+          color: #FF6347;
+          font-size: 0.45rem;
+          float: left;
+        }
+        .addTo{
+        color: red;
+          margin-right: 7%;
+      }
+      }
+    }
+  }
+  *{
+    border: none!important;
   }
 </style>

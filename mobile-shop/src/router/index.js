@@ -55,7 +55,14 @@ const router = new Router({
       //     component: () => import('../components/common/search/result')
       //   }
       // ]
-    }
+    },
+    {
+      path: '/detailPage',
+      component: () => import("../components/common/detailPage"),
+      meta: {
+        keepAlive: true,
+      }
+    },
   ],
   scrollBehavior (to, from, savedPosition) {
     // let top = parseFloat(window.sessionStorage.getItem(to.meta.who));

@@ -37,7 +37,7 @@
         <div class="recommend">
           <header> -- 猜你喜欢 --</header>
           <div class="recommendBody">
-            <div class="goods" v-for="item in hotRecommendArr" :key="item.id">
+            <div class="goods" v-for="item in hotRecommendArr" :key="item.id" @click="intoDetail(item)">
               <img :src="item.src">
               <div class="p1-div">
                 <p class="p1">{{item['big_title']}}</p>
@@ -45,7 +45,7 @@
               <p class="p2">{{item['small_title']}}</p>
               <div class="charge-add">
                 <span class="charge">￥{{item['charge']}}</span>
-                <van-icon name="add" size="0.55rem" color="#FF6347" class="shop-car" @click="addThis(item,$event)"/>
+                <van-icon name="add" size="0.55rem" color="#FF6347" class="shop-car" @click.stop="addThis(item,$event)"/>
               </div>
             </div>
           </div>
@@ -120,6 +120,10 @@
             this.checkArr.splice(index,1);
             this.deleteChoosed();
           });
+        },
+        intoDetail(obj){
+          this.$router.push('detailPage');
+          this.$store.commit('setDetaliObj',obj);
         }
       },
       mounted(){
@@ -213,7 +217,7 @@
       position: absolute;
       top: 57%;
       right: 4%;
-      font-size: 0.47rem;
+      font-size: 0.44rem;
       color: rgba(0,0,0,0.8);
     }
   }

@@ -78,7 +78,7 @@
           </div>
           <div class="timeShopBody">
             <ul>
-              <li v-for="item in timeShoppingArr" :key="item.id">
+              <li v-for="item in timeShoppingArr" :key="item.id" @click="intoDetail(item)">
                 <img :src="item.src">
                 <div class="p1-div">
                   <p class="p1">{{item['big_title']}}</p>
@@ -86,7 +86,7 @@
                 <p class="p2">{{item['small_title']}}</p>
                 <div class="charge-add">
                   <span class="charge">￥{{item['charge']}}</span>
-                  <van-icon name="add" size="0.5rem" color="#FF6347" class="shop-car" @click="addThis(item, $event)"/>
+                  <van-icon name="add" size="0.5rem" color="#FF6347" class="shop-car" @click.stop="addThis(item, $event)"/>
                 </div>
               </li>
             </ul>
@@ -95,7 +95,7 @@
         <div class="recommend">
           <header> -- 热销推荐 --</header>
           <div class="recommendBody">
-            <div class="goods" v-for="item in hotRecommendArr" :key="item.id">
+            <div class="goods" v-for="item in hotRecommendArr" :key="item.id" @click="intoDetail(item)">
               <img :src="item.src">
               <div class="p1-div">
                 <p class="p1">{{item['big_title']}}</p>
@@ -103,7 +103,7 @@
               <p class="p2">{{item['small_title']}}</p>
               <div class="charge-add">
                 <span class="charge">￥{{item['charge']}}</span>
-                <van-icon name="add" size="0.55rem" color="#FF6347" class="shop-car" @click="addThis(item, $event)"/>
+                <van-icon name="add" size="0.55rem" color="#FF6347" class="shop-car" @click.stop="addThis(item, $event)"/>
               </div>
             </div>
         </div>
@@ -237,6 +237,10 @@
             document.getElementsByClassName('transitionImg')[0].style.display = 'none';
           },950);
           // Toast.success('添加成功');
+        },
+        intoDetail(obj){
+          this.$router.push('detailPage');
+          this.$store.commit('setDetaliObj',obj);
         }
       },
       watch: {

@@ -4,7 +4,7 @@
       <div v-if="$route.path === '/search'">
       <div class="header">
         <div class="topDiv"></div>
-        <van-icon name="arrow-left" color="rgba(0,0,0,0.6)" size="0.6rem" style="position: absolute;top: 57%;left: 0.5%" @click="back()"/>
+        <van-icon name="arrow-left" color="rgba(0,0,0,0.6)" size="0.6rem" style="position: absolute;top: 57%;left: 1%" @click="back()"/>
         <input v-focus placeholder="冬瓜" v-model="searchValue" @click="inputFocus()">
         <van-icon class="search" size="0.5rem" name="search" />
 <!--        <span v-if="!searchClick" @click="search()">搜索</span>-->
@@ -34,7 +34,7 @@
         <div v-if="searchClick" class="result">
           <router-view></router-view>
           <div class="resultBody">
-            <div class="goods" v-for="item in searchResultArr" :key="item.id">
+            <div class="goods" v-for="item in searchResultArr" :key="item.id" @click="intoDetail(item)">
               <img :src="item.src">
               <div class="p1-div">
                 <p class="p1">{{item['big_title']}}</p>
@@ -42,7 +42,7 @@
               <p class="p2">{{item['small_title']}}</p>
               <div class="charge-add">
                 <span class="charge">￥{{item['charge']}}</span>
-                <van-icon name="add" size="0.55rem" color="#FF6347" class="shop-car" @click="addThis(item)"/>
+                <van-icon name="add" size="0.55rem" color="#FF6347" class="shop-car" @click.stop="addThis(item)"/>
               </div>
             </div>
             <div class="resultEmpty" v-if="resultIsEmpty">
@@ -53,7 +53,7 @@
           <div class="recommend">
             <header> -- 你可能还需要 --</header>
             <div class="recommendBody">
-              <div class="goods" v-for="item in hotRecommendArr" :key="item.id">
+              <div class="goods" v-for="item in hotRecommendArr" :key="item.id" @click="intoDetail(item)">
                 <img :src="item.src">
                 <div class="p1-div">
                   <p class="p1">{{item['big_title']}}</p>
@@ -61,7 +61,7 @@
                 <p class="p2">{{item['small_title']}}</p>
                 <div class="charge-add">
                   <span class="charge">￥{{item['charge']}}</span>
-                  <van-icon name="add" size="0.55rem" color="#FF6347" class="shop-car" @click="addThis(item)"/>
+                  <van-icon name="add" size="0.55rem" color="#FF6347" class="shop-car" @click.stop="addThis(item)"/>
                 </div>
               </div>
             </div>
@@ -155,6 +155,10 @@
         addThis(item){
           this.$store.commit('addShopCar',item);
           Toast.success('添加成功');
+        },
+        intoDetail(obj){
+          this.$router.push('detailPage');
+          this.$store.commit('setDetaliObj',obj);
         }
       },
       mounted() {

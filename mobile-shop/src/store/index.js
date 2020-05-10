@@ -11,7 +11,8 @@ const store = new Vuex.Store({
     shopCarArr: [],
     pageX: '',
     pageY: '',
-    isDeleteChoosed: false
+    isDeleteChoosed: false,
+    detailObj: {}
   },
   mutations: {
     // isAnimateChange(state, is) {
@@ -79,6 +80,9 @@ const store = new Vuex.Store({
     },
     changeIsDeleteChoosed(state,value) {
       state.isDeleteChoosed = value;
+    },
+    setDetaliObj(state,obj){
+      state.detailObj = obj;
     }
   },
   getters: {},
