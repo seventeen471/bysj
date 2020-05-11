@@ -13,7 +13,7 @@
           <p>{{$store.state.detailObj['big_title']}}</p>
           <p>{{$store.state.detailObj['small_title']}}</p>
           <span class="charge"><span style="font-size: 0.38rem">￥</span>{{$store.state.detailObj['charge']}}<span style="color: rgba(0,0,0,0.8);font-size: 0.34rem">/份</span></span>
-          <span class="saleMount">月销量 {{0}}件</span>
+          <span class="saleMount">月销量 {{$store.state.detailObj['sales']}}件</span>
         </div>
         <img :src="$store.state.detailObj['src_d']">
       </div>

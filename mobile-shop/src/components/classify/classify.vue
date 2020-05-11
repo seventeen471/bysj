@@ -20,7 +20,7 @@
         </div>
         <div class="left-nav">
           <div v-for="(item,i) in classArr" :key="item.id" :style="'color:'+(i+1===leftIndex?'#FA8072':'')"
-               @click="leftNavClick(i+1)"><strong v-if="i+1===leftIndex">l</strong>{{item.value}}
+               @click="leftNavClick(i+1,item.value)"><strong v-if="i+1===leftIndex">l</strong>{{item.value}}
           </div>
         </div>
         <div class="oder">
@@ -33,59 +33,23 @@
           </span>
         </div>
         <div class="body classBody">
-          <div class="one">
-            <img src="../../assets/touxiang.jpg">
+          <div class="one" v-for="item in allObjArr" :key="item.id" @click="intoDetail(item)">
+            <img :src="item.src">
             <div class="oneRightDiv">
               <div>
-                <p>陕西洛川红富士苹果4个680g起</p>
-                <p>西北很难有这么光滑的苹果，啊哈哈哈哈</p>
+                <p>{{item['big_title']}}</p>
+                <p>{{item['small_title']}}</p>
               </div>
               <div>
-                <span class="charge">￥{{12}}</span>
-                <van-icon name="add" size="0.5rem" color="#FF6347" class="addTo" @click="addThis(item, $event)"/>
+                <span class="charge">￥{{item['charge']}}</span>
+                <van-icon name="add" size="0.5rem" color="#FF6347" class="addTo" @click.stop="addThis(item, $event)"/>
               </div>
             </div>
           </div>
-          <div class="one">
-            <img src="../../assets/touxiang.jpg">
-            <div class="oneRightDiv">
-              <div>
-                <p>陕西洛川红富士苹果4个680g起</p>
-                <p>西北很难有这么光滑的苹果，啊哈哈哈哈</p>
-              </div>
-              <div>
-                <span class="charge">￥{{12}}</span>
-                <van-icon name="add" size="0.5rem" color="#FF6347" class="addTo" @click="addThis(item, $event)"/>
-              </div>
-            </div>
+          <div class="resultEmpty" v-if="!allObjArr.length">
+            <img src="../../assets/empty.png">
+            <p>等待上货</p>
           </div>
-          <div class="one">
-            <img src="../../assets/touxiang.jpg">
-            <div class="oneRightDiv">
-              <div>
-                <p>陕西洛川红富士苹果4个680g起</p>
-                <p>西北很难有这么光滑的苹果，啊哈哈哈哈</p>
-              </div>
-              <div>
-                <span class="charge">￥{{12}}</span>
-                <van-icon name="add" size="0.5rem" color="#FF6347" class="addTo" @click="addThis(item, $event)"/>
-              </div>
-            </div>
-          </div>
-          <div class="one">
-            <img src="../../assets/touxiang.jpg">
-            <div class="oneRightDiv">
-              <div>
-                <p>陕西洛川红富士苹果4个680g起</p>
-                <p>西北很难有这么光滑的苹果，啊哈哈哈哈</p>
-              </div>
-              <div>
-                <span class="charge">￥{{12}}</span>
-                <van-icon name="add" size="0.5rem" color="#FF6347" class="addTo" @click="addThis(item, $event)"/>
-              </div>
-            </div>
-          </div>
-
         </div>
       </div>
       <myFooter></myFooter>
@@ -94,6 +58,10 @@
 
 <script>
   import myFooter from '../common/myFooter'
+  import axios from 'axios'
+  import Vue from 'vue';
+  import { Dialog } from 'vant';
+  Vue.use(Dialog);
     export default {
         name: "classify",
         data() {
@@ -108,29 +76,31 @@
             leftScroll: 0,
             bodyScroll: 0,
             classArr: [],
-            classArr1: [{id:1,value:'推荐'},{id:2,value:'新品'},{id:3,value:'平价好菜'},{id:4,value:'叶菜类'},
+            classArr1: [{id:1,value:'全部'},{id:2,value:'新品'},{id:3,value:'平价好菜'},{id:4,value:'叶菜类'},
               {id:5,value:'根茎类'},{id:6,value:'菌菇类'},{id:7,value:'瓜果类'},{id:8,value:'豆类'},{id:9,value:'香辛蒜葱'},
               {id:10,value:'球茎类'},{id:11,value:'有机蔬菜'},{id:12,value:'火锅组合'}],
-            classArr2: [{id:1,value:'推荐'},{id:2,value:'新品'},{id:3,value:'猪肉'},{id:4,value:'牛肉'},
+            classArr2: [{id:1,value:'全部'},{id:2,value:'新品'},{id:3,value:'猪肉'},{id:4,value:'牛肉'},
               {id:5,value:'羊肉'},{id:6,value:'牛排'},{id:7,value:'蛋类'},{id:8,value:'鸡鸭血'},{id:9,value:'腊肉'},
               {id:10,value:'腊肠'}],
-            classArr3: [{id:1,value:'推荐'},{id:2,value:'新品'},{id:3,value:'活鱼'},{id:4,value:'活虾'},
+            classArr3: [{id:1,value:'全部'},{id:2,value:'新品'},{id:3,value:'活鱼'},{id:4,value:'活虾'},
               {id:5,value:'活扇贝类'},{id:6,value:'活蟹其他'},{id:7,value:'冰鲜鱼类'},{id:8,value:'冰鲜虾蟹'},{id:9,value:'冷冻软体'},
               {id:10,value:'水发干货'},{id:11,value:'冰鲜海鲜'}],
-            classArr4: [{id:1,value:'推荐'},{id:2,value:'新品'},{id:3,value:'当季现货'},{id:4,value:'榴莲季'},
+            classArr4: [{id:1,value:'全部'},{id:2,value:'新品'},{id:3,value:'当季现货'},{id:4,value:'榴莲季'},
               {id:5,value:'柑橘橙柚'},{id:6,value:'苹果梨蕉'},{id:7,value:'桃李杏枣'},{id:8,value:'葡提浆果'},{id:9,value:'热带水果'},
               {id:10,value:'瓜类'},{id:11,value:'更多鲜果'},{id:12,value:'鲜果礼盒'}],
-            classArr5: [{id:1,value:'推荐'},{id:2,value:'新品'},{id:3,value:'箱装奶'},{id:4,value:'今日鲜奶'},
+            classArr5: [{id:1,value:'全部'},{id:2,value:'新品'},{id:3,value:'箱装奶'},{id:4,value:'今日鲜奶'},
               {id:5,value:'鲜奶'},{id:6,value:'酸奶'},{id:7,value:'超值组合'},{id:8,value:'面包类'},{id:9,value:'蛋糕类'},
               {id:10,value:'牛奶饮品'},{id:11,value:'常温乳品'},{id:12,value:'烘焙材料'}],
-            classArr6: [{id:1,value:'推荐'},{id:2,value:'新品'},{id:3,value:'鲜面'},{id:4,value:'年糕'},
+            classArr6: [{id:1,value:'全部'},{id:2,value:'新品'},{id:3,value:'鲜面'},{id:4,value:'年糕'},
               {id:5,value:'米类'},{id:6,value:'食用油'},{id:7,value:'挂面'},{id:8,value:'面粉'},{id:9,value:'五谷杂粮'}],
-            classArr7: [{id:1,value:'推荐'},{id:2,value:'新品'},{id:3,value:'包子馒头'},{id:4,value:'面点小食'},
+            classArr7: [{id:1,value:'全部'},{id:2,value:'新品'},{id:3,value:'包子馒头'},{id:4,value:'面点小食'},
               {id:5,value:'吐司面包'},{id:6,value:'蛋糕点心'},{id:7,value:'饺子汤圆'},{id:8,value:'熟食腊味'},{id:9,value:'方便速食'},
               {id:10,value:'方便粉面'},{id:11,value:'佐餐小食'}],
-            classArr8: [{id:1,value:'推荐'},{id:2,value:'新品'},{id:3,value:'饮用水'},{id:4,value:'冲调'},
+            classArr8: [{id:1,value:'全部'},{id:2,value:'新品'},{id:3,value:'饮用水'},{id:4,value:'冲调'},
               {id:5,value:'碳酸饮料'},{id:6,value:'啤酒'},{id:7,value:'黄酒'},{id:8,value:'茶饮'},{id:9,value:'果饮'},
               {id:10,value:'乳饮'},{id:11,value:'功能饮料'},{id:12,value:'葡萄酒'},{id:13,value:'白酒'}],
+            allObjArr: [],
+            constAllObj: [],
           }
         },
       methods: {
@@ -138,15 +108,58 @@
             this.topIndex = index;
             this.leftIndex = 1;
             this.classArr = this['classArr' + index];
-          },
-        leftNavClick(index) {
-            this.leftIndex = index;
-          },
-        oderClick(index){
-            this.oderIndex = index;
-            if (index===3){
-              this.isUp = !this.isUp;
+            let name;
+            switch (index) {
+              case 1:
+                name = '蔬菜豆品';break;
+              case 2:
+                name = '肉禽蛋类';break;
+              case 3:
+                name = '水产海鲜';break;
+              case 4:
+                name = '新鲜水果';break;
+              case 5:
+                name = '乳品烘焙';break;
+              case 6:
+                name = '米面粮油';break;
+              case 7:
+                name = '方便速食';break;
+              case 8:
+                name = '酒饮零食';break;
+
             }
+          let param = new URLSearchParams();
+          param.append('className', name);
+          axios.post('http://192.168.43.218/shop/getClassifyAllObj.php',param).then((data) => {
+            this.constAllObj = data.data;
+            this.allObjArr = data.data;
+          })
+          },
+        leftNavClick(index,name) {
+            this.leftIndex = index;
+          this.allObjArr = this.constAllObj;
+            let newArr = [];
+            for (let i=0;i<this.allObjArr.length;i++) {
+              if (this.allObjArr[i]['class2'].toString().includes(name) || name === '全部') {
+                newArr.push(this.allObjArr[i]);
+              }
+            }
+          this.allObjArr = newArr;
+        },
+        oderClick(index){
+          this.oderIndex = index;
+          if (index===3){
+            this.isUp = !this.isUp;
+            if (this.isUp) {
+              this.allObjArr.sort((a,b) => {
+                return b['charge'] - a['charge'];
+              })
+            } else {
+              this.allObjArr.sort((a,b) => {
+                return a['charge'] - b['charge'];
+              })
+            }
+          }
         },
         gotoScrollLeft() {
           if (this.$route.query.index) {
@@ -175,6 +188,34 @@
             }
 
           }
+        },
+        addThis(item, event){
+          for (let i = 0; i < this.$store.state.shopCarArr.length; i++) {
+            if (this.$store.state.shopCarArr[i].id === item.id) {
+              if (this.$store.state.shopCarArr[i].myMount + 1 > item.mount) {
+                Dialog.alert({
+                  message: '数量不足',
+                }).then(() => {
+                });
+                return;
+              }
+            }
+          }
+          this.$store.commit('addShopCar',item);
+          document.getElementsByClassName('transitionImg')[0].style.display = 'inline-block';
+          const width = document.getElementsByClassName('transitionImg')[0].clientWidth;
+          const height = document.getElementsByClassName('transitionImg')[0].clientHeight;
+          document.getElementsByClassName('transitionImg')[0].src = item.src;
+          this.$store.commit('changePageX',event.pageX - width);
+          this.$store.commit('changePageY',event.pageY - height);
+          setTimeout(() => {
+            document.getElementsByClassName('transitionImg')[0].style.display = 'none';
+          },950);
+          // Toast.success('添加成功');
+        },
+        intoDetail(obj){
+          this.$router.push('detailPage');
+          this.$store.commit('setDetaliObj',obj);
         }
       },
       beforeMount(){
@@ -191,6 +232,7 @@
           document.getElementsByClassName('classBody')[0].addEventListener('scroll', () => {
             this.bodyScroll = document.getElementsByClassName('classBody')[0].scrollTop.toString();
           }, false);
+        this.topClick(1);
       },
       watch: {
           $route(){
@@ -201,7 +243,19 @@
             } catch (e) {
             }
             this.gotoScrollLeft();
+          },
+        oderIndex(){
+          if (this.oderIndex===1){ // 综合: 销量高价格低的排到前面
+            this.allObjArr.sort((a,b) => {
+              return b['sales']/b['charge'] - a['sales']/a['charge'];
+            })
           }
+          if (this.oderIndex===2){ // 销量
+            this.allObjArr.sort((a,b) => {
+              return b['sales'] - a['sales'];
+            })
+          }
+        }
       },
         components: {
           myFooter
@@ -364,6 +418,7 @@
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
+          text-align: left;
         }
         p:nth-child(1){
           /*height: 60%;*/
@@ -399,5 +454,24 @@
   }
   *{
     border: none!important;
+  }
+  .resultEmpty{
+    width: 10rem;
+    height: 5rem;
+    background-color: #fff;
+    margin-left: -3%;
+    padding-top: 12%;
+    margin-top: -1%;
+    img{
+      display: block;
+      width: 2rem;
+      margin: 0 auto;
+    }
+    p{
+      text-align: center;
+      margin-top: 5%;
+      font-size: 0.4rem;
+      color: rgba(0,0,0,0.4);
+    }
   }
 </style>

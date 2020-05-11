@@ -72,6 +72,6 @@ export default {
     transform: translateX(0);
   }
   .left-enter-active, .left-leave-active, .right-enter-active, .right-leave-active{
-    transition: transform 0.3s ease;
+    transition: transform 0.2s ease;
   }
 </style>
