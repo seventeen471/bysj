@@ -25,6 +25,9 @@
 </template>
 
 <script>
+  import Vue from 'vue';
+  import { Dialog } from 'vant';
+  Vue.use(Dialog);
   import { Toast } from 'vant';
     export default {
         name: "detailPage",
@@ -33,6 +36,17 @@
             this.$router.go(-1);
           },
         addThis(item){
+          for (let i = 0; i < this.$store.state.shopCarArr.length; i++) {
+            if (this.$store.state.shopCarArr[i].id === item.id) {
+              if (this.$store.state.shopCarArr[i].myMount + 1 > item.mount) {
+                Dialog.alert({
+                  message: '数量不足',
+                }).then(() => {
+                });
+                return;
+              }
+            }
+          }
           this.$store.commit('addShopCar',item);
           Toast.success('添加成功');
         }

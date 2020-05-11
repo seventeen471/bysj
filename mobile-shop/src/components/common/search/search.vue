@@ -1,11 +1,11 @@
 <template>
-  <transition>
-    <div id="search" v-if="show">
+    <div id="search">
       <div v-if="$route.path === '/search'">
       <div class="header">
         <div class="topDiv"></div>
         <van-icon name="arrow-left" color="rgba(0,0,0,0.6)" size="0.6rem" style="position: absolute;top: 57%;left: 1%" @click="back()"/>
-        <input v-focus placeholder="冬瓜" v-model="searchValue" @click="inputFocus()">
+        <input v-if="!searchClick" v-focus placeholder="冬瓜" v-model="searchValue" @click="inputFocus()">
+        <input v-if="searchClick" placeholder="冬瓜" v-model="searchValue" @click="inputFocus()">
         <van-icon class="search" size="0.5rem" name="search" />
 <!--        <span v-if="!searchClick" @click="search()">搜索</span>-->
 <!--        <router-link to="shopCar">-->
@@ -32,7 +32,7 @@
         </div>
         </div>
         <div v-if="searchClick" class="result">
-          <router-view></router-view>
+<!--          <router-view></router-view>-->
           <div class="resultBody">
             <div class="goods" v-for="item in searchResultArr" :key="item.id" @click="intoDetail(item)">
               <img :src="item.src">
@@ -71,20 +71,22 @@
         </div>
       </div>
       </div>
-  </transition>
 </template>
 
 <script>
   import axios from 'axios'
   import Vue from 'vue'
   import { Toast } from 'vant';
+  import { Dialog } from 'vant';
+  Vue.use(Dialog);
 
   Vue.use(Toast);
     export default {
         name: "search",
         data() {
           return {
-            show: false,
+            // show: false,
+            bodyScroll: 0,
             searchClick: false,
             searchValue: '',
             myWords: JSON.parse(window.localStorage.getItem('myWords')),
@@ -117,7 +119,7 @@
             this.getSearchResult();
           },
           back(){
-            this.show = false;
+            // this.show = false;
             setTimeout(() => {
               this.$router.go(-1);
             },150)
@@ -153,6 +155,17 @@
           })
         },
         addThis(item){
+          for (let i = 0; i < this.$store.state.shopCarArr.length; i++) {
+            if (this.$store.state.shopCarArr[i].id === item.id) {
+              if (this.$store.state.shopCarArr[i].myMount + 1 > item.mount) {
+                Dialog.alert({
+                  message: '数量不足',
+                }).then(() => {
+                });
+                return;
+              }
+            }
+          }
           this.$store.commit('addShopCar',item);
           Toast.success('添加成功');
         },
@@ -162,7 +175,20 @@
         }
       },
       mounted() {
-          this.show = true;
+          // this.show = true;
+      },
+      watch: {
+      },
+      beforeRouteLeave (to, from, next) {
+        // if (to.path === '/detailPage') {
+        //   from.meta.isAnimation = false;
+        // }
+        if (to.path === '/home') {
+          this.searchClick = false;
+          this.searchValue = '';
+          this.searchResultArr = [];
+        }
+        next();
       },
       directives: {
         focus: {
@@ -172,7 +198,7 @@
             },200);
           }
         }
-      }
+      },
     }
 </script>
 
@@ -279,12 +305,12 @@
       padding-top: 2%;
     }
   }
-  .v-enter, .v-leave-to{
-    transform: translateX(10rem);
-  }
-  .v-enter-active, .v-leave-active{
-    transition: all 0.3s ease;
-  }
+  /*.v-enter, .v-leave-to{*/
+  /*  transform: translateX(10rem);*/
+  /*}*/
+  /*.v-enter-active, .v-leave-active{*/
+  /*  transition: all 0.3s ease;*/
+  /*}*/
   .result, .recommend{
     width: 100%;
     background-color: #F5F5F5;

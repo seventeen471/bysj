@@ -122,11 +122,9 @@
   import { Swipe, SwipeItem } from 'mint-ui';
   import { Indicator } from 'mint-ui';
   import myFooter from '../common/myFooter';
-  import { Dialog } from 'vant';
-  import { Toast } from 'vant';
-
   Vue.use(Toast);
-
+  import { Toast } from 'vant';
+  import { Dialog } from 'vant';
   Vue.use(Dialog);
 
 
@@ -226,6 +224,17 @@
           })
         },
         addThis(item, event){
+          for (let i = 0; i < this.$store.state.shopCarArr.length; i++) {
+            if (this.$store.state.shopCarArr[i].id === item.id) {
+              if (this.$store.state.shopCarArr[i].myMount + 1 > item.mount) {
+                Dialog.alert({
+                  message: '数量不足',
+                }).then(() => {
+                });
+                return;
+              }
+            }
+          }
           this.$store.commit('addShopCar',item);
           document.getElementsByClassName('transitionImg')[0].style.display = 'inline-block';
           const width = document.getElementsByClassName('transitionImg')[0].clientWidth;
