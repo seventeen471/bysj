@@ -183,7 +183,7 @@
         // if (to.path === '/detailPage') {
         //   from.meta.isAnimation = false;
         // }
-        if (to.path === '/home') {
+        if (to.path === '/home' || to.path === '/classify') {
           this.searchClick = false;
           this.searchValue = '';
           this.searchResultArr = [];

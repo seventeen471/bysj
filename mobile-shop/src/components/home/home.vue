@@ -241,7 +241,7 @@
           const height = document.getElementsByClassName('transitionImg')[0].clientHeight;
           document.getElementsByClassName('transitionImg')[0].src = item.src;
           this.$store.commit('changePageX',event.pageX - width);
-          this.$store.commit('changePageY',event.pageY - height);
+          this.$store.commit('changePageY',event.pageY - 1.5*height);
           setTimeout(() => {
             document.getElementsByClassName('transitionImg')[0].style.display = 'none';
           },950);

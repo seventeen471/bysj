@@ -133,6 +133,7 @@
           axios.post('http://192.168.43.218/shop/getClassifyAllObj.php',param).then((data) => {
             this.constAllObj = data.data;
             this.allObjArr = data.data;
+            this.sortArr();
           })
           },
         leftNavClick(index,name) {
@@ -145,21 +146,14 @@
               }
             }
           this.allObjArr = newArr;
+          this.sortArr();
         },
         oderClick(index){
           this.oderIndex = index;
-          if (index===3){
+          if (index === 3) {
             this.isUp = !this.isUp;
-            if (this.isUp) {
-              this.allObjArr.sort((a,b) => {
-                return b['charge'] - a['charge'];
-              })
-            } else {
-              this.allObjArr.sort((a,b) => {
-                return a['charge'] - b['charge'];
-              })
-            }
           }
+          this.sortArr();
         },
         gotoScrollLeft() {
           if (this.$route.query.index) {
@@ -206,7 +200,7 @@
           const width = document.getElementsByClassName('transitionImg')[0].clientWidth;
           const height = document.getElementsByClassName('transitionImg')[0].clientHeight;
           document.getElementsByClassName('transitionImg')[0].src = item.src;
-          this.$store.commit('changePageX',event.pageX - width);
+          this.$store.commit('changePageX',event.pageX - 2.5*width);
           this.$store.commit('changePageY',event.pageY - height);
           setTimeout(() => {
             document.getElementsByClassName('transitionImg')[0].style.display = 'none';
@@ -216,6 +210,29 @@
         intoDetail(obj){
           this.$router.push('detailPage');
           this.$store.commit('setDetaliObj',obj);
+        },
+        sortArr(){
+          if (this.oderIndex===1){ // 综合: 销量高价格低的排到前面
+            this.allObjArr.sort((a,b) => {
+              return b['sales']/b['charge'] - a['sales']/a['charge'];
+            })
+          }
+          if (this.oderIndex===2){ // 销量
+            this.allObjArr.sort((a,b) => {
+              return b['sales'] - a['sales'];
+            })
+          }
+          if (this.oderIndex===3){
+            if (this.isUp) {
+              this.allObjArr.sort((a,b) => {
+                return b['charge'] - a['charge'];
+              })
+            } else {
+              this.allObjArr.sort((a,b) => {
+                return a['charge'] - b['charge'];
+              })
+            }
+          }
         }
       },
       beforeMount(){
@@ -245,16 +262,16 @@
             this.gotoScrollLeft();
           },
         oderIndex(){
-          if (this.oderIndex===1){ // 综合: 销量高价格低的排到前面
-            this.allObjArr.sort((a,b) => {
-              return b['sales']/b['charge'] - a['sales']/a['charge'];
-            })
-          }
-          if (this.oderIndex===2){ // 销量
-            this.allObjArr.sort((a,b) => {
-              return b['sales'] - a['sales'];
-            })
-          }
+          // if (this.oderIndex===1){ // 综合: 销量高价格低的排到前面
+          //   this.allObjArr.sort((a,b) => {
+          //     return b['sales']/b['charge'] - a['sales']/a['charge'];
+          //   })
+          // }
+          // if (this.oderIndex===2){ // 销量
+          //   this.allObjArr.sort((a,b) => {
+          //     return b['sales'] - a['sales'];
+          //   })
+          // }
         }
       },
         components: {
