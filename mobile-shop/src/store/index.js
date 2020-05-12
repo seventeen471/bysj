@@ -12,7 +12,11 @@ const store = new Vuex.Store({
     pageX: '',
     pageY: '',
     isDeleteChoosed: false,
-    detailObj: {}
+    detailObj: {},
+    place: {
+      small: '腾飞新苏坊',
+      big: '江苏省苏州市工业园区星汉街5号'
+    }
   },
   mutations: {
     // isAnimateChange(state, is) {
@@ -83,6 +87,9 @@ const store = new Vuex.Store({
     },
     setDetaliObj(state,obj){
       state.detailObj = obj;
+    },
+    setPlace(state,obj){
+      state.place = obj;
     }
   },
   getters: {},

@@ -2,10 +2,12 @@
     <div id="home">
       <div class="header">
         <div :style="'opacity:' + headerOpacity">
+          <router-link to="/choosePlace">
         <van-icon name="location" color="#fff" size="0.8rem" class="location"/>
-        <span>朗诗寓</span>
+        <span>{{$store.state.place.small}}</span>
         <van-icon name="play" color="#fff" style="transform: rotateZ(90deg) scale(0.5) translate(2.2rem)"/>
-        <van-icon name="bell" color="#fff" size="0.6rem" class="message" info="2" style="transform: translate(5.3rem,1.1rem)"/>
+          </router-link>
+        <van-icon name="bell" color="#fff" size="0.6rem" class="message" info="2" style="position: absolute;top: 6.4%;left: 32%"/>
         </div>
         <div :style="scrollTop <= 32 ? searchCSS1 : searchCSS2">
         <van-search
@@ -346,6 +348,7 @@
     width: 100%;
     height: 6.2rem;
     background-color: #FA8072;
+    position: relative;
     span{
       display: inline-block;
       color: #fff;

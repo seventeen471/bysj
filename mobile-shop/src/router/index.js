@@ -75,6 +75,14 @@ const router = new Router({
         isAnimation: true,
       }
     },
+    {
+      path: '/choosePlace',
+      component: () => import("../components/choosePlace"),
+      meta: {
+        keepAlive: true,
+        isAnimation: false,
+      }
+    }
   ],
   scrollBehavior (to, from, savedPosition) {
     // let top = parseFloat(window.sessionStorage.getItem(to.meta.who));

@@ -74,4 +74,10 @@ export default {
   .left-enter-active, .left-leave-active, .right-enter-active, .right-leave-active{
     transition: transform 0.2s ease;
   }
+  .v-enter, .v-leave-to{
+    transform: translateX(10rem);
+  }
+  .v-enter-active, .v-leave-active{
+    transition: all 0.2s ease;
+  }
 </style>

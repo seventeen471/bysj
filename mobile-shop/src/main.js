@@ -46,6 +46,15 @@ document.addEventListener('plusready', () => {
       },150)
     }
   },false);
+  var height = document.documentElement.clientHeight || document.body.clientHeight;
+  plus.webview.currentWebview().setStyle({
+    height: height
+  });
+  window.onresize = function() {
+    plus.webview.currentWebview().setStyle({
+      height: height
+    })
+  }
 });
 /* eslint-disable no-new */
 new Vue({
