@@ -20,7 +20,8 @@ const router = new Router({
       meta: {
         keepAlive: true,
         who: 'homeScrollTop',
-        isAnimation: false,
+        isAnimation: true,
+        index: 1
       }
     },
     {
@@ -28,7 +29,8 @@ const router = new Router({
       component: Classify,
       meta: {
         keepAlive: true,
-        isAnimation: false,
+        isAnimation: true,
+        index: 1
       }
     },
     {
@@ -36,15 +38,26 @@ const router = new Router({
       component: ShopCar,
       meta: {
         keepAlive: true,
-        isAnimation: false,
-      }
+        isAnimation: true,
+        index: 1
+      },
+    },
+    {
+      path: '/shopCar2',
+      component: () => import('../components/shop-car/shopCar2'),
+      meta: {
+        keepAlive: true,
+        isAnimation: true,
+        index: 3
+      },
     },
     {
       path: '/mine',
       component: Mine,
       meta: {
         keepAlive: true,
-        isAnimation: false,
+        isAnimation: true,
+        index: 1
       }
     },
     {
@@ -53,17 +66,34 @@ const router = new Router({
       meta: {
         keepAlive: true,
         isAnimation: false,
+        index: 2
       },
       // beforeEnter(to,from,next){
       //   if (from.path === '/detailPage'){
-      //     to.meta.animationType = 'right';
+      //     to.meta.isAnimation = false;
       //   }
       //   next();
       // }
       // children: [
       //   {
-      //     path: 'result',
-      //     component: () => import('../components/common/search/result')
+      //     path: '/',
+      //     redirect: 'beforeSearch'
+      //   },
+      //   {
+      //     path: 'beforeSearch',
+      //     component: () => import('../components/common/search/search1'),
+      //     meta: {
+      //       keepAlive: true,
+      //       index: 2
+      //     },
+      //   },
+      //   {
+      //     path: 'afterSearch',
+      //     component: () => import('../components/common/search/search2'),
+      //     meta: {
+      //       keepAlive: true,
+      //       index: 3
+      //     },
       //   }
       // ]
     },
@@ -73,6 +103,7 @@ const router = new Router({
       meta: {
         keepAlive: true,
         isAnimation: true,
+        index: 999
       }
     },
     {
@@ -80,7 +111,8 @@ const router = new Router({
       component: () => import("../components/choosePlace"),
       meta: {
         keepAlive: true,
-        isAnimation: false,
+        isAnimation: true,
+        index: 2
       }
     }
   ],
@@ -96,8 +128,8 @@ const router = new Router({
 });
 router.beforeEach((to, from, next) => {
   if (from.meta.keepAlive) {
-    let scrollTop = document.getElementById('app').scrollTop;
-    window.sessionStorage.setItem(from.meta.who, scrollTop.toString());
+    // let scrollTop = document.getElementById('app').scrollTop;
+    // window.sessionStorage.setItem(from.meta.who, scrollTop.toString());
   }
   next();
 });

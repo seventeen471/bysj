@@ -1,4 +1,5 @@
 <template>
+  <div>
     <div id="classify">
       <div class="header">
         <div class="topDiv"></div>
@@ -52,6 +53,7 @@
           </div>
         </div>
       </div>
+    </div>
       <myFooter></myFooter>
     </div>
 </template>
@@ -181,6 +183,8 @@
                 document.getElementsByClassName('top-nav')[0].scrollLeft = 0;
             }
 
+          } else {
+            this.topClick(1);
           }
         },
         addThis(item, event){
@@ -249,7 +253,6 @@
           document.getElementsByClassName('classBody')[0].addEventListener('scroll', () => {
             this.bodyScroll = document.getElementsByClassName('classBody')[0].scrollTop.toString();
           }, false);
-        this.topClick(1);
       },
       watch: {
           $route(){
@@ -292,10 +295,16 @@
 </script>
 
 <style lang="less" scoped>
+  #classify{
+    width: 10rem;
+    height: 92vh;
+    overflow-x: hidden;
+    overflow-y: hidden;
+  }
   .header{
     position: relative;
     width: 100vw;
-    height: 10vh;
+    height: 11vh;
     background-color: #fff;
     display: flex;
     justify-content: center;
@@ -309,14 +318,14 @@
     }
     .search{
       position: absolute;
-      top: 6.1vh;
+      top: 6.8vh;
       left: 8vw;
       opacity: 0.5;
     }
     input{
       transform: translateY(-1vh);
       width: 94vw;
-      height: 3vh;
+      height: 3.8vh;
       border-radius: 5rem;
       border-color: transparent;
       background-color: #F5F5F5;
@@ -399,6 +408,7 @@
       width: 72vw;
       height: 72.5vh;
       overflow-y: scroll;
+      overflow-x: hidden;
       div{
         width: 100%;
         height: 20%;

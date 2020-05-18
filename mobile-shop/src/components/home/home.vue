@@ -1,5 +1,6 @@
 <template>
-    <div id="home">
+    <div>
+    <div id="home" class="home">
       <div class="header">
         <div :style="'opacity:' + headerOpacity">
           <router-link to="/choosePlace">
@@ -110,10 +111,11 @@
             </div>
         </div>
         </div>
-        <div style="text-align: center;color: #bfbfbf;font-size:0.4rem;margin-bottom:15%;padding-bottom:0.9rem;padding-top:0.6rem;background-color: #F5F5F5"> -- 已经到底了 -- </div>
+        <div style="text-align: center;color: #bfbfbf;font-size:0.4rem;margin-bottom:15%;padding-top:0.6rem;background-color: #F5F5F5"> -- 已经到底了 -- </div>
       </div>
       </div>
-      <myFooter></myFooter>
+    </div>
+      <myFooter class="myFooter"></myFooter>
     </div>
 </template>
 
@@ -152,12 +154,12 @@
           }
       },
       methods: {
-        homeScroll() {
-          document.getElementById('app').addEventListener('scroll', () => {
-            // this.scrollTop = Math.abs(document.getElementsByClassName('header')[0].getBoundingClientRect().y);
-            this.scrollTop = document.getElementById('app').scrollTop;
-          }, false);
-        },
+        // homeScroll() {
+        //   document.getElementById('home').addEventListener('scroll', () => {
+        //     // this.scrollTop = Math.abs(document.getElementsByClassName('header')[0].getBoundingClientRect().y);
+        //     this.scrollTop = document.getElementById('home').scrollTop;
+        //   }, false);
+        // },
         // touchMove() {
         //   let dom = document.getElementsByTagName('html')[0];
         //   dom.addEventListener('touchstart', (e) => {
@@ -281,9 +283,9 @@
         //   }
         // },
         $route() {
-          document.getElementById('app').scrollTop = parseFloat(window.sessionStorage.getItem(this.$route.meta.who));
           try {
             document.getElementsByClassName('timeShopBody')[0].scrollLeft = parseFloat(this.leftScroll);
+            document.getElementsByClassName('home')[0].scrollTop = parseFloat(this.scrollTop);
           } catch (e) {
           }
         }
@@ -304,10 +306,13 @@
       },
       mounted() {
           // this.touchMove();
-        this.homeScroll();
+        // this.homeScroll();
           this.startTimeSub();
         document.getElementsByClassName('timeShopBody')[0].addEventListener('scroll', () => {
           this.leftScroll = document.getElementsByClassName('timeShopBody')[0].scrollLeft.toString();
+        }, false);
+        document.getElementsByClassName('home')[0].addEventListener('scroll', () => {
+          this.scrollTop = document.getElementsByClassName('home')[0].scrollTop.toString();
         }, false);
         //   window.onresize = ()=>{
         //   return(()=>{
@@ -319,8 +324,8 @@
           myFooter
       },
       destroyed() {
-        document.getElementById('app').removeEventListener('scroll', () => {
-          this.scrollTop = document.getElementById('app').scrollTop;
+        document.getElementsByClassName('home')[0].removeEventListener('scroll', () => {
+          this.scrollTop = document.getElementsByClassName('home')[0].scrollTop.toString();
         }, false);
         document.getElementsByClassName('timeShopBody')[0].removeEventListener('scroll', () => {
           this.leftScroll = document.getElementsByClassName('timeShopBody')[0].scrollLeft.toString();
@@ -331,11 +336,10 @@
 
 <style lang="less" scoped>
   #home{
-    /*width: 100%;*/
-    /*height: 100%;*/
-    /*overflow-x: hidden;*/
-    /*overflow-y: scroll;*/
-    /*background-color: #fff;*/
+    width: 10rem;
+    height: 92vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
   }
   .location{
     margin-left: 0.3rem;
@@ -662,4 +666,7 @@
     }
 
   }
+  /*.myFooter{*/
+  /*  height: 8vh;*/
+  /*}*/
 </style>

@@ -18,7 +18,7 @@
         <img :src="$store.state.detailObj['src_d']">
       </div>
       <div class="footer">
-        <van-icon class="shopCar" name="shopping-cart-o" size="0.9rem" color="#bfbfbf" :info="info"/>
+        <van-icon class="shopCar" name="shopping-cart-o" size="0.9rem" color="#bfbfbf" :info="info" @click="gotoShopCar()"/>
         <van-button type="primary" color="#FA8072" class="addToCar" @click.stop="addThis($store.state.detailObj)">加入购物车</van-button>
       </div>
     </div>
@@ -31,6 +31,11 @@
   import { Toast } from 'vant';
     export default {
         name: "detailPage",
+      data(){
+          return{
+            // show: false
+          }
+      },
       methods: {
           back(){
             this.$router.go(-1);
@@ -49,6 +54,11 @@
           }
           this.$store.commit('addShopCar',item);
           Toast.success('添加成功');
+        },
+        gotoShopCar(){
+          this.$router.push('/shopCar2');
+          window.sessionStorage.setItem('toCar2Left','true');
+          window.sessionStorage.setItem('notFirst','true');
         }
       },
       computed: {
@@ -60,12 +70,33 @@
           return sum;
         }
       },
+      watch: {
+        $route(){
+        }
+      },
+      mounted() {
+      },
+      beforeRouteLeave (to, from, next) {
+        window.sessionStorage.setItem('isShopCar2ToDe', 'false');
+        next();
+      },
     }
 </script>
 
 <style lang="less" scoped>
+  /*@keyframes in {*/
+  /*  from{*/
+  /*    transform: translateX(10rem);*/
+  /*  }*/
+  /*  to{transform: translateX(0);}*/
+  /*}*/
+  #detailDiv{
+    width: 10rem;
+    height: 100vh;
+    /*position: relative;*/
+  }
   .header {
-    position: fixed;
+    position: absolute;
     width: 100vw;
     height: 10vh;
     background-color: #fff;
@@ -140,8 +171,8 @@
   .footer{
     width: 100%;
     height: 9vh;
-    position: absolute;
     background-color: #fff;
+    position: absolute;
     bottom: 0;
     .shopCar{
       position: absolute;

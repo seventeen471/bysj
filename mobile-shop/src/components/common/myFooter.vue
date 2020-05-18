@@ -1,11 +1,11 @@
 <template>
-    <div>
+    <div class="footerDiv">
       <div class="footer">
         <router-link to="home">
           <div :style="$route.path === '/home' ? yellow : grey">
-            <van-icon v-if="$route.path !== '/home'" name="shop-o" size="0.9rem" color="#bfbfbf"/>
-            <van-icon v-if="$route.path === '/home'" name="shop" color="#FA8072" size="0.9rem"/>
-            <p style="margin-left: 0.1rem">首页</p>
+            <van-icon v-if="$route.path !== '/home'" name="shop-o" size="0.8rem" color="#bfbfbf"/>
+            <van-icon v-if="$route.path === '/home'" name="shop" color="#FA8072" size="0.8rem"/>
+            <p style="margin-left: 0.06rem">首页</p>
           </div>
         </router-link>
         <router-link to="classify">
@@ -17,18 +17,18 @@
         </router-link>
         <router-link to="shopCar">
           <div :style="$route.path === '/shopCar' ? yellow : grey" class="shopCar">
-            <van-icon name="shopping-cart-o" size="0.9rem" color="#bfbfbf" v-if="$route.path !== '/shopCar' && !$store.state.shopCarArr.length"/>
-            <van-icon name="shopping-cart" color="#FA8072" size="0.9rem" v-if="$route.path === '/shopCar' && !$store.state.shopCarArr.length"/>
-            <van-icon name="shopping-cart-o" size="0.9rem" color="#bfbfbf" :info="info" v-if="$route.path !== '/shopCar' && $store.state.shopCarArr.length"/>
-            <van-icon name="shopping-cart" color="#FA8072" size="0.9rem" :info="info" v-if="$route.path === '/shopCar' && $store.state.shopCarArr.length"/>
-            <p @click="startAnimation()">购物车</p>
+            <van-icon name="shopping-cart-o" size="0.8rem" color="#bfbfbf" v-if="$route.path !== '/shopCar' && !$store.state.shopCarArr.length"/>
+            <van-icon name="shopping-cart" color="#FA8072" size="0.8rem" v-if="$route.path === '/shopCar' && !$store.state.shopCarArr.length"/>
+            <van-icon name="shopping-cart-o" size="0.8rem" color="#bfbfbf" :info="info" v-if="$route.path !== '/shopCar' && $store.state.shopCarArr.length"/>
+            <van-icon name="shopping-cart" color="#FA8072" size="0.8rem" :info="info" v-if="$route.path === '/shopCar' && $store.state.shopCarArr.length"/>
+            <p style="transform: translateX(-0.06rem)">购物车</p>
           </div>
         </router-link>
         <router-link to="mine">
           <div :style="$route.path === '/mine' ? yellow : grey">
-            <van-icon name="manager-o" size="0.9rem" color="#bfbfbf" v-if="$route.path !== '/mine'"/>
-            <van-icon name="manager" color="#FA8072" size="0.9rem" v-if="$route.path === '/mine'"/>
-            <p style="margin-left: 0.1rem">我的</p>
+            <van-icon name="manager-o" size="0.8rem" color="#bfbfbf" v-if="$route.path !== '/mine'"/>
+            <van-icon name="manager" color="#FA8072" size="0.8rem" v-if="$route.path === '/mine'"/>
+            <p style="margin-left: 0.06rem">我的</p>
           </div>
         </router-link>
       </div>
@@ -55,12 +55,14 @@
         }
       },
       methods: {
-        startAnimation() {
-          document.getElementsByClassName('transitionImg')[0].style.display = 'inline-block';
-          setTimeout(() => {
-            document.getElementsByClassName('transitionImg')[0].style.display = 'none';
-          }, 950);
-        }
+      },
+      mounted(){
+        // const h = document.documentElement.clientHeight || document.body.clientHeight;
+        // document.getElementsByClassName('footerDiv')[0].style.height = h * 7.6 + 'px';
+        // setInterval(() => {
+        //   console.log(document.getElementsByClassName('footerDiv')[0].style.height);
+        //   console.log(document.getElementsByClassName('footerDiv')[0].clientHeight);
+        // },2000);
       },
       watch: {
         $route() {
@@ -78,17 +80,12 @@
   .footer{
     display: flex;
     width: 100%;
+    height: 7.6vh;
     justify-content: space-around;
-    /*top: 19.7rem;*/
-    bottom: 0;
-    /*top: 91.5%;*/
+    align-items: center;
     font-size: 0.35rem;
-    /*transform: translateY(19.8rem);*/
-    position: fixed;
     background-color: #fff;
-    padding-top: 0.267rem;
-    padding-bottom: 1%;
-    z-index: 2;
+    padding-top: 0.8%;
     p{
       margin-top: 0;
     }
@@ -97,7 +94,7 @@
   .classify{
     transform: translateX(0.113rem);
     img {
-      width: 0.78rem;
+      width: 0.72rem;
       margin-top: 0.12rem;
     }
   }

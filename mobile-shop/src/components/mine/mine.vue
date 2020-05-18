@@ -1,4 +1,5 @@
 <template>
+  <div>
     <div id="mine">
       <div class="header">
         <div class="top">
@@ -79,6 +80,7 @@
         </div>
       </div>
       </div>
+    </div>
       <myFooter></myFooter>
     </div>
 </template>
@@ -95,7 +97,8 @@
 <style lang="less" scoped>
   #mine {
     width: 10rem;
-    height: 91.5vh;
+    height: 92vh;
+    overflow-x: hidden;
     overflow-y: scroll;
     .header {
       width: 100%;

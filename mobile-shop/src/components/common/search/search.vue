@@ -1,17 +1,17 @@
 <template>
+<!--  <keep-alive>-->
     <div id="search">
-      <div v-if="$route.path === '/search'">
+      <div>
       <div class="header">
         <div class="topDiv"></div>
         <van-icon name="arrow-left" color="rgba(0,0,0,0.6)" size="0.6rem" style="position: absolute;top: 57%;left: 1%" @click="back()"/>
         <input v-if="!searchClick" v-focus placeholder="冬瓜" v-model="searchValue" @click="inputFocus()">
         <input v-if="searchClick" placeholder="冬瓜" v-model="searchValue" @click="inputFocus()">
+<!--        <input v-show="blur" placeholder="冬瓜" v-model="searchValue" @click="inputFocus()">-->
         <van-icon class="search" size="0.5rem" name="search" />
-<!--        <span v-if="!searchClick" @click="search()">搜索</span>-->
-<!--        <router-link to="shopCar">-->
-<!--        <van-icon name="cart-o" size="0.85rem" color="#bfbfbf" info="2" class="shop-car" v-if="searchClick"/>-->
-<!--        </router-link>-->
-        <span @click="search()">搜索</span>
+        <span v-if="!searchClick" @click="search()">搜索</span>
+        <van-icon name="cart-o" size="0.8rem" color="#bfbfbf" :info="num" class="shop-car" v-if="searchClick" @click="gotoShopCar()"/>
+<!--        <span @click="search()">搜索</span>-->
       </div>
       <div class="search-body">
         <div v-if="!searchClick">
@@ -71,6 +71,7 @@
         </div>
       </div>
       </div>
+<!--  </keep-alive>-->
 </template>
 
 <script>
@@ -85,8 +86,6 @@
         name: "search",
         data() {
           return {
-            // show: false,
-            bodyScroll: 0,
             searchClick: false,
             searchValue: '',
             myWords: JSON.parse(window.localStorage.getItem('myWords')),
@@ -120,9 +119,9 @@
           },
           back(){
             // this.show = false;
-            setTimeout(() => {
+            // setTimeout(() => {
               this.$router.go(-1);
-            },150)
+            // },150)
           },
         inputFocus() {
           this.searchClick = false;
@@ -172,30 +171,40 @@
         intoDetail(obj){
           this.$router.push('detailPage');
           this.$store.commit('setDetaliObj',obj);
+        },
+        gotoShopCar(){
+          this.$router.push('/shopCar2');
+          window.sessionStorage.setItem('notFirst','true');
+        }
+      },
+      watch: {
+          $route(to,from){
+            if (from.path === '/home' || from.path === '/classify') {
+                this.searchClick = false;
+                this.searchValue =  '';
+            }
+          }
+      },
+      computed:{
+        num() {
+          let sum = 0;
+          for (let item of this.$store.state.shopCarArr) {
+            sum += item.myMount;
+          }
+          return sum;
         }
       },
       mounted() {
-          // this.show = true;
-      },
-      watch: {
       },
       beforeRouteLeave (to, from, next) {
-        // if (to.path === '/detailPage') {
-        //   from.meta.isAnimation = false;
-        // }
-        if (to.path === '/home' || to.path === '/classify') {
-          this.searchClick = false;
-          this.searchValue = '';
-          this.searchResultArr = [];
-        }
-        next();
+          next();
       },
       directives: {
         focus: {
           inserted: el => {
             setTimeout(() => {
-              el.focus();
-            },200);
+                el.focus();
+            },400);
           }
         }
       },
@@ -231,7 +240,7 @@
       }
       .shop-car{
         position: absolute;
-        top: 52%;
+        top: 53.5%;
         right: 4%;
       }
 

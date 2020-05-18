@@ -1,4 +1,5 @@
 <template>
+<!--  <transition v-show="show">-->
     <div id="choosePlaceDiv">
       <div class="header">
         <div class="topDiv"></div>
@@ -9,7 +10,7 @@
       <div class="searchDiv">
       <input id="suggestid" placeholder="输入您的收货地址" v-model="searchValue" @focus="inFocus()">
       </div>
-      <div class="body">
+      <div class="body" ref="placeBody">
         <div id="map"></div>
         <p class="p1" v-if="checkedPlace.small">所选地址</p>
         <div v-if="checkedPlace.small" @click="choosePlace(checkedPlace)">
@@ -24,6 +25,7 @@
         </div>
       </div>
     </div>
+<!--  </transition>-->
 </template>
 
 <script>
@@ -32,7 +34,6 @@
         name: "choosePlace",
       data(){
           return {
-            h: 0,
             searchValue: '',
             checkedPlace: {
               big: '',
@@ -47,7 +48,8 @@
             },{
               big: '江苏省苏州市吴中区北港路198号',
               small: '朗诗遇'
-            }]
+            }],
+            show: true
           }
       },
       methods: {
@@ -55,14 +57,15 @@
             this.$router.go(-1);
           },
         inFocus(){
-          // document.getElementsByTagName('body')[0].style.height = this.h;
         },
         choosePlace(item){
             this.$store.commit('setPlace',item);
             this.$router.go(-1);
         },
         initMap() {
-          Indicator.open('地图加载中...');
+            // setTimeout(() => {
+              Indicator.open('地图加载中...');
+            // },400);
           const that = this;
           const doc = document
       const map = new BMap.Map('map'); //  创建地图实例
@@ -77,7 +80,7 @@
           let mk = new BMap.Marker(r.point);
           map.addOverlay(mk);
           map.panTo(r.point);
-          map.centerAndZoom(new BMap.Point(r.point.lng, r.point.lat), 11);  // 初始化地图,设置中心点坐标为当前定位和地图级别
+          map.centerAndZoom(new BMap.Point(r.point.lng, r.point.lat), 16);  // 初始化地图,设置中心点坐标为当前定位和地图级别
         } else {
           console.log('定位失败' + this.getStatus());
         }
@@ -151,16 +154,46 @@
       },
       mounted() {
           this.initMap();
-        this.h = window.innerHeight;
+          this.h = document.documentElement.clientHeight || document.body.clientHeight;
+        this.$refs.placeBody.style.height = this.h * 0.83 + 'px';
+        },
+      watch: {
+          $route(){
+            try {
+              document.getElementById('choosePlaceDiv').style.transform = '';
+              document.getElementById('choosePlaceDiv').style.transition = '';
+            }catch (e) {
+
+            }
+          }
+      },
+      beforeRouteLeave (to, from, next) {
+        document.getElementById('choosePlaceDiv').style.transform = 'translateX(10rem)';
+        document.getElementById('choosePlaceDiv').style.transition = 'all 0.2s ease';
+        // setTimeout(() => {
+          next();
+        // },180);
       }
     }
 </script>
 
 <style lang="less" scoped>
+  @keyframes in {
+    from{
+      transform: translateX(10rem);
+    }
+    to{transform: translateX(0);}
+  }
+  #choosePlaceDiv{
+    position: relative;
+    /*animation: in 0.2s ease;*/
+    /*height: 100vh;*/
+  }
   .header {
     position: fixed;
     width: 100vw;
-    height: 10%;
+    height: 2.161rem;
+    /*height: 10%;*/
     background-color: #fff;
     border-bottom: 1px solid #f5f5f5;
     .topDiv {
@@ -184,15 +217,16 @@
   }
   .searchDiv{
     width: 100%;
-    height: 6%;
+    height: 1.5rem;
+    /*height: 6%;*/
     background-color: #fff;
     position: absolute;
-    top: 10%;
+    top: 2.15rem;
     input{
       display: block;
-      margin: 0 auto;
+      margin: 0.6% auto;
       width: 92%;
-      height: 62%;
+      height: 60%;
       border-radius: 0.4rem;
       border-color: transparent;
       background-color: #F5F5F5;
@@ -203,11 +237,11 @@
   }
   .body{
     width: 100%;
-    height: 83.7%;
+    /*height: 83vh;*/
     overflow-y: scroll;
     overflow-x: hidden;
     position: absolute;
-    top: 16%;
+    top: 3.6rem;
     #map{
       width: 100%;
       height: 60%;

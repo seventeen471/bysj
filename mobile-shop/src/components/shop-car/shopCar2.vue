@@ -3,31 +3,31 @@
     <div id="shopCar">
       <div class="header">
         <div class="topDiv"></div>
-        <van-icon v-if="notFirst==='true'" name="arrow-left" color="rgba(0,0,0,0.6)" size="0.6rem" style="position: absolute;top: 57%;left: 1%" @click="back()"/>
+        <van-icon name="arrow-left" color="rgba(0,0,0,0.6)" size="0.6rem" style="position: absolute;top: 57%;left: 1%" @click="back()"/>
         <p>购物车</p>
         <span v-if="checkArr.length" @click="deleteChoosed()">删除</span>
       </div>
-      <div class="shopCarBody" :style="notFirst==='true'?'height:81.4vh':''">
+      <div class="shopCarBody">
         <div class="emptyDiv" v-if="!$store.state.shopCarArr.length">
-        <div class="empty">
-         <img src="../../assets/shopCar.png">
-        </div>
+          <div class="empty">
+            <img src="../../assets/shopCar.png">
+          </div>
           <p>购物车里空空如也</p>
           <router-link to="home">
-          <van-button type="primary" size="small" color="#FA8072" class="goSeeSee">去逛逛</van-button>
+            <van-button type="primary" size="small" color="#FA8072" class="goSeeSee">去逛逛</van-button>
           </router-link>
         </div>
         <div class="goodsDiv">
           <van-checkbox-group v-model="checkArr">
             <van-checkbox class="goods" label-disabled checked-color="#FA8072" icon-size="0.55rem" v-for="item in $store.state.shopCarArr" :name="item.id" :key="item.id">
-<!--            <van-checkbox class="goods" checked-color="#FA8072" icon-size="0.55rem" v-for="(item,i) in $store.state.shopCarObj" :name="i" :key="i">-->
-<!--              <div>{{i}}</div>-->
-<!--              <div>{{item}}</div>-->
+              <!--            <van-checkbox class="goods" checked-color="#FA8072" icon-size="0.55rem" v-for="(item,i) in $store.state.shopCarObj" :name="i" :key="i">-->
+              <!--              <div>{{i}}</div>-->
+              <!--              <div>{{item}}</div>-->
               <img :src="item['src']" @click="intoDetail(item)">
               <div class="goodsInfo" @click="intoDetail(item)">
-              <span class="name">{{item['big_title']}}</span>
-              <span class="charge">￥{{item['charge']}}</span>
-              <span class="do">
+                <span class="name">{{item['big_title']}}</span>
+                <span class="charge">￥{{item['charge']}}</span>
+                <span class="do">
                 <span @click.stop="subThis(item)">-</span>
                 <span>{{item['myMount']}}</span>
                 <span @click.stop="addThis(item,$event)">+</span>
@@ -54,204 +54,192 @@
           <div style="text-align: center;color: #bfbfbf;font-size:0.4rem;margin-bottom:5%;padding-top:0.6rem;background-color: #F5F5F5"> -- 已经到底了 -- </div>
         </div>
       </div>
-      <div class="bottomDiv" :style="notFirst==='true'?'bottom:0':''">
-        <van-checkbox v-model="allChecked" checked-color="#FA8072" icon-size="0.55rem" class="allCheck" @click="allCheckClick()">全选</van-checkbox>
-        <div class="spanDiv">
-          <div style="float: right;margin-right: -2%">
-        <span>不含运费</span>
-        <span>合计：</span>
-        <span>￥{{allCharge}}</span>
-          </div>
+    </div>
+    <div class="bottomDiv">
+      <van-checkbox v-model="allChecked" checked-color="#FA8072" icon-size="0.55rem" class="allCheck" @click="allCheckClick()">全选</van-checkbox>
+      <div class="spanDiv">
+        <div style="float: right;margin-right: -2%">
+          <span>不含运费</span>
+          <span>合计：</span>
+          <span>￥{{allCharge}}</span>
         </div>
-        <van-button type="primary" color="#FA8072" class="goPay">去结算 ({{checkedMount}})</van-button>
       </div>
+      <van-button type="primary" color="#FA8072" class="goPay">去结算 ({{checkedMount}})</van-button>
     </div>
-      <my-footer v-show="notFirst!=='true'"></my-footer>
-    </div>
+  </div>
 </template>
 
 <script>
   import myFooter from '../common/myFooter'
   import axios from 'axios'
+  import { Toast } from 'vant';
   import Vue from 'vue';
   import { Dialog } from 'vant';
   Vue.use(Dialog);
-    export default {
-        name: "shopCar",
-        data() {
-          return {
-            allChecked: false,
-            bodyScroll: 0,
-            checkArr: [],
-            // goodsArr: [],
-            hotRecommendArr: [],
-            notFirst: false
-          }
-        },
-      methods: {
-        addThis(item, event){
-          for (let i = 0; i < this.$store.state.shopCarArr.length; i++) {
-            if (this.$store.state.shopCarArr[i].id === item.id) {
-              if (this.$store.state.shopCarArr[i].myMount + 1 > item.mount) {
-                Dialog.alert({
-                  message: '数量不足',
-                }).then(() => {
-                });
-                return;
-              }
-            }
-          }
-          this.$store.commit('addShopCar',item);
-          document.getElementsByClassName('transitionImg')[0].style.display = 'inline-block';
-          const width = document.getElementsByClassName('transitionImg')[0].clientWidth;
-          const height = document.getElementsByClassName('transitionImg')[0].clientHeight;
-          document.getElementsByClassName('transitionImg')[0].src = item.src;
-          this.$store.commit('changePageX',event.pageX - width);
-          this.$store.commit('changePageY',event.pageY - height);
-          setTimeout(() => {
-            document.getElementsByClassName('transitionImg')[0].style.display = 'none';
-          },950);
-          // Toast.success('添加成功');
-        },
-        subThis(item){
-          this.$store.commit('subShopCar',item);
-        },
-        allCheckClick() {
-          if (!this.$store.state.shopCarArr.length) {
-            this.allChecked = false;
-          }
-          if (this.allChecked) {
-            this.checkArr = [];
-            for (let item of this.$store.state.shopCarArr) {
-              this.checkArr.push(item.id);
-            }
-          } else {
-            this.checkArr = [];
-          }
-        },
-        deleteChoosed(){
-          this.checkArr.forEach((e,index) => {
-            const obj = {};
-            obj['id'] = e;
-            this.$store.commit('changeIsDeleteChoosed',true);
-            this.$store.commit('subShopCar',obj);
-            // this.checkArr.splice(index,1);
-            // this.deleteChoosed();
-          });
-          this.checkArr = [];
-        },
-        intoDetail(obj){
-          this.$router.push('detailPage');
-          this.$store.commit('setDetaliObj',obj);
-        },
-        back(){
-          this.$router.go(-1);
-        }
-      },
-      mounted(){
-        document.getElementsByClassName('shopCarBody')[0].addEventListener('scroll', () => {
-          this.bodyScroll = document.getElementsByClassName('shopCarBody')[0].scrollTop.toString();
-        }, false);
-         this.notFirst = window.sessionStorage.getItem('notFirst');
-      },
-      watch: {
-        $route(){
-          try {
-            document.getElementsByClassName('shopCarBody')[0].scrollTop = parseFloat(this.bodyScroll);
-          } catch (e) {
-          }
-          this.notFirst = window.sessionStorage.getItem('notFirst');
-        },
-        checkArr(){
-          let has = 0;
-          for (let id of this.checkArr){
-            for (let item of this.$store.state.shopCarArr) {
-              if (id === item.id) {
-                has ++;
-                break;
-              }
-            }
-          }
-          if (this.$store.state.shopCarArr.length === has) {
-            this.allChecked = true;
-          } else {
-            this.allChecked = false;
-          }
-          if (!this.checkArr.length) {
-            this.allChecked = false;
-          }
-        },
-      },
-      computed: {
-          allCharge(){
-            let charge = 0;
-            for (let id of this.checkArr){
-              for (let item of this.$store.state.shopCarArr) {
-                if (id === item.id) {
-                  charge += item.charge * item.myMount;
-                }
-              }
-            }
-            return charge.toFixed(1);
-          },
-        checkedMount() {
-          let checkedMount = 0;
-          for (let id of this.checkArr){
-            for (let item of this.$store.state.shopCarArr) {
-              if (id === item.id) {
-                checkedMount += item.myMount;
-              }
-            }
-          }
-          return checkedMount;
-        }
-      },
-      beforeMount(){
-        axios.get('http://192.168.43.218/shop/getHotRecommend.php').then(data => {
-          this.hotRecommendArr = data.data.reverse();
-        });
-      },
-        components: {
-          myFooter
-        },
-      // beforeRouteEnter (to, from, next) {
-      //   if (from.path === '/detailPage'||from.path === '/search'){
-      //     window.sessionStorage.setItem('notFirst','true');
-      //   } else{
-      //     window.sessionStorage.setItem('notFirst','false');
-      //   }
-      //     next();
-      // },
-      beforeRouteLeave(to,from,next){
-        window.sessionStorage.setItem('notFirst','false');
-        // if (to.path === '/detailPage' && window.sessionStorage.getItem('notFirst') === 'true') {
-        //   window.sessionStorage.setItem('carToDetail','true');
-        // } else {
-        //   window.sessionStorage.setItem('carToDetail','false');
-        // }
-        window.sessionStorage.setItem('shopCarScrollTop',JSON.stringify(this.bodyScroll));
-        next();
-      },
-      beforeRouteEnter(to,from,next){
-        // if (from.path === '/detailPage' || from.path === '/search') {
-        //   window.sessionStorage.setItem('notFirst','true');
-        // } else {
-        //   window.sessionStorage.setItem('notFirst','false');
-        // }
-        next();
-      },
-      destroyed() {
-        document.getElementsByClassName('shopCarBody')[0].removeEventListener('scroll', () => {
-          this.bodyScroll = document.getElementsByClassName('shopCarBody')[0].scrollTop;
-        }, false);
+  export default {
+    name: "shopCar2",
+    data() {
+      return {
+        allChecked: false,
+        bodyScroll: 0,
+        checkArr: [],
+        // goodsArr: [],
+        hotRecommendArr: [],
       }
+    },
+    methods: {
+      addThis(item, event){
+        for (let i = 0; i < this.$store.state.shopCarArr.length; i++) {
+          if (this.$store.state.shopCarArr[i].id === item.id) {
+            if (this.$store.state.shopCarArr[i].myMount + 1 > item.mount) {
+              Dialog.alert({
+                message: '数量不足',
+              }).then(() => {
+              });
+              return;
+            }
+          }
+        }
+        Toast.success('添加成功');
+      },
+      subThis(item){
+        this.$store.commit('subShopCar',item);
+      },
+      allCheckClick() {
+        if (!this.$store.state.shopCarArr.length) {
+          this.allChecked = false;
+        }
+        if (this.allChecked) {
+          this.checkArr = [];
+          for (let item of this.$store.state.shopCarArr) {
+            this.checkArr.push(item.id);
+          }
+        } else {
+          this.checkArr = [];
+        }
+      },
+      deleteChoosed(){
+        this.checkArr.forEach((e,index) => {
+          const obj = {};
+          obj['id'] = e;
+          this.$store.commit('changeIsDeleteChoosed',true);
+          this.$store.commit('subShopCar',obj);
+          // this.checkArr.splice(index,1);
+          // this.deleteChoosed();
+        });
+        this.checkArr = [];
+      },
+      intoDetail(obj){
+        this.$router.push('detailPage');
+        this.$store.commit('setDetaliObj',obj);
+        window.sessionStorage.setItem('isShopCar2ToDe', 'true');
+      },
+      back(){
+        this.$router.go(-1);
+      }
+    },
+    mounted(){
+      document.getElementsByClassName('shopCarBody')[0].addEventListener('scroll', () => {
+        this.bodyScroll = document.getElementsByClassName('shopCarBody')[0].scrollTop.toString();
+      }, false);
+    },
+    watch: {
+      $route(){
+        try {
+          document.getElementsByClassName('shopCarBody')[0].scrollTop = parseFloat(this.bodyScroll);
+        } catch (e) {
+        }
+      },
+      checkArr(){
+        let has = 0;
+        for (let id of this.checkArr){
+          for (let item of this.$store.state.shopCarArr) {
+            if (id === item.id) {
+              has ++;
+              break;
+            }
+          }
+        }
+        if (this.$store.state.shopCarArr.length === has) {
+          this.allChecked = true;
+        } else {
+          this.allChecked = false;
+        }
+        if (!this.checkArr.length) {
+          this.allChecked = false;
+        }
+      },
+    },
+    computed: {
+      allCharge(){
+        let charge = 0;
+        for (let id of this.checkArr){
+          for (let item of this.$store.state.shopCarArr) {
+            if (id === item.id) {
+              charge += item.charge * item.myMount;
+            }
+          }
+        }
+        return charge.toFixed(1);
+      },
+      checkedMount() {
+        let checkedMount = 0;
+        for (let id of this.checkArr){
+          for (let item of this.$store.state.shopCarArr) {
+            if (id === item.id) {
+              checkedMount += item.myMount;
+            }
+          }
+        }
+        return checkedMount;
+      }
+    },
+    beforeMount(){
+      axios.get('http://192.168.43.218/shop/getHotRecommend.php').then(data => {
+        this.hotRecommendArr = data.data.reverse();
+      });
+    },
+    components: {
+      myFooter
+    },
+    // beforeRouteEnter (to, from, next) {
+    //   if (from.path === '/detailPage'||from.path === '/search'){
+    //     window.sessionStorage.setItem('notFirst','true');
+    //   } else{
+    //     window.sessionStorage.setItem('notFirst','false');
+    //   }
+    //     next();
+    // },
+    beforeRouteLeave(to,from,next){
+      window.sessionStorage.setItem('notFirst','false');
+      window.sessionStorage.setItem('toCar2Left','false');
+      // if (to.path === '/detailPage' && window.sessionStorage.getItem('notFirst') === 'true') {
+      //   window.sessionStorage.setItem('carToDetail','true');
+      // } else {
+      //   window.sessionStorage.setItem('carToDetail','false');
+      // }
+      next();
+    },
+    beforeRouteEnter(to,from,next){
+      // if (from.path === '/detailPage' || from.path === '/search') {
+      //   window.sessionStorage.setItem('notFirst','true');
+      // } else {
+      //   window.sessionStorage.setItem('notFirst','false');
+      // }
+      next();
+    },
+    destroyed() {
+      document.getElementsByClassName('shopCarBody')[0].removeEventListener('scroll', () => {
+        this.bodyScroll = document.getElementsByClassName('shopCarBody')[0].scrollTop.toString();
+      }, false);
     }
+  }
 </script>
 
 <style lang="less" scoped>
   #shopCar{
     width: 10rem;
-    height: 92vh;
+    height: 91.4vh;
     overflow-x: hidden;
     overflow-y: scroll;
   }
@@ -282,9 +270,8 @@
   }
   .shopCarBody{
     width: 100vw;
-    height: 72.5vh;
+    height: 81.4vh;
     position: absolute;
-    /*top: 10.216%;*/
     top: 10.2vh;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -328,11 +315,11 @@
         border-bottom: 2px solid #f5f5f5;
         padding-left: 3%;
         position: relative;
-          img {
-            width: 2.2rem;
-            height: 2.2rem;
-            margin-left: 10%;
-          }
+        img {
+          width: 2.2rem;
+          height: 2.2rem;
+          margin-left: 10%;
+        }
         .goodsInfo {
           position: absolute;
           right: 5%;
@@ -397,12 +384,12 @@
     height: 8vh;
     background-color: #fff;
     border-bottom: 1px solid #f5f5f5;
-    position: absolute;
-    bottom: 8vh;
+    position: relative;
+    /*bottom: 10%;*/
     .allCheck{
-     font-size: 0.45rem;
+      font-size: 0.45rem;
       color: rgba(0,0,0,0.7);
-     position: absolute;
+      position: absolute;
       top: 35%;
       left: 4%;
     }
