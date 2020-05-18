@@ -100,6 +100,7 @@
             }
           }
         }
+        this.$store.commit('addShopCar',item);
         Toast.success('添加成功');
       },
       subThis(item){

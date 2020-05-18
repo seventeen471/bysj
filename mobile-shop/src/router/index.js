@@ -20,7 +20,6 @@ const router = new Router({
       meta: {
         keepAlive: true,
         who: 'homeScrollTop',
-        isAnimation: true,
         index: 1
       }
     },
@@ -29,7 +28,6 @@ const router = new Router({
       component: Classify,
       meta: {
         keepAlive: true,
-        isAnimation: true,
         index: 1
       }
     },
@@ -38,7 +36,6 @@ const router = new Router({
       component: ShopCar,
       meta: {
         keepAlive: true,
-        isAnimation: true,
         index: 1
       },
     },
@@ -47,7 +44,6 @@ const router = new Router({
       component: () => import('../components/shop-car/shopCar2'),
       meta: {
         keepAlive: true,
-        isAnimation: true,
         index: 3
       },
     },
@@ -56,7 +52,6 @@ const router = new Router({
       component: Mine,
       meta: {
         keepAlive: true,
-        isAnimation: true,
         index: 1
       }
     },
@@ -65,7 +60,6 @@ const router = new Router({
       component: () => import("../components/common/search/search"),
       meta: {
         keepAlive: true,
-        isAnimation: false,
         index: 2
       },
       // beforeEnter(to,from,next){
@@ -102,7 +96,6 @@ const router = new Router({
       component: () => import("../components/common/detailPage"),
       meta: {
         keepAlive: true,
-        isAnimation: true,
         index: 999
       }
     },
@@ -111,8 +104,15 @@ const router = new Router({
       component: () => import("../components/choosePlace"),
       meta: {
         keepAlive: true,
-        isAnimation: true,
         index: 2
+      }
+    },
+    {
+      path: '/login',
+      component: () => import("../components/login/login"),
+      meta: {
+        keepAlive: true,
+        index: 999
       }
     }
   ],
