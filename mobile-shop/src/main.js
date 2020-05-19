@@ -10,6 +10,7 @@ import '../static/flexible.min'
 import store from './store'
 import '../static/animate.css'
 import axios from 'axios'
+import './axios/interceptors'
 
 Vue.use(Vant);
 Vue.config.productionTip = false;

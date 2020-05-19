@@ -16,11 +16,11 @@
         style="border-bottom: 1px solid #f5f5f5"
       >
         <template #button>
-          <van-button size="small" type="primary" class="getCode" :disabled="tel.length!==11">获取验证码</van-button>
+          <van-button size="small" type="primary" class="getCode" :disabled="tel.length!==11 || endTime !== 0" @click="getCode()">{{noText}}</van-button>
         </template>
       </van-field>
       <p class="msg">（未注册过的用户将直接创建新账户）</p>
-      <van-button type="primary" class="loginButton" :disabled="sms.length!==6||tel.length!==11">登录</van-button>
+      <van-button type="primary" class="loginButton" :disabled="sms.length!==6||tel.length!==11" @click="login()">登录</van-button>
       <div class="loginFooter">
         <div></div>
         <span>其他登录方式</span>
@@ -34,18 +34,74 @@
 </template>
 
 <script>
-    export default {
+  import axios from 'axios'
+  import Cookies from 'js-cookie'
+  export default {
         name: "login",
       data(){
           return {
             tel: '',
             sms: '',
+            endTime: 0,
+            noText: '获取验证码',
+            userInfo: {}
           }
       },
       methods:{
           back(){
             this.$router.go(-1);
           },
+        getCode(){
+          let param = new URLSearchParams();
+          param.append('tel', this.tel);
+          axios.post('http://192.168.43.218/shop/postCode.php',param).then((data) => {
+            const millisecond = new Date().getTime();
+            const expiresTime = new Date(millisecond + 60 * 1000 * 15);
+            Cookies.set('code', data.data.tel + ':' + data.data.code, {
+              expires: expiresTime,
+            });
+            this.endTime = 59;
+            this.noText = this.endTime + 'S';
+            const declineTime = setInterval(() => {
+              this.endTime --;
+              if (this.endTime === 0) {
+                this.noText = '获取验证码';
+                clearInterval(declineTime);
+              } else {
+                this.noText = this.endTime + 'S';
+              }
+            }, 1000);
+            this.sms = data.data.code;
+          })
+        },
+        login(){
+            try {
+              const phone = Cookies.get('code').toString().substring(0, 11);
+              const no = Cookies.get('code').toString().substring(12);
+              if (this.tel === phone && this.sms === no) {
+                let param = new URLSearchParams();
+                param.append('tel', this.tel);
+                param.append('code', this.sms);
+                axios.post('http://192.168.43.218/shop/login.php',param).then((data) => {
+                  // const millisecond = new Date().getTime();
+                  // const expiresTime = new Date(millisecond + 60 * 1000);
+                  window.localStorage.setItem('token', data.data.token);
+                  // Cookies.set('token', data.data.token, {
+                  //   expires: expiresTime,
+                  // });
+                  this.$store.commit('setUserInfo', data.data.data[0]);
+                  this.$store.commit('setIsLogin', true);
+                  this.back();
+                })
+              } else {
+                alert('验证码错误');
+                this.sms = '';
+              }
+            } catch (e) {
+              console.log('验证码已过期');
+              this.sms = '';
+            }
+        }
       },
       mounted() {
         const h = document.documentElement.clientHeight || document.body.clientHeight;

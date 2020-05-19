@@ -22,12 +22,24 @@
 </template>
 
 <script>
+  import axios from 'axios'
 export default {
   name: 'App',
   data() {
     return {
       animateName: '',
       h: ''
+    }
+  },
+  beforeMount(){
+    const token = window.localStorage.getItem('token');
+    if (token) {
+      let param = new URLSearchParams();
+      param.append('token', token);
+      axios.post('http://192.168.43.218/shop/login.php',param).then((data) => {
+        this.$store.commit('setUserInfo', data.data.data[0]);
+        this.$store.commit('setIsLogin', true);
+      })
     }
   },
   mounted() {

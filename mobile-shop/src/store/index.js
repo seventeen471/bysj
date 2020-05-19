@@ -17,6 +17,8 @@ const store = new Vuex.Store({
       small: '腾飞新苏坊',
       big: '江苏省苏州市工业园区星汉街5号'
     },
+    userInfo: {},
+    isLogin: false
   },
   mutations: {
     // isAnimateChange(state, is) {
@@ -90,6 +92,12 @@ const store = new Vuex.Store({
     },
     setPlace(state,obj){
       state.place = obj;
+    },
+    setUserInfo(state,obj){
+      state.userInfo = obj;
+    },
+    setIsLogin(state,value){
+      state.isLogin = value;
     },
   },
   getters: {},

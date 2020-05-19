@@ -7,12 +7,12 @@
         </div>
         <div class="info">
           <img src="../../assets/touxiang.jpg">
-          <div v-if="false">
-          <span>一枚小橘子</span>
+          <div v-if="$store.state.isLogin">
+          <span>{{$store.state.userInfo.user_name}}</span>
           <p>普通用户</p>
           </div>
           <router-link to="/login">
-          <span v-if="true" style="top: 52%;">立即登录</span>
+          <span v-if="!$store.state.isLogin" style="top: 52%;">立即登录</span>
           </router-link>
 <!--          <van-icon name="calender-o" size="1rem" style="position: absolute;top: 50%;right: 16%;opacity: 0.8" />-->
 <!--          <span style="position: absolute;top: 53%;left: 85%;color: rgba(0,0,0,0.8)">签到</span>-->
