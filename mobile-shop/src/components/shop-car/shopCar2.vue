@@ -64,7 +64,7 @@
           <span>￥{{allCharge}}</span>
         </div>
       </div>
-      <van-button type="primary" color="#FA8072" class="goPay">去结算 ({{checkedMount}})</van-button>
+      <van-button type="primary" color="#FA8072" class="goPay" @click="goPay()">去结算 ({{checkedMount}})</van-button>
     </div>
   </div>
 </template>
@@ -75,6 +75,7 @@
   import { Toast } from 'vant';
   import Vue from 'vue';
   import { Dialog } from 'vant';
+
   Vue.use(Dialog);
   export default {
     name: "shopCar2",
@@ -105,6 +106,19 @@
       },
       subThis(item){
         this.$store.commit('subShopCar',item);
+        let isHas = false;
+        for (let i = 0; i < this.$store.state.shopCarArr.length; i++) {
+          if (this.$store.state.shopCarArr[i].id === item.id) {
+            isHas = true;
+          }
+        }
+        if (!isHas) {
+          this.checkArr.forEach((e,index) => {
+            if (e === item.id) {
+              this.checkArr.splice(index,1);
+            }
+          });
+        }
       },
       allCheckClick() {
         if (!this.$store.state.shopCarArr.length) {
@@ -137,6 +151,13 @@
       },
       back(){
         this.$router.go(-1);
+      },
+      goPay(){
+        if (!this.checkArr.length) {
+          Toast('请先选择商品');
+        } else {
+          this.$router.push('/makeDeal');
+        }
       }
     },
     mounted(){

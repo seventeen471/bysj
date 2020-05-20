@@ -34,8 +34,12 @@
 </template>
 
 <script>
+  import Vue  from 'vue'
   import axios from 'axios'
   import Cookies from 'js-cookie'
+  import { Toast } from 'vant';
+
+  Vue.use(Toast);
   export default {
         name: "login",
       data(){
@@ -55,11 +59,12 @@
           let param = new URLSearchParams();
           param.append('tel', this.tel);
           axios.post('http://192.168.43.218/shop/postCode.php',param).then((data) => {
-            const millisecond = new Date().getTime();
-            const expiresTime = new Date(millisecond + 60 * 1000 * 15);
-            Cookies.set('code', data.data.tel + ':' + data.data.code, {
-              expires: expiresTime,
-            });
+            window.sessionStorage.setItem('code', data.data.tel + ':' + data.data.code);
+            // const millisecond = new Date().getTime();
+            // const expiresTime = new Date(millisecond + 60 * 1000 * 15);
+            // Cookies.set('code', data.data.tel + ':' + data.data.code, {
+            //   expires: expiresTime,
+            // });
             this.endTime = 59;
             this.noText = this.endTime + 'S';
             const declineTime = setInterval(() => {
@@ -76,8 +81,9 @@
         },
         login(){
             try {
-              const phone = Cookies.get('code').toString().substring(0, 11);
-              const no = Cookies.get('code').toString().substring(12);
+              const code = window.sessionStorage.getItem('code');
+              const phone = code.toString().substring(0, 11);
+              const no = code.toString().substring(12);
               if (this.tel === phone && this.sms === no) {
                 let param = new URLSearchParams();
                 param.append('tel', this.tel);
@@ -94,12 +100,22 @@
                   this.back();
                 })
               } else {
-                alert('验证码错误');
+                Toast.fail('验证码错误');
                 this.sms = '';
               }
             } catch (e) {
-              console.log('验证码已过期');
+              Toast.fail('验证码已过期');
               this.sms = '';
+              console.log(Cookies.get('code'));
+            }
+        },
+        getCookie(key){
+            const res = document.cookie.split(',');
+            for (let i=0;i<res.length;i++){
+              const temp = res[i].split('=');
+              if (temp[0].trim()===key){
+                return temp[1]
+              }
             }
         }
       },

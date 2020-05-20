@@ -184,7 +184,7 @@
             }
 
           } else {
-            this.topClick(1);
+            // this.topClick(1);
           }
         },
         addThis(item, event){
@@ -243,6 +243,7 @@
           this.classArr = this.classArr1;
       },
       mounted(){
+        this.topClick(1);
           this.gotoScrollLeft();
         document.getElementsByClassName('top-nav')[0].addEventListener('scroll', () => {
             this.topScroll = document.getElementsByClassName('top-nav')[0].scrollLeft.toString();

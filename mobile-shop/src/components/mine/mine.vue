@@ -3,7 +3,9 @@
     <div id="mine">
       <div class="header">
         <div class="top">
-        <van-icon name="bell" color="#fff" size="0.6rem" class="message" info="2"/>
+          <router-link to="/myNews">
+        <van-icon name="bell" color="#fff" size="0.6rem" class="message"/>
+          </router-link>
         </div>
         <div class="info">
           <img src="../../assets/touxiang.jpg">
@@ -79,7 +81,7 @@
           <van-icon name="envelop-o" color="#bfbfbf" size="0.85rem" style="transform: translateX(0.65rem)"/>
           <p>意见反馈</p>
         </div>
-        <div>
+        <div @click="goUrl('set')">
           <van-icon name="setting-o" color="#bfbfbf" size="0.85rem" style="transform: translateX(0.78em)"/>
           <p>设置</p>
         </div>
@@ -96,7 +98,12 @@
         name: "mine",
         components: {
           myFooter
-        }
+        },
+      methods: {
+          goUrl(url){
+            this.$router.push('/' + url);
+          }
+      }
     }
 </script>
 <style lang="less" scoped>

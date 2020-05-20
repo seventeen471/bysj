@@ -8,7 +8,9 @@
         <span>{{$store.state.place.small}}</span>
         <van-icon name="play" color="#fff" style="transform: rotateZ(90deg) scale(0.5) translate(2.2rem)"/>
           </router-link>
-        <van-icon name="bell" color="#fff" size="0.6rem" class="message" info="2" style="position: absolute;top: 6.4%;left: 32%"/>
+          <router-link to="/myNews">
+        <van-icon name="bell" color="#fff" size="0.6rem" class="message" style="position: absolute;top: 6.4%;left: 32%"/>
+          </router-link>
         </div>
         <div :style="scrollTop <= 32 ? searchCSS1 : searchCSS2">
         <van-search

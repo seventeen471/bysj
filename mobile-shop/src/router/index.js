@@ -4,6 +4,7 @@ import Home from '../components/home/home'
 import Classify from '../components/classify/classify'
 import ShopCar from '../components/shop-car/shopCar'
 import Mine from '../components/mine/mine'
+import store from '../store/index'
 // import search from "../components/common/search";
 
 Vue.use(Router);
@@ -53,7 +54,7 @@ const router = new Router({
       meta: {
         keepAlive: true,
         index: 1
-      }
+      },
     },
     {
       path: '/search',
@@ -114,6 +115,32 @@ const router = new Router({
         keepAlive: true,
         index: 999
       }
+    },
+    {
+      path: '/set',
+      component: () => import('../components/mine/set'),
+      meta: {
+        keepAlive: true,
+        index: 2
+      }
+    },
+    {
+      path: '/myNews',
+      component: () => import('../components/common/myNews'),
+      meta: {
+        keepAlive: true,
+        index: 2,
+        needLogin: true
+      }
+    },
+    {
+      path: '/makeDeal',
+      component: () => import('../components/shop-car/makeDeal'),
+      meta: {
+        keepAlive: true,
+        index: 4,
+        needLogin: true
+      }
     }
   ],
   scrollBehavior (to, from, savedPosition) {
@@ -127,9 +154,11 @@ const router = new Router({
   }
 });
 router.beforeEach((to, from, next) => {
-  if (from.meta.keepAlive) {
-    // let scrollTop = document.getElementById('app').scrollTop;
-    // window.sessionStorage.setItem(from.meta.who, scrollTop.toString());
+  if (to.meta.needLogin) {
+    if (!store.state.isLogin) {
+      next('/login');
+      return;
+    }
   }
   next();
 });
