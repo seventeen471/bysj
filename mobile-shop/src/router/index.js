@@ -105,7 +105,7 @@ const router = new Router({
       component: () => import("../components/choosePlace"),
       meta: {
         keepAlive: true,
-        index: 5
+        index: 8
       }
     },
     {
@@ -156,7 +156,7 @@ const router = new Router({
       component: () => import('../components/mine/myAddress'),
       meta: {
         keepAlive: true,
-        index: 2,
+        index: 5,
         needLogin: true
       }
     },
@@ -165,7 +165,7 @@ const router = new Router({
       component: () => import('../components/mine/addAddress'),
       meta: {
         keepAlive: true,
-        index: 3,
+        index: 6,
         needLogin: true
       }
     },

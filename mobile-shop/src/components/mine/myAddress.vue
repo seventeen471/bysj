@@ -7,7 +7,7 @@
     </div>
     <div class="addressBody">
       <div class="addressDiv">
-        <div class="one" v-for="item in myAddressList" :key="item.id">
+        <div v-if="!$route.query.isChoose" class="one" v-for="item in myAddressList" :key="item.id">
           <div>
             <strong>{{item['small_address']+item['door_no']}}</strong>
             &nbsp;
@@ -20,10 +20,31 @@
             <span>{{item['name']}}</span>
             <span>{{item['phone']}}</span>
           </div>
-          <router-link to="/addAddress">
+          <router-link to="/addAddress?isEdit=true">
           <van-icon name="edit" color="#FA8072" class="edit" size="0.7rem" @click="editAddress(item)" />
           </router-link>
         </div>
+        <van-radio-group checked-color="#FA8072" v-if="$route.query.isChoose" v-model="radio">
+          <div class="one" style="padding-top: 2%;height: 2.5rem;margin-top: 0" v-for="(item,index) in myAddressList" :key="item.id" @click="chooseIt(item)">
+            <van-radio :name="index">
+            <div>
+              <strong>{{item['small_address']+item['door_no']}}</strong>
+              &nbsp;
+              <van-tag color='#FA8072'>{{item['mark']}}</van-tag>
+              &nbsp;
+              <van-tag v-if="item['isDefault']==='true'" color="light-grey">默认</van-tag>
+            </div>
+            <div>{{item['big_address']}}</div>
+            <div>
+              <span>{{item['name']}}</span>
+              <span>{{item['phone']}}</span>
+            </div>
+            <router-link to="/addAddress?isEdit=true">
+              <van-icon name="edit" color="#FA8072" class="edit" size="0.7rem" @click.stop="editAddress(item)" />
+            </router-link>
+            </van-radio>
+          </div>
+        </van-radio-group>
       </div>
       <router-link to="/addAddress?isAdd=true">
       <van-button type="primary" color="#FA8072" class="newAddress">新增地址</van-button>
@@ -38,7 +59,8 @@
         name: "myAddress",
       data(){
           return{
-            myAddressList: []
+            myAddressList: [],
+            radio: 0,
           }
       },
       methods:{
@@ -50,10 +72,26 @@
           param.append('user', this.$store.state.userInfo.tel);
           axios.post('http://192.168.43.218/shop/getAddress.php',param).then((data) => {
             this.myAddressList = data.data.data;
+            this.getRadio();
           });
         },
         editAddress(item){
           window.sessionStorage.setItem('editAddress',JSON.stringify(item));
+        },
+        getRadio() {
+          if (this.$route.query.isChoose) {
+            for (let i=0;i<this.myAddressList.length;i++) {
+              if (this.myAddressList[i].id===this.$store.state.place.id) {
+                this.radio = i;
+              }
+            }
+          }
+        },
+        chooseIt(item){
+          this.$store.commit('setPlace',item);
+          setTimeout(() => {
+            this.$router.go(-1);
+          },150);
         }
       },
       beforeMount() {

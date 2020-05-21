@@ -137,25 +137,25 @@
             .catch(() => {
             });
         },
-        getEditAddress(){
-          const obj = JSON.parse(window.sessionStorage.getItem('editAddress'));
-          this.name = obj.name;
-          this.phone = obj.phone;
-          const obj2 = {
-            big_address: obj.big_address,
-            small_address: obj.small_address
-          };
-          this.$store.commit('setChooseAddress', obj2);
-          this.doorNo = obj.door_no;
-          this.id = obj.id;
-          this.address = obj.small_address;
-          this.mark = obj.mark;
-          this.isDefault = obj.isDefault === 'true';
+        getEditAddress() {
+            const obj = JSON.parse(window.sessionStorage.getItem('editAddress'));
+            this.name = obj.name;
+            this.phone = obj.phone;
+            const obj2 = {
+              big_address: obj.big_address,
+              small_address: obj.small_address
+            };
+            this.$store.commit('setChooseAddress', obj2);
+            this.doorNo = obj.door_no;
+            this.id = obj.id;
+            this.address = obj.small_address;
+            this.mark = obj.mark;
+            this.isDefault = obj.isDefault === 'true';
         }
       },
       watch:{
           $route(to,from){
-            if (from.path==='/myAddress' && !this.$route.query.isAdd) {
+            if (from.path==='/myAddress' && this.$route.query.isEdit) {
               this.getEditAddress();
               return;
             }
@@ -177,7 +177,7 @@
           }
       },
       beforeMount(){
-        if (!this.$route.query.isAdd) {
+        if (this.$route.query.isEdit) {
           this.getEditAddress();
         }
       },
