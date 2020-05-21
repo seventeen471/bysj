@@ -14,11 +14,11 @@ const store = new Vuex.Store({
     isDeleteChoosed: false,
     detailObj: {},
     place: {
-      small: '腾飞新苏坊',
-      big: '江苏省苏州市工业园区星汉街5号'
     },
     userInfo: {},
-    isLogin: false
+    isLogin: false,
+    chooseAddress: {},
+    myAddressList: []
   },
   mutations: {
     // isAnimateChange(state, is) {
@@ -98,6 +98,12 @@ const store = new Vuex.Store({
     },
     setIsLogin(state,value){
       state.isLogin = value;
+    },
+    setChooseAddress(state,value){
+      state.chooseAddress = value;
+    },
+    setMyAddressList(state,value){
+      state.myAddressList = value;
     },
   },
   getters: {},

@@ -105,7 +105,7 @@ const router = new Router({
       component: () => import("../components/choosePlace"),
       meta: {
         keepAlive: true,
-        index: 2
+        index: 5
       }
     },
     {
@@ -139,6 +139,42 @@ const router = new Router({
       meta: {
         keepAlive: true,
         index: 4,
+        needLogin: true
+      }
+    },
+    {
+      path: '/myForm',
+      component: () => import('../components/mine/myForm'),
+      meta: {
+        keepAlive: true,
+        index: 2,
+        needLogin: true
+      }
+    },
+    {
+      path: '/myAddress',
+      component: () => import('../components/mine/myAddress'),
+      meta: {
+        keepAlive: true,
+        index: 2,
+        needLogin: true
+      }
+    },
+    {
+      path: '/addAddress',
+      component: () => import('../components/mine/addAddress'),
+      meta: {
+        keepAlive: true,
+        index: 3,
+        needLogin: true
+      }
+    },
+    {
+      path: '/afterSale',
+      component: () => import('../components/mine/afterSale'),
+      meta: {
+        keepAlive: true,
+        index: 2,
         needLogin: true
       }
     }

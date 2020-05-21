@@ -5,7 +5,8 @@
         <div :style="'opacity:' + headerOpacity">
           <router-link to="/choosePlace">
         <van-icon name="location" color="#fff" size="0.8rem" class="location"/>
-        <span>{{$store.state.place.small}}</span>
+        <span v-if="$store.state.place.small_address">{{$store.state.place.small_address}}</span>
+        <span v-if="!$store.state.place.small_address">选择收货地址</span>
         <van-icon name="play" color="#fff" style="transform: rotateZ(90deg) scale(0.5) translate(2.2rem)"/>
           </router-link>
           <router-link to="/myNews">

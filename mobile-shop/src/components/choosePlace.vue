@@ -12,16 +12,20 @@
       </div>
       <div class="body" ref="placeBody">
         <div id="map"></div>
-        <p class="p1" v-if="checkedPlace.small">所选地址</p>
-        <div v-if="checkedPlace.small" @click="choosePlace(checkedPlace)">
-          <p>{{checkedPlace.small}}</p>
-          <p>{{checkedPlace.big}}</p>
+        <p class="p1" v-if="checkedPlace.small_address" v-show="!$route.query.isAdd">所选地址</p>
+        <div v-if="checkedPlace.small_address" v-show="!$route.query.isAdd" @click="choosePlace(checkedPlace)">
+          <p>{{checkedPlace.small_address}}</p>
+          <p>{{checkedPlace.big_address}}</p>
 <!--          <van-icon name="aim" class="aim" color="#FA8072" size="0.6rem" @click="getPosition()" />-->
         </div>
-        <p class="p1">我的地址</p>
-        <div style="margin-bottom: 1%" v-for="item in myPlaceArr" @click="choosePlace(item)">
-          <p>{{item.small}}</p>
-          <p>{{item.big}}</p>
+        <p class="p1" v-if="!$route.query.isAdd">我的地址</p>
+        <div v-if="!$route.query.isAdd" style="margin-bottom: 1%" v-for="item in $store.state.myAddressList" :key="item.id" @click="choosePlace(item)">
+          <p>{{item['small_address']}}
+            &nbsp;
+            <van-tag color='#FA8072'>{{item['mark']}}</van-tag>
+            &nbsp;
+            <van-tag v-if="item['isDefault']==='true'" color="light-grey">默认</van-tag></p>
+          <p>{{item['big_address']}}</p>
         </div>
       </div>
     </div>
@@ -30,26 +34,17 @@
 
 <script>
   import { Indicator } from 'mint-ui';
+  import axios from 'axios'
     export default {
         name: "choosePlace",
       data(){
           return {
             searchValue: '',
             checkedPlace: {
-              big: '',
-              small: ''
+              big_address: '',
+              small_address: ''
             },
-            myPlaceArr: [{
-              big: '江苏省南京市玄武区龙蟠路159号',
-              small: '南京林业大学'
-            },{
-              big: '江苏省苏州市工业园区星汉街5号',
-              small: '腾飞新苏坊7楼'
-            },{
-              big: '江苏省苏州市吴中区北港路198号',
-              small: '朗诗遇'
-            }],
-            show: true
+            show: true,
           }
       },
       methods: {
@@ -139,11 +134,20 @@
               map.openInfoWindow(infoWindow, e.point); // 开启信息窗口
               setTimeout(() => {
                 document.getElementById('markerInfo').addEventListener('click', () => {
-                  that.searchValue = '';
-                  that.checkedPlace = {
-                    big: rs.address,
-                    small: rs.surroundingPois[0]['title']
-                  };
+                  if (that.$route.query.isAdd) {
+                    const obj = {
+                      big_address: rs.address,
+                      small_address: rs.surroundingPois[0]['title']
+                    };
+                    that.$store.commit('setChooseAddress', obj);
+                    that.$router.go(-1);
+                  } else {
+                    that.searchValue = '';
+                    that.checkedPlace = {
+                      big_address: rs.address,
+                      small_address: rs.surroundingPois[0]['title']
+                    };
+                  }
                   map.clearOverlays(); // 清除地图上的覆盖物
                 }, false);
               });
@@ -159,18 +163,9 @@
         },
       watch: {
           $route(){
-            try {
-              document.getElementById('choosePlaceDiv').style.transform = '';
-              document.getElementById('choosePlaceDiv').style.transition = '';
-            }catch (e) {
-
-            }
           }
       },
       beforeRouteLeave (to, from, next) {
-        document.getElementById('choosePlaceDiv').style.transform = 'translateX(10rem)';
-        document.getElementById('choosePlaceDiv').style.transition = 'all 0.2s ease';
-        // setTimeout(() => {
           next();
         // },180);
       }

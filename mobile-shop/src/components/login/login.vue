@@ -79,6 +79,18 @@
             this.sms = data.data.code;
           })
         },
+        getMyAddress(){
+          let param = new URLSearchParams();
+          param.append('user', this.$store.state.userInfo.tel);
+          axios.post('http://192.168.43.218/shop/getAddress.php',param).then((data) => {
+            this.$store.commit('setMyAddressList',data.data.data);
+            data.data.data.forEach(e => {
+              if (e.isDefault === 'true') {
+                this.$store.commit('setPlace',e);
+              }
+            });
+          });
+        },
         login(){
             try {
               const code = window.sessionStorage.getItem('code');
@@ -97,6 +109,7 @@
                   // });
                   this.$store.commit('setUserInfo', data.data.data[0]);
                   this.$store.commit('setIsLogin', true);
+                  this.getMyAddress();
                   this.back();
                 })
               } else {
