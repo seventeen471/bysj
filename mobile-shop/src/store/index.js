@@ -20,6 +20,12 @@ const store = new Vuex.Store({
     chooseAddress: {},
     myAddressList: [],
     dealObj: {},
+    formObj: {
+      status: '1',
+      dikou: '3.6',
+      postFee: '4.5',
+      total: ''
+    }
   },
   mutations: {
     // isAnimateChange(state, is) {
@@ -108,6 +114,9 @@ const store = new Vuex.Store({
     },
     setDealObj(state,value){
       state.dealObj = value;
+    },
+    setFormObj(state,value){
+      state.formObj = value;
     },
   },
   getters: {},

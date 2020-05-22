@@ -27,20 +27,20 @@
       </div>
       <div class="oder-form-div" style="height: 3.5rem;">
         <p>我的订单</p>
-        <div class="all" @click="goUrl('myForm?index=0')">
+        <div class="all" @click="goUrl('myForm?index=a')">
           <span>全部订单</span>
           <van-icon name="arrow" color="#ccc" size="0.36rem" style="transform: translate(-0.15rem,0.04rem)"/>
         </div>
         <div class="oder-form" style="height: 3.5rem">
-          <div @click="goUrl('myForm?index=1')">
+          <div @click="goUrl('myForm?index=b')">
             <van-icon name="credit-pay" color="#bfbfbf" size="0.85rem" style="transform: translateX(0.65rem)"/>
             <p>待支付</p>
           </div>
-          <div @click="goUrl('myForm?index=2')">
+          <div @click="goUrl('myForm?index=c')">
             <van-icon name="send-gift-o" color="#bfbfbf" size="0.85rem" style="transform: translateX(0.65rem)"/>
             <p>待收货</p>
           </div>
-          <div @click="goUrl('myForm?index=3')">
+          <div @click="goUrl('myForm?index=d')">
             <van-icon name="comment-o" color="#bfbfbf" size="0.85rem" style="transform: translateX(0.65rem)"/>
             <p>待评价</p>
           </div>

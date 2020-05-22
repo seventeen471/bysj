@@ -98,6 +98,10 @@
         },
         makeDeal(){
           this.$router.push('/dealResult?dikou='+this.dikou+'&postFee='+this.postFee+'&total='+this.total);
+          const obj = {
+            status: '1'
+          };
+          this.$store.commit('setFormObj',obj);
         }
       },
       beforeMount() {

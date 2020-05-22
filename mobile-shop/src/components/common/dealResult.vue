@@ -8,14 +8,21 @@
       </div>
       <div class="body">
         <div class="state">
-          <div><van-icon name="checked" color="#FA8072" size="1.2rem" /><span>下单成功</span></div>
+          <div><van-icon name="checked" color="#FA8072" size="1.2rem" />
+            <span v-if="$store.state.formObj.status==='1'">下单成功</span>
+            <span v-if="$store.state.formObj.status==='2'">已签收</span>
+          </div>
         </div>
         <div class="wordDiv">
 <!--          <p>感谢您对我们的信任，祝您生活愉快</p>-->
 <!--          <p>已收到您的订单信息，我们将尽快为您配送</p>-->
-          <div>
+          <div v-if="$store.state.formObj.status==='1'">
             <van-button type="primary" color="#FA8072" class="button" @click="goHome()">回到首页</van-button>
             <van-button type="primary" color="lightGrey" class="button" @click="cancelDeal()">取消订单</van-button>
+          </div>
+          <div v-if="$store.state.formObj.status==='2'">
+            <van-button type="primary" color="#FA8072" class="button" @click="goHome()">再来一单</van-button>
+            <van-button type="primary" color="lightGrey" class="button" @click="cancelDeal()">申请售后</van-button>
           </div>
         </div>
         <div class="address">
@@ -39,7 +46,7 @@
         </div>
         <div class="info">
           <div><span>订单编号：</span><span class="copytxt">2004181523184963419</span><button @click="copy()">复制</button></div>
-          <div>下单时间：2020-04-18 15:23:19</div>
+          <div>下单时间：2020-05-18 15:23:19</div>
           <div>支付方式：微信支付</div>
         </div>
         <p class="foot">如收到的商品出现质量、错发、漏发等问题，可申请售后/退款</p>
