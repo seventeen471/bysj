@@ -131,8 +131,6 @@
   import myFooter from '../common/myFooter';
   Vue.use(Toast);
   import { Toast } from 'vant';
-  import { Dialog } from 'vant';
-  Vue.use(Dialog);
 
 
   Vue.component(Swipe.name, Swipe);
@@ -212,13 +210,6 @@
           axios.get('http://192.168.43.218/shop/getHotRecommend.php').then((data) => {
             // Indicator.close();
             this.hotRecommendArr = data.data;
-          }).catch(() => {
-            // Indicator.close();
-            Dialog.alert({
-              message: '连接服务器失败',
-            }).then(() => {
-              plus.runtime.quit();
-            });
           });
           },
         getTimeShopping() {
@@ -377,7 +368,7 @@
   .body{
     position: relative;
     width: 100%;
-    z-index: 1;
+    z-index: 0;
     img{
       width: 100%;
     }
@@ -446,7 +437,7 @@
         width: 100%;
         position: absolute;
         height: 0.8rem;
-        z-index: 3;
+        /*z-index: 0;*/
         .l{
           /*transform: translate(0.3rem,0.02rem);*/
           position: absolute;
@@ -496,13 +487,13 @@
         width: 9.28rem;
         height: 88%;
         position: absolute;
-        top: 10%;
+        top: 15%;
         left: 4%;
         /*border: 0.027rem solid green;*/
         /*transform: translateY(-3.6rem);*/
         overflow-x: scroll;
         overflow-y: hidden;
-        z-index: 1;
+        /*z-index: 1;*/
 
         ul{
           height: 3.6rem;
@@ -514,7 +505,7 @@
             width: 2.65rem;
             height: 3.8rem;
             margin-right: 0.06rem;
-            z-index: 2;
+            /*z-index: 2;*/
           }
         }
       }
@@ -523,7 +514,7 @@
       width: 100%;
       background-color: #F5F5F5;
       /*position: absolute;*/
-      z-index: -1;
+      /*z-index: -1;*/
       header{
         text-align: center;
         font-size: 0.4rem;
@@ -541,7 +532,7 @@
           height: 6.2rem;
           background-color: #fff;
           border-radius: 0.2rem;
-          z-index: 1;
+          /*z-index: 1;*/
           margin: 1% 2% 2% 0;
           img{
             width: 3rem;
@@ -616,7 +607,7 @@
     ul {
       img {
         width: 2.6rem;
-        height: 2.6rem;
+        height: 2.4rem;
       }
 
       .p1-div {

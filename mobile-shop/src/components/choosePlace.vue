@@ -42,7 +42,7 @@
             searchValue: '',
             checkedPlace: {
               big_address: '',
-              small_address: ''
+              small_address: '',
             },
             show: true,
           }

@@ -163,12 +163,30 @@
         back(){
           this.$router.go(-1);
         },
+        getOneInfo(id){
+          let obj = {};
+          this.$store.state.shopCarArr.forEach(e => {
+            if (e.id === id) {
+              obj = e;
+            }
+          });
+          return obj;
+        },
         goPay(){
           if (!this.checkArr.length) {
             Toast('请先选择商品');
           } else {
             this.$router.push('/makeDeal');
           }
+          let dealObj = {};
+          let dealGoods = [];
+          this.checkArr.forEach(e => {
+            dealGoods.push(this.getOneInfo(e));
+          });
+          dealObj['dealGoods'] = dealGoods;
+          dealObj['allCharge'] = this.allCharge;
+          dealObj['allMount'] = this.checkedMount;
+          this.$store.commit('setDealObj',dealObj);
         }
       },
       mounted(){

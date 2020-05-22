@@ -22,14 +22,18 @@
 </template>
 
 <script>
+  import Vue from 'vue';
   import axios from 'axios'
+  import { Dialog } from 'vant';
+  import { Indicator } from 'mint-ui';
+  Vue.use(Dialog);
 export default {
   name: 'App',
   data() {
     return {
       animateName: '',
       h: '',
-      myAddressList: []
+      myAddressList: [],
     }
   },
   methods:{
@@ -46,6 +50,19 @@ export default {
         });
       });
     },
+  },
+  created(){
+    Indicator.open('请稍候...');
+    axios.get('http://192.168.43.218/shop/getHotRecommend.php').then((data) => {
+      Indicator.close();
+    }).catch(() => {
+      Indicator.close();
+      Dialog.alert({
+        message: '连接服务器失败',
+      }).then(() => {
+        plus.runtime.quit();
+      });
+    });
   },
   beforeMount(){
     const token = window.localStorage.getItem('token');
