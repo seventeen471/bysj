@@ -85,17 +85,19 @@
           this.$router.go(-1);
         },
         updatePlace(){
-          const obj = {
-            door_no: '',
-            name: this.$store.state.userInfo.user_name,
-            phone: this.$store.state.userInfo.tel,
-            mark: '新选'
-          };
-          const item = Object.assign(obj,this.$store.state.place);
-          this.$store.commit('setPlace',item);
+          if (this.$store.state.place.small_address) {
+            const obj = {
+              door_no: '',
+              name: this.$store.state.userInfo.user_name,
+              phone: this.$store.state.userInfo.tel,
+              mark: '新选'
+            };
+            const item = Object.assign(obj, this.$store.state.place);
+            this.$store.commit('setPlace', item);
+          }
         },
         makeDeal(){
-          console.log(123);
+          this.$router.push('/dealResult?dikou='+this.dikou+'&postFee='+this.postFee+'&total='+this.total);
         }
       },
       beforeMount() {

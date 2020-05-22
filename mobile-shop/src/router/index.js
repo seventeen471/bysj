@@ -177,6 +177,15 @@ const router = new Router({
         index: 2,
         needLogin: true
       }
+    },
+    {
+      path: '/dealResult',
+      component: () => import('../components/common/dealResult'),
+      meta: {
+        keepAlive: true,
+        index: 5,
+        needLogin: true
+      }
     }
   ],
   scrollBehavior (to, from, savedPosition) {

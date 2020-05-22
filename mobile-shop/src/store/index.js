@@ -19,7 +19,7 @@ const store = new Vuex.Store({
     isLogin: false,
     chooseAddress: {},
     myAddressList: [],
-    dealObj: {}
+    dealObj: {},
   },
   mutations: {
     // isAnimateChange(state, is) {
