@@ -9,28 +9,35 @@
       <div class="body">
         <div class="state">
           <div><van-icon name="checked" color="#FA8072" size="1.2rem" />
-            <span v-if="$store.state.formObj.status==='1'">下单成功</span>
-            <span v-if="$store.state.formObj.status==='2'">已签收</span>
+            <span>{{formObj.status | statusName}}</span>
           </div>
         </div>
         <div class="wordDiv">
 <!--          <p>感谢您对我们的信任，祝您生活愉快</p>-->
 <!--          <p>已收到您的订单信息，我们将尽快为您配送</p>-->
-          <div v-if="$store.state.formObj.status==='1'">
-            <van-button type="primary" color="#FA8072" class="button" @click="goHome()">回到首页</van-button>
-            <van-button type="primary" color="lightGrey" class="button" @click="cancelDeal()">取消订单</van-button>
+          <div v-if="formObj.status==='0'">
+            <van-button type="primary" color="#FA8072" class="button" @click="goPay()">继续付款</van-button>
+            <van-button type="primary" color="lightGrey" class="button" @click="cancelDeal(formObj.form_id)">取消订单</van-button>
           </div>
-          <div v-if="$store.state.formObj.status==='2'">
-            <van-button type="primary" color="#FA8072" class="button" @click="goHome()">再来一单</van-button>
-            <van-button type="primary" color="lightGrey" class="button" @click="cancelDeal()">申请售后</van-button>
+          <div v-if="formObj.status==='1'">
+            <van-button type="primary" color="#FA8072" class="button" @click="goHome()">回到首页</van-button>
+            <van-button type="primary" color="lightGrey" class="button" @click="cancelDeal(formObj.form_id)">取消订单</van-button>
+          </div>
+          <div v-if="formObj.status==='2' || formObj.status==='3'">
+            <van-button type="primary" color="#FA8072" class="button" @click="again(JSON.parse(formObj.goods_obj),formObj.all_mount,formObj.all_fee)">再来一单</van-button>
+            <van-button type="primary" color="lightGrey" class="button" @click="beAfterSale()">申请售后</van-button>
+          </div>
+          <div v-if="formObj.status==='6' || formObj.status==='4' || formObj.status==='5'">
+            <van-button type="primary" color="#FA8072" class="button" @click="goHome()">回到首页</van-button>
+            <van-button type="primary" color="#FA8072" class="button" @click="again(JSON.parse(formObj.goods_obj),formObj.all_mount,formObj.all_fee)">再来一单</van-button>
           </div>
         </div>
         <div class="address">
-          <div><span>收货地址</span><span>{{$store.state.place['small_address']+$store.state.place['door_no']}}</span></div>
-          <div><span>{{$store.state.place['name']+' '+$store.state.place['phone']}}</span></div>
+          <div><span>收货地址</span><span>{{formObj['small_address']+formObj['door_no']}}</span></div>
+          <div><span>{{formObj['name']+' '+formObj['phone']}}</span></div>
         </div>
         <div class="myGoods">
-          <div class="goodsOne" v-for="item in $store.state.dealObj.dealGoods" :key="item.id">
+          <div class="goodsOne" v-for="item in goodsArr" :key="item.id">
             <div>
               <img :src="item.src"/>
             </div>
@@ -39,18 +46,19 @@
           </div>
         </div>
         <div class="afterList">
-          <div><span>商品总额</span><span>￥{{$store.state.dealObj.allCharge}}</span></div>
-          <div><span>优惠券抵扣</span><span>-￥{{$route.query.dikou}}<van-icon class="icon" name="arrow" color="rgba(0,0,0,0.5)" size="0.4rem"/></span></div>
-          <div><span>配送费</span><span>￥{{$route.query.postFee}}</span></div>
-          <div style="width: 30%;float: right;text-align: right;margin-right: 3%;"><span>实付款</span><span>￥{{$route.query.total}}</span></div>
+          <div><span>商品总额</span><span>￥{{formObj.all_fee}}</span></div>
+          <div><span>优惠券抵扣</span><span>-￥{{formObj.sub_fee}}<van-icon class="icon" name="arrow" color="rgba(0,0,0,0.5)" size="0.4rem"/></span></div>
+          <div><span>配送费</span><span>￥{{formObj.post_fee}}</span></div>
+          <div style="width: 30%;float: right;text-align: right;margin-right: 3%;"><span>{{formObj.status==='0'?'待付款':'实付款'}}</span><span>￥{{formObj.true_pay}}</span></div>
         </div>
         <div class="info">
-          <div><span>订单编号：</span><span class="copytxt">2004181523184963419</span><button @click="copy()">复制</button></div>
-          <div>下单时间：2020-05-18 15:23:19</div>
-          <div>支付方式：微信支付</div>
+          <div><span>订单编号：</span><span class="copytxt">{{formObj.form_id}}</span><button @click="copy()">复制</button></div>
+          <div>下单时间：{{formObj.time}}</div>
+          <div>支付方式：{{formObj.pay_type | payTypeName}}</div>
         </div>
         <p class="foot">如收到的商品出现质量、错发、漏发等问题，可申请售后/退款</p>
       </div>
+      <myDialog v-if="isVisible" title="付款成功?" left="否" right="是" @fnLeft="fnLeft(formObj.form_id)" @fnRight="fnRight(formObj.form_id)"></myDialog>
     </div>
 </template>
 
@@ -58,11 +66,20 @@
   import Vue from 'vue';
   import { Toast } from 'vant';
   import { Dialog } from 'vant';
+  import axios from 'axios';
+  import myDialog from '../common/myDialog'
   Vue.use(Dialog);
 
   Vue.use(Toast);
     export default {
         name: "dealResult",
+      data() {
+          return {
+            formObj: {},
+            goodsArr: {},
+            isVisible: false
+          }
+      },
       methods: {
         back() {
           this.$router.go(-1);
@@ -70,19 +87,49 @@
         goHome(){
           this.$router.push('/home');
         },
-        cancelDeal(){
+        cancelDeal(id){
           Dialog.confirm({
             title: '提示',
             message: '下单五分钟内可以取消订单，确认取消吗？',
           })
             .then(() => {
-              Toast.success('取消成功');
+                let param = new URLSearchParams();
+                param.append('type', '2'); // 1新增2更新3删除
+                param.append('id', id);
+                param.append('status', '6'); // 0待付款，1待签收，2已签收,3已评价，4退款中，5已退款，6已取消
+                axios.post('http://192.168.43.218/shop/editForm.php',param).then((data) => {
+                  if (data.data.isSucc) {
+                    Toast.success('取消成功');
+                  }
+                });
               setTimeout(()=>{
                 this.$router.push('/home');
               },2000);
             })
             .catch(() => {
             });
+        },
+        goPay(){
+          this.isVisible = true;
+          window.sessionStorage.setItem('continuePay', 'true');
+        },
+        again(obj,allMount,allFee){
+          let dealObj = {};
+          dealObj['dealGoods'] = obj;
+          dealObj['allCharge'] = allFee;
+          dealObj['allMount'] = allMount;
+          this.$store.commit('setDealObj',dealObj);
+          window.sessionStorage.setItem('isAgain', 'true');
+          this.$router.push('/makeDeal');
+        },
+        beAfterSale(){},
+        fnLeft(id){
+          this.isVisible = false;
+          this.$router.push('/dealResult?id=' + id);
+        },
+        fnRight(id){
+          this.isVisible = false;
+          this.$router.push('/payResult?id=' + id);
         },
         copy(){
           const range = document.createRange();
@@ -93,10 +140,74 @@
           selection.addRange(range);
           document.execCommand('Copy');
           Toast("复制成功！");
+        },
+        queryForm(){
+          if (!this.$route.query.id) {
+            return;
+          }
+          let param = new URLSearchParams();
+          param.append('id', this.$route.query.id);
+          axios.post('http://192.168.43.218/shop/queryForm.php',param).then((data) => {
+            this.formObj = data.data.data[0];
+            this.goodsArr = JSON.parse(this.formObj.goods_obj);
+          });
         }
+      },
+      beforeMount(){
+          this.queryForm();
       },
       mounted() {
     },
+      components: {
+        myDialog
+      },
+      watch: {
+          $route(){
+            this.queryForm();
+          }
+      },
+      filters: {
+        statusName(code){
+          let name = '';
+          switch (code) {
+            case '0':
+              name = '待支付';break;
+            case '1':
+              name = '待收货';break;
+            case '2':
+              name = '已收货';break;
+            case '3':
+              name = '已评价';break;
+            case '4':
+              name = '退款中';break;
+            case '5':
+              name = '已退款';break;
+            case '6':
+              name = '已取消';break;
+          }
+          return name;
+        },
+        payTypeName(code){
+          let name = '';
+          switch (code) {
+            case '1':
+              name = '余额支付';
+              break;
+            case '2':
+              name = '微信支付';
+              break;
+            case '3':
+              name = '支付宝支付';
+              break;
+          }
+          return name;
+        }
+      },
+      beforeRouteEnter(to,from,next){
+        window.sessionStorage.setItem('isAgain', 'false');
+        window.sessionStorage.setItem('continuePay', 'false');
+        next();
+      }
     }
 </script>
 
@@ -137,6 +248,7 @@
           margin-left: 3%;
           font-size: 0.5rem;
           /*font-weight: bold;*/
+          opacity: 0.8;
         }
       }
     }

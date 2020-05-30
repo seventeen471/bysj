@@ -102,6 +102,15 @@ export default {
       if (from.path === '/detailPage' && to.path === '/shopCar2' && window.sessionStorage.getItem('isShopCar2ToDe') === 'true') {
         this.animateName = 'turn-right';
       }
+      if (from.path === '/dealResult' && to.path === '/makeDeal' && window.sessionStorage.getItem('isAgain') === 'true') {
+        this.animateName = 'turn-left';
+      }
+      if (from.path === '/makeDeal' && to.path === '/dealResult' && window.sessionStorage.getItem('isAgain') === 'false') {
+        this.animateName = 'turn-right';
+      }
+      if (window.sessionStorage.getItem('continuePay') === 'true') {
+        this.animateName = 'turn-left';
+      }
     }
   }
 }

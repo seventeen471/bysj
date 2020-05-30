@@ -179,11 +179,20 @@ const router = new Router({
       }
     },
     {
+      path: '/payResult',
+      component: () => import('../components/shop-car/payResult'),
+      meta: {
+        keepAlive: true,
+        index: 5,
+        needLogin: true
+      }
+    },
+    {
       path: '/dealResult',
       component: () => import('../components/common/dealResult'),
       meta: {
         keepAlive: true,
-        index: 5,
+        index: 6,
         needLogin: true
       }
     }

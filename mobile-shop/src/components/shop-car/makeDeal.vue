@@ -67,59 +67,100 @@
         </div>
       </div>
     </div>
+    <myDialog v-if="isVisible" title="付款成功?" left="否" right="是" @fnLeft="fnLeft" @fnRight="fnRight"></myDialog>
   </div>
 </template>
 
 <script>
+  import axios from 'axios'
+  import myDialog from '../common/myDialog'
     export default {
         name: "makeDeal",
       data(){
           return{
             radio: '1',
             dikou: 3.6,
-            postFee: 4.5
+            postFee: 4.5,
+            isVisible: false
           }
       },
       methods:{
         back(){
           this.$router.go(-1);
         },
-        updatePlace(){
-          if (this.$store.state.place.small_address) {
-            const obj = {
-              door_no: '',
-              name: this.$store.state.userInfo.user_name,
-              phone: this.$store.state.userInfo.tel,
-              mark: '新选'
-            };
-            const item = Object.assign(obj, this.$store.state.place);
-            this.$store.commit('setPlace', item);
-          }
-        },
+        // updatePlace(){
+        //   if (this.$store.state.place.small_address) {
+        //     const obj = {
+        //       door_no: '',
+        //       name: this.$store.state.userInfo.user_name,
+        //       phone: this.$store.state.userInfo.tel,
+        //       mark: '新选'
+        //     };
+        //     const item = Object.assign(obj, this.$store.state.place);
+        //     this.$store.commit('setPlace', item);
+        //   }
+        // },
         makeDeal(){
-          this.$router.push('/dealResult?dikou='+this.dikou+'&postFee='+this.postFee+'&total='+this.total);
-          const obj = {
-            status: '1'
-          };
-          this.$store.commit('setFormObj',obj);
+          // this.$router.push('/dealResult?dikou='+this.dikou+'&postFee='+this.postFee+'&total='+this.total);
+          // const obj = {
+          //   status: '1'
+          // };
+          // this.$store.commit('setFormObj',obj);
+          let param = new URLSearchParams();
+          param.append('type', '1'); // 1新增2更新3删除
+          param.append('user', this.$store.state.userInfo.tel);
+          param.append('status', '0'); // 0待付款，1待签收，2已签收,3退款中，4已退款，5,已取消
+          param.append('goodsObj', JSON.stringify(this.$store.state.dealObj.dealGoods));
+          param.append('time', new Date().toLocaleDateString() + ' ' + new Date().toTimeString().substring(0,8));
+          param.append('payType', this.radio); // 1余2微3支
+          param.append('addressId', this.$store.state.place.id);
+          param.append('allMount', this.allMount);
+          param.append('allFee', this.$store.state.dealObj.allCharge);
+          param.append('subFee', this.dikou);
+          param.append('postFee', this.postFee);
+          param.append('truePay', this.total);
+          axios.post('http://192.168.43.218/shop/editForm.php',param).then((data) => {
+            if (data.data.isSucc) {
+              this.isVisible = true;
+              this.formId = data.data.formId;
+            }
+          });
+        },
+        fnLeft(){
+          this.isVisible = false;
+          this.$router.push('/dealResult?id=' + this.formId);
+          window.sessionStorage.removeItem('isAgain');
+        },
+        fnRight(){
+          this.isVisible = false;
+          this.$router.push('/payResult?id=' + this.formId);
         }
       },
       beforeMount() {
-          this.updatePlace();
+          // this.updatePlace();
       },
       watch:{
           $route(to,from){
             if (from.path==='/shopCar'||from.path==='/shopCar2') {
-              this.updatePlace();
             }
           }
       },
+      components: {
+        myDialog
+      },
       computed: {
           total(){
-            const allCharge = parseFloat(this.$store.state.dealObj.allCharge).toFixed(1);
-            return parseFloat(allCharge) + this.postFee - this.dikou;
+            const allCharge = parseFloat(this.$store.state.dealObj.allCharge);
+            return (parseFloat(allCharge) + this.postFee - this.dikou).toFixed(1);
+        },
+        allMount(){
+          let sum = 0;
+            for (let item of this.$store.state.dealObj.dealGoods) {
+                sum += item.myMount;
+            }
+          return sum;
         }
-      }
+      },
     }
 </script>
 
