@@ -108,9 +108,9 @@ export default {
       if (from.path === '/makeDeal' && to.path === '/dealResult' && window.sessionStorage.getItem('isAgain') === 'false') {
         this.animateName = 'turn-right';
       }
-      if (window.sessionStorage.getItem('continuePay') === 'true') {
-        this.animateName = 'turn-left';
-      }
+      // if (window.sessionStorage.getItem('continuePay') === 'true') {
+      //   this.animateName = 'turn-left';
+      // }
     }
   }
 }

@@ -79,6 +79,7 @@
   import Vue from 'vue'
   import { Toast } from 'vant';
   import { Dialog } from 'vant';
+  import { Indicator } from 'mint-ui';
   Vue.use(Dialog);
 
   Vue.use(Toast);
@@ -97,6 +98,7 @@
         },
       methods: {
           search() {
+            Indicator.open();
             this.searchClick = true; // 显示购物车图标
             // setTimeout(() => {
             //   this.showNeed = true;
@@ -138,10 +140,11 @@
             this.search();
         },
        getSearchResult() {
+         this.searchResultArr = [];
           let param = new URLSearchParams();
           param.append('key_words', this.searchValue);
           axios.post('http://192.168.43.218/shop/search.php',param).then((data) => {
-            // Indicator.close();
+            Indicator.close();
             if (data.data) {
               this.resultIsEmpty = false;
               this.searchResultArr = data.data;

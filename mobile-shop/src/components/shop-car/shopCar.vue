@@ -177,6 +177,9 @@
             Toast('请先选择商品');
           } else {
             this.$router.push('/makeDeal');
+            setTimeout(() => {
+              this.deleteChoosed();
+            },1000);
           }
           let dealObj = {};
           let dealGoods = [];
