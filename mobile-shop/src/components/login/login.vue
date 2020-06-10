@@ -24,7 +24,7 @@
       <div class="loginFooter">
         <div></div>
         <span>其他登录方式</span>
-        <div>
+        <div @click="wxLoginFn()">
           <img class="weChat" src="../../assets/weChat.png">
         </div>
       </div>
@@ -130,6 +130,97 @@
                 return temp[1]
               }
             }
+        },
+        wxLoginFn() {
+          let pages = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='+'wx4868b35061f87885'+'&redirect_uri='+''+'&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect';
+          window.location.href = pages;
+          return;
+          let self = this;
+          getService();
+
+          // 微信授权登录对象
+          let aweixin = null;
+          // 当前环境支持的所有授权登录对象
+          let auths = null;
+
+          // 获取登录授权认证服务列表，单独保存微信登录授权对象
+          function getService(){
+            plus.oauth.getServices(function(services){
+              // plus.nativeUI.alert("services:"+JSON.stringify(services));
+              auths = services;
+              authLogin()
+            }, function(e){
+              plus.nativeUI.alert("获取登录授权服务列表失败，请稍后重试");
+              // plus.nativeUI.alert("获取登录授权服务列表失败："+JSON.stringify(e));
+            } );
+          }
+
+          // 获取微信登录授权对象后可进行登录认证操作
+          function authLogin(){
+            for(let i = 0; i < auths.length; i++){
+              if(auths[i].id === 'weixin'){
+                aweixin = auths[i];
+                break;
+              }
+            }
+            if(!aweixin){
+              plus.nativeUI.alert("当前环境不支持微信登录");
+              return;
+            }
+            if(!aweixin.authResult){
+              aweixin.login(function(e){
+                // plus.nativeUI.alert("登录认证成功!"+JSON.stringify(e));
+                authUserInfo()
+              }, function(e){
+                // plus.nativeUI.alert("登录认证失败: "+JSON.stringify(e));
+              } );
+            }else{
+              authUserInfo()
+              console.log("已经登录认证!");
+            }
+          }
+
+          // 获取微信登录授权对象后获取用户信息操作
+          function authUserInfo(){
+            Toast.loading({
+              mask: true,
+              message: '微信登录中...'
+          });
+
+            if(!aweixin){
+              Toast.clear();
+              plus.nativeUI.alert("当前环境不支持微信登录");
+              return;
+            }
+            if(aweixin.authResult){
+              aweixin.getUserInfo( function(e){
+                //登录成功处理
+                Toast.clear();
+                // plus.nativeUI.alert("获取用户信息成功："+JSON.stringify(aweixin.userInfo));
+                let wxUserInfo = aweixin.userInfo;
+                // authLoginOut(); //注销登录防止切换账号获取到旧信息
+                console.log('wxUserInfo:' + JSON.stringify(wxUserInfo));
+              }, function(e){
+                console.log("获取用户信息失败： "+JSON.stringify(e));
+              } );
+            }else{
+              Toast.clear();
+              plus.nativeUI.alert("未登录认证!");
+            }
+          }
+
+          // 注销登录认证
+          function authLoginOut(){
+            if(!aweixin){
+              plus.nativeUI.alert("当前环境不支持微信登录");
+              return;
+            }
+            aweixin.logout(function(e){
+              // plus.nativeUI.alert("注销登录认证成功!"+JSON.stringify(e));
+            }, function(e){
+              console.log("注销登录认证失败: "+JSON.stringify(e));
+            });
+          }
         }
       },
       mounted() {
