@@ -3,7 +3,8 @@
     <div class="header">
       <div class="topDiv"></div>
       <van-icon name="arrow-left" color="rgba(0,0,0,0.6)" size="0.6rem" style="position: absolute;top: 57%;left: 1%" @click="back()"/>
-      <p>登录</p>
+      <p v-if="!isNew">登录</p>
+      <p v-if="isNew">手机号绑定</p>
     </div>
     <div class="loginBody" ref="loginBody">
       <van-field v-model="tel" type="number" label="手机号" placeholder="请输入手机号" style="border-bottom: 1px solid #f5f5f5" />
@@ -19,16 +20,17 @@
           <van-button size="small" type="primary" class="getCode" :disabled="tel.length!==11 || endTime !== 0" @click="getCode()">{{noText}}</van-button>
         </template>
       </van-field>
-      <p class="msg">（未注册过的用户将直接创建新账户）</p>
-      <van-button type="primary" class="loginButton" :disabled="sms.length!==6||tel.length!==11" @click="login()">登录</van-button>
-      <div class="loginFooter">
+      <p class="msg" v-show="!isNew">（未注册过的用户将直接创建新账户）</p>
+      <van-button v-if="!isNew" type="primary" class="loginButton" :disabled="sms.length!==6||tel.length!==11" @click="login()">登录</van-button>
+      <van-button v-if="isNew" type="primary" class="loginButton" :disabled="sms.length!==6||tel.length!==11" @click="login()">确定</van-button>
+      <div v-show="!isNew" class="loginFooter">
         <div></div>
         <span>其他登录方式</span>
         <div @click="wxLoginFn()">
-          <img class="weChat" src="../../assets/weChat.png">
+          <img class="weChat" src="../../assets/qq.png">
         </div>
       </div>
-      <p class="msg2">登录即代表您同意手机超市<span>《服务协议》</span>和<span>《隐私政策》</span></p>
+      <p v-show="!isNew" class="msg2">登录即代表您同意手机超市<span>《服务协议》</span>和<span>《隐私政策》</span></p>
     </div>
   </div>
 </template>
@@ -48,7 +50,10 @@
             sms: '',
             endTime: 0,
             noText: '获取验证码',
-            userInfo: {}
+            userInfo: {},
+            isNew: false,
+            nickName: '',
+            txUrl: ''
           }
       },
       methods:{
@@ -100,6 +105,8 @@
                 let param = new URLSearchParams();
                 param.append('tel', this.tel);
                 param.append('code', this.sms);
+                param.append('nickName', this.nickName);
+                param.append('txUrl', this.txUrl);
                 axios.post('http://192.168.43.218/shop/login.php',param).then((data) => {
                   // const millisecond = new Date().getTime();
                   // const expiresTime = new Date(millisecond + 60 * 1000);
@@ -111,6 +118,7 @@
                   this.$store.commit('setIsLogin', true);
                   this.getMyAddress();
                   this.back();
+                  // console.log('$store.state.userInfo:' + JSON.stringify(this.$store.state.userInfo));
                 })
               } else {
                 Toast.fail('验证码错误');
@@ -132,13 +140,8 @@
             }
         },
         wxLoginFn() {
-          let pages = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='+'wx4868b35061f87885'+'&redirect_uri='+''+'&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect';
-          window.location.href = pages;
-          return;
-          let self = this;
           getService();
-
-          // 微信授权登录对象
+          const that = this;
           let aweixin = null;
           // 当前环境支持的所有授权登录对象
           let auths = null;
@@ -148,6 +151,7 @@
             plus.oauth.getServices(function(services){
               // plus.nativeUI.alert("services:"+JSON.stringify(services));
               auths = services;
+              console.log('服务:' + JSON.stringify(services));
               authLogin()
             }, function(e){
               plus.nativeUI.alert("获取登录授权服务列表失败，请稍后重试");
@@ -155,16 +159,16 @@
             } );
           }
 
-          // 获取微信登录授权对象后可进行登录认证操作
+          // 获取qq登录授权对象后可进行登录认证操作
           function authLogin(){
             for(let i = 0; i < auths.length; i++){
-              if(auths[i].id === 'weixin'){
+              if(auths[i].id === 'qq'){
                 aweixin = auths[i];
                 break;
               }
             }
             if(!aweixin){
-              plus.nativeUI.alert("当前环境不支持微信登录");
+              plus.nativeUI.alert("当前环境不支持qq登录");
               return;
             }
             if(!aweixin.authResult){
@@ -175,7 +179,7 @@
                 // plus.nativeUI.alert("登录认证失败: "+JSON.stringify(e));
               } );
             }else{
-              authUserInfo()
+              authUserInfo();
               console.log("已经登录认证!");
             }
           }
@@ -184,12 +188,12 @@
           function authUserInfo(){
             Toast.loading({
               mask: true,
-              message: '微信登录中...'
+              message: '准备中...'
           });
 
             if(!aweixin){
               Toast.clear();
-              plus.nativeUI.alert("当前环境不支持微信登录");
+              plus.nativeUI.alert("当前环境不支持qq登录");
               return;
             }
             if(aweixin.authResult){
@@ -198,7 +202,10 @@
                 Toast.clear();
                 // plus.nativeUI.alert("获取用户信息成功："+JSON.stringify(aweixin.userInfo));
                 let wxUserInfo = aweixin.userInfo;
-                // authLoginOut(); //注销登录防止切换账号获取到旧信息
+                that.nickName = wxUserInfo.nickname;
+                that.txUrl = wxUserInfo.figureurl_qq_2;
+                that.qqLogin(wxUserInfo);
+                authLoginOut(); //注销登录防止切换账号获取到旧信息
                 console.log('wxUserInfo:' + JSON.stringify(wxUserInfo));
               }, function(e){
                 console.log("获取用户信息失败： "+JSON.stringify(e));
@@ -212,7 +219,7 @@
           // 注销登录认证
           function authLoginOut(){
             if(!aweixin){
-              plus.nativeUI.alert("当前环境不支持微信登录");
+              plus.nativeUI.alert("当前环境不支持qq登录");
               return;
             }
             aweixin.logout(function(e){
@@ -221,6 +228,33 @@
               console.log("注销登录认证失败: "+JSON.stringify(e));
             });
           }
+        },
+        qqLogin(info) {
+          let param = new URLSearchParams();
+          console.log('niceName:' + info['nickname']);
+          param.append('nickName', info['nickname']);
+          axios.post('http://192.168.43.218/shop/qqLogin.php',param).then((val) => {
+            console.log('isNew:' + val.data.isNew);
+            if (val.data.isNew) {
+              this.isNew = true;
+            } else {
+              let param = new URLSearchParams();
+              param.append('tel', val.data.data[0].tel);
+              param.append('code', '000000');
+              axios.post('http://192.168.43.218/shop/login.php',param).then((data) => {
+                // const millisecond = new Date().getTime();
+                // const expiresTime = new Date(millisecond + 60 * 1000);
+                window.localStorage.setItem('token', data.data.token);
+                // Cookies.set('token', data.data.token, {
+                //   expires: expiresTime,
+                // });
+                this.$store.commit('setUserInfo', data.data.data[0]);
+                this.$store.commit('setIsLogin', true);
+                this.getMyAddress();
+                this.back();
+              })
+            }
+          })
         }
       },
       mounted() {
@@ -231,6 +265,9 @@
           $route(){
             this.tel = '';
             this.sms = '';
+            this.isNew = false;
+            this.nickName = '';
+            this.txUrl = '';
           }
       }
     }

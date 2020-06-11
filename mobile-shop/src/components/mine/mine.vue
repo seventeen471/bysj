@@ -8,7 +8,8 @@
           </router-link>
         </div>
         <div class="info">
-          <img src="../../assets/touxiang.jpg">
+          <img v-if="!$store.state.userInfo.tx_url" src="../../assets/touxiang.jpg">
+          <img v-if="$store.state.userInfo.tx_url" :src="$store.state.userInfo['tx_url']">
           <div v-if="$store.state.isLogin">
           <span>{{$store.state.userInfo.user_name}}</span>
           <p>普通用户</p>
