@@ -143,7 +143,7 @@
          this.searchResultArr = [];
           let param = new URLSearchParams();
           param.append('key_words', this.searchValue);
-          axios.post('http://192.168.43.218/shop/search.php',param).then((data) => {
+          axios.post(this.$url + '/shop/search.php',param).then((data) => {
             Indicator.close();
             if (data.data) {
               this.resultIsEmpty = false;
@@ -151,7 +151,7 @@
             } else {
               this.resultIsEmpty = true;
             }
-            axios.get('http://192.168.43.218/shop/getHotRecommend.php').then(data => {
+            axios.get(this.$url + '/shop/getHotRecommend.php').then(data => {
               this.hotRecommendArr = data.data.reverse();
             });
           })

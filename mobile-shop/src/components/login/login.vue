@@ -63,7 +63,7 @@
         getCode(){
           let param = new URLSearchParams();
           param.append('tel', this.tel);
-          axios.post('http://192.168.43.218/shop/postCode.php',param).then((data) => {
+          axios.post(this.$url + '/shop/postCode.php',param).then((data) => {
             window.sessionStorage.setItem('code', data.data.tel + ':' + data.data.code);
             // const millisecond = new Date().getTime();
             // const expiresTime = new Date(millisecond + 60 * 1000 * 15);
@@ -87,7 +87,7 @@
         getMyAddress(){
           let param = new URLSearchParams();
           param.append('user', this.$store.state.userInfo.tel);
-          axios.post('http://192.168.43.218/shop/getAddress.php',param).then((data) => {
+          axios.post(this.$url + '/shop/getAddress.php',param).then((data) => {
             this.$store.commit('setMyAddressList',data.data.data);
             data.data.data.forEach(e => {
               if (e.isDefault === 'true') {
@@ -107,7 +107,7 @@
                 param.append('code', this.sms);
                 param.append('nickName', this.nickName);
                 param.append('txUrl', this.txUrl);
-                axios.post('http://192.168.43.218/shop/login.php',param).then((data) => {
+                axios.post(this.$url + '/shop/login.php',param).then((data) => {
                   // const millisecond = new Date().getTime();
                   // const expiresTime = new Date(millisecond + 60 * 1000);
                   window.localStorage.setItem('token', data.data.token);
@@ -233,7 +233,7 @@
           let param = new URLSearchParams();
           console.log('niceName:' + info['nickname']);
           param.append('nickName', info['nickname']);
-          axios.post('http://192.168.43.218/shop/qqLogin.php',param).then((val) => {
+          axios.post(this.$url + '/shop/qqLogin.php',param).then((val) => {
             console.log('isNew:' + val.data.isNew);
             if (val.data.isNew) {
               this.isNew = true;
@@ -241,7 +241,7 @@
               let param = new URLSearchParams();
               param.append('tel', val.data.data[0].tel);
               param.append('code', '000000');
-              axios.post('http://192.168.43.218/shop/login.php',param).then((data) => {
+              axios.post(this.$url + '/shop/login.php',param).then((data) => {
                 // const millisecond = new Date().getTime();
                 // const expiresTime = new Date(millisecond + 60 * 1000);
                 window.localStorage.setItem('token', data.data.token);

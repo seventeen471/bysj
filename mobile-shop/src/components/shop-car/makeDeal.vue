@@ -119,7 +119,7 @@
           param.append('subFee', this.dikou);
           param.append('postFee', this.postFee);
           param.append('truePay', this.total);
-          axios.post('http://192.168.43.218/shop/editForm.php',param).then((data) => {
+          axios.post(this.$url + '/shop/editForm.php',param).then((data) => {
             if (data.data.isSucc) {
               this.isVisible = true;
               this.formId = data.data.formId;

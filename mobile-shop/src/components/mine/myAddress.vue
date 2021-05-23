@@ -70,7 +70,7 @@
         getMyAddress(){
           let param = new URLSearchParams();
           param.append('user', this.$store.state.userInfo.tel);
-          axios.post('http://192.168.43.218/shop/getAddress.php',param).then((data) => {
+          axios.post(this.$url + '/shop/getAddress.php',param).then((data) => {
             this.myAddressList = data.data.data;
             this.getRadio();
           });

@@ -207,13 +207,13 @@
         },
         getHotRecommend() {
           // Indicator.open('加载中...');
-          axios.get('http://192.168.43.218/shop/getHotRecommend.php').then((data) => {
+          axios.get(this.$url + '/shop/getHotRecommend.php').then((data) => {
             // Indicator.close();
             this.hotRecommendArr = data.data;
           });
           },
         getTimeShopping() {
-          axios.get('http://192.168.43.218/shop/getTimeShopping.php').then((data) => {
+          axios.get(this.$url + '/shop/getTimeShopping.php').then((data) => {
             // Indicator.close();
             this.timeShoppingArr = data.data.data;
             this.h = data.data.h;

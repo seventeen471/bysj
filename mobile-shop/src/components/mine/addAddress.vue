@@ -94,7 +94,7 @@
           param.append('door_no', this.doorNo);
           param.append('mark', this.mark);
           param.append('isDefault', this.isDefault?'true':'false');
-          axios.post('http://192.168.43.218/shop/changeAddress.php',param).then((data) => {
+          axios.post(this.$url + '/shop/changeAddress.php',param).then((data) => {
             if (data.data.isSucc) {
               this.$router.go(-1);
             }
@@ -112,7 +112,7 @@
           param.append('door_no', this.doorNo);
           param.append('mark', this.mark);
           param.append('isDefault', this.isDefault?'true':'false');
-          axios.post('http://192.168.43.218/shop/changeAddress.php',param).then((data) => {
+          axios.post(this.$url + '/shop/changeAddress.php',param).then((data) => {
             if (data.data.isSucc) {
               this.$router.go(-1);
             }
@@ -128,7 +128,7 @@
               param.append('type', '3');
               param.append('id', this.id);
               param.append('user', this.$store.state.userInfo.tel);
-              axios.post('http://192.168.43.218/shop/changeAddress.php',param).then((data) => {
+              axios.post(this.$url + '/shop/changeAddress.php',param).then((data) => {
                 if (data.data.isSucc) {
                   this.$router.go(-1);
                 }

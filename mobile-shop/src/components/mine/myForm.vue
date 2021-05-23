@@ -121,7 +121,7 @@
             this.Arr2 = [];
           let param = new URLSearchParams();
           param.append('user', this.$store.state.userInfo.tel);
-          axios.post('http://192.168.43.218/shop/queryForm.php',param).then((data) => {
+          axios.post(this.$url + '/shop/queryForm.php',param).then((data) => {
             this.allListArr = data.data.data.reverse();
             this.allListArr.forEach(e => {
               if (e.status === '0') {
@@ -141,7 +141,7 @@
           param.append('type', '2'); // 1新增2更新3删除
           param.append('id', id);
           param.append('status', status); // 0待付款，1待签收，2已签收,3已评价，4退款中，5已退款，6已取消
-          axios.post('http://192.168.43.218/shop/editForm.php',param).then((data) => {
+          axios.post(this.$url + '/shop/editForm.php',param).then((data) => {
             if (data.data.isSucc) {
               switch (status) {
                 case '2':
@@ -182,7 +182,7 @@
               param.append('type', '3'); // 1新增2更新3删除
               param.append('form_id', form_id);
               param.append('list_id', list_id);
-              axios.post('http://192.168.43.218/shop/editForm.php', param).then((data) => {
+              axios.post(this.$url + '/shop/editForm.php', param).then((data) => {
                 if (data.data.isSucc) {
                   Toast.success('删除成功');
                   this.queryForm();

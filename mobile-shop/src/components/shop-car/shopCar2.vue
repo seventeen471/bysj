@@ -235,7 +235,7 @@
       }
     },
     beforeMount(){
-      axios.get('http://192.168.43.218/shop/getHotRecommend.php').then(data => {
+      axios.get(this.$url + '/shop/getHotRecommend.php').then(data => {
         this.hotRecommendArr = data.data.reverse();
       });
     },

@@ -45,7 +45,7 @@
           param.append('type', '2'); // 1新增2更新3删除
           param.append('id', this.$route.query.id);
           param.append('status', '1'); // 0待付款，1待签收，2已签收,3已评价，4退款中，5已退款，6已取消
-          axios.post('http://192.168.43.218/shop/editForm.php',param).then((data) => {
+          axios.post(this.$url + '/shop/editForm.php',param).then((data) => {
             if (data.data.isSucc) {
             }
           });

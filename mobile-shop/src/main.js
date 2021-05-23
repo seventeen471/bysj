@@ -15,7 +15,7 @@ import './axios/interceptors'
 Vue.use(Vant);
 Vue.config.productionTip = false;
 
-// axios.get('http://192.168.43.218/shop/getHotRecommend.php').then(data => {
+// axios.get(this.$url + 'shop/getHotRecommend.php').then(data => {
 // }).catch(() => {
 //   alert('123');
 // });
@@ -48,6 +48,7 @@ document.addEventListener('plusready', () => {
     }
   },false);
 });
+Vue.prototype.$url = 'http://1.117.38.119/'
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

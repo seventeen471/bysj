@@ -132,7 +132,7 @@
             }
           let param = new URLSearchParams();
           param.append('className', name);
-          axios.post('http://192.168.43.218/shop/getClassifyAllObj.php',param).then((data) => {
+          axios.post(this.$url + '/shop/getClassifyAllObj.php',param).then((data) => {
             this.constAllObj = data.data;
             this.allObjArr = data.data;
             this.sortArr();
