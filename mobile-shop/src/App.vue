@@ -65,6 +65,8 @@ export default {
     });
   },
   beforeMount(){
+    console.log('width:' + document.documentElement.clientWidth);
+    console.log('height:' + document.documentElement.clientHeight);
     const token = window.localStorage.getItem('token');
     if (token) {
       let param = new URLSearchParams();

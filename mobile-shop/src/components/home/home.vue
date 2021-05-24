@@ -147,7 +147,7 @@
             // hidshow: true,  //显示或者隐藏footer
             scrollTop: '0',
             searchCSS1: '',
-            searchCSS2: 'transform: translateY(-0.95rem);position: fixed;background-color:#FA8072;z-index:999;',
+            searchCSS2: 'transform: translateY(-34px);position: fixed;background-color:#FA8072;z-index:999;',
             // distanceY: 0,
             leftScroll: 0,
             hotRecommendArr: [],
@@ -337,29 +337,29 @@
   }
   .location{
     margin-left: 0.3rem;
-    transform: translateY(1.2rem) scale(0.8);
+    transform: translateY(43px) scale(0.8);
   }
   .message{
-    transform: translate(5.7rem, 0.926rem);
+    transform: translate(5.7rem, 32px);
   }
   .header{
     width: 100%;
-    height: 6.2rem;
+    height: 225px;
     background-color: #FA8072;
     position: relative;
     span{
       display: inline-block;
       color: #fff;
       font-size: 0.45rem;
-      transform: translateY(1rem);
+      transform: translateY(36px);
     }
   }
     .swipe{
       width: 9.2rem;
-      height: 3.5rem;
+      height: 132px;
       overflow: hidden;
       border-radius: 0.213rem;
-      transform: translate(0.373rem, -2.8rem);
+      transform: translate(0.373rem, -100px);
       img{
         width: 100%;
         z-index: 1;
@@ -377,17 +377,18 @@
       font-size: 0.35rem;
     }
     .ico{
-      transform: translate(-0.16rem,-2.48rem);
+      transform: translate(-0.16rem,-90px);
       display: flex;
       justify-content: space-around;
       span{
-        transform: translateY(-0.1rem);
+        transform: translateY(-4px);
       }
     }
     .homeClass{
-      height: 4.8rem;
-      transform: translate(-0.1rem,-2.3rem);
+      height: 180px;
+      transform: translate(-0.1rem,-86px);
       background-color: #fff;
+      padding-top: 10px;
       .class1,.class2{
         width: 100%;
         display: flex;
@@ -401,8 +402,8 @@
         display: flex;
         width: 100%;
         justify-content: space-around;
-        transform: translate(0.107rem,0.18rem);
-        height: 0.8rem;
+        transform: translate(0.107rem,7px);
+        height: 30px;
         span{
           color: rgba(0,0,0,0.8);
           font-size: 0.38rem;
@@ -410,13 +411,13 @@
       }
       div{
         width: 1.5rem;
-        height: 1.5rem;
+        height: 56px;
         overflow: hidden;
       }
     }
     .vip{
       width: 93%;
-      height: 0.9rem;
+      height: 34px;
       background-color: #FFEFD5;
       margin: 0 auto;
       border-radius: 0.2rem;
@@ -424,24 +425,28 @@
       p{
         font-size: 0.4rem;
         float: left;
-        transform: translate(1.453rem,0.15rem);
+        transform: translate(1.453rem, -8px);
+        &:nth-child(3) {
+          transform: translate(4.4rem, -8px) !important;
+        }
         /*clear: both;*/
       }
     }
     .timeShop{
       position: relative;
       width: 100%;
-      height: 4.9rem;
+      height: 200px;
       background-color: #fff;
       .timeShopHerder{
         width: 100%;
-        position: absolute;
-        height: 0.8rem;
+        position: relative;
+        height: 30px;
         /*z-index: 0;*/
         .l{
           /*transform: translate(0.3rem,0.02rem);*/
           position: absolute;
           left: 3%;
+          top: 5px;
           color: #FA8072;
           font-weight: bolder;
           font-size: larger;
@@ -452,25 +457,22 @@
           font-size: 0.45rem;
           position: absolute;
           left: 7%;
-          transform: translateY(-0.8rem);
-          margin-top: 0.9rem;
+          top: -13px;
         }
         .timeShow {
           /*transform: translate(3.2rem,-2.32rem);*/
           position: absolute;
           left: 30%;
+          top: 6px;
           span {
             display: inline-block;
-            height: 0.4rem;
             width: 0.4rem;
             background-color: black;
             color: #fff;
             font-size: 0.3rem;
-            padding-top: 0.05rem;
             /*padding-bottom: 0.05rem;*/
             padding-left: 0.1rem;
             padding-right: 0.05rem;
-            transform: translateY(-0.1rem);
           }
         }
         .more{
@@ -479,8 +481,8 @@
           color: #FA8072;
           /*font-weight: normal;*/
           font-weight: lighter;
-          font-size: 0.45rem;
-          transform: translate(7.95rem,-0.85rem);
+          font-size: 0.42rem;
+          transform: translate(7.95rem,3px);
         }
       }
       .timeShopBody{
@@ -496,14 +498,14 @@
         /*z-index: 1;*/
 
         ul{
-          height: 3.6rem;
+          height: 133px;
           /*padding-left: 0.4rem;*/
           display: flex;
           flex-wrap: nowrap;
           li{
             display: inline-block;
             width: 2.65rem;
-            height: 3.8rem;
+            height: 200px;
             margin-right: 0.06rem;
             /*z-index: 2;*/
           }
@@ -518,8 +520,8 @@
       header{
         text-align: center;
         font-size: 0.4rem;
-        padding-top: 0.35rem;
-        margin-bottom: 0.3rem;
+        padding-top: 13px;
+        margin-bottom: 12px;
         font-weight: bold;
       }
       .recommendBody{
@@ -529,7 +531,7 @@
         .goods{
           display: inline-block;
           width: 47.5%;
-          height: 6.2rem;
+          height: 232px;
           background-color: #fff;
           border-radius: 0.2rem;
           /*z-index: 1;*/
@@ -546,7 +548,7 @@
             height: 20%;
             position: relative;
             .p1 {
-              font-size: 0.42rem;
+              font-size: 0.41rem;
               color: rgba(0, 0, 0, 0.8);
               position: absolute;
               bottom: 0;
@@ -573,6 +575,7 @@
             }
             .shop-car{
               float: right;
+              margin-top: 3px;
             }
           }
         }
@@ -580,38 +583,38 @@
     }
   }
   .classImg1{
-    transform: scale(6.5) translate(0.58rem,0.26rem);
+    transform: scale(6.5) translate(0.58rem,9.5px);
   }
   .classImg2{
-    transform: scale(6.5) translate(0.295rem,0.26rem);
+    transform: scale(6.5) translate(0.295rem,9.5px);
   }
   .classImg3{
-    transform: scale(6.5) translate(0,0.26rem);
+    transform: scale(6.5) translate(0,9.5px);
   }
   .classImg4{
-    transform: scale(6.5) translate(-0.3rem,0.26rem);
+    transform: scale(6.5) translate(-0.3rem,9.5px);
   }
   .classImg5{
-    transform: scale(6.5) translate(-0.58rem,0.26rem);
+    transform: scale(6.5) translate(-0.58rem,9.5px);
   }
   .classImg6{
-    transform: scale(6.5) translate(0.59rem,-0.067rem);
+    transform: scale(6.5) translate(0.59rem,-2.4px);
   }
   .classImg7{
-    transform: scale(6.5) translate(0.3rem,-0.067rem);
+    transform: scale(6.5) translate(0.3rem,-2.4px);
   }
   .classImg8{
-    transform: scale(6.5) translate(0,-0.067rem);
+    transform: scale(6.5) translate(0,-2.4px);
   }
   .timeShopBody {
     ul {
       img {
         width: 2.6rem;
-        height: 2.4rem;
+        height: 80px;
       }
 
       .p1-div {
-        width: 90%;
+        width: 100%;
         margin: 0 auto;
         height: 10%;
         position: relative;
@@ -620,16 +623,17 @@
           color: rgba(0, 0, 0, 0.8);
           position: absolute;
           bottom: 0;
+          top: -15px;
         }
       }
 
       .p2 {
         width: 90%;
-        margin: 0 auto;
+        margin: 1px auto 5px auto;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        font-size: 0.24rem;
+        font-size: 0.25rem;
         color: rgba(0, 0, 0, 0.3);
       }
 
@@ -647,6 +651,7 @@
 
         .shop-car {
           margin-left: 18%;
+          margin-top: 2px;
         }
       }
     }

@@ -4,21 +4,30 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
     <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=q4zjviVrgc9bMR8b67XOXjSr8jXOxsmm"></script>
+    <link rel="stylesheet" href="./src/assets/normalize.css">
     <title>mobile-shop</title>
-<!--    <script type="text/javascript" src="static/flexible.min.js"></script>-->
+    <script type="text/javascript" src="static/flexible.min.js"></script>
     <style>
-      *{
-        margin: 0;
-        padding: 0;
-        -webkit-touch-callout:none;
-        -webkit-user-select:none;
-        -khtml-user-select:none;
-        -moz-user-select:none;
-        -ms-user-select:none;
-        user-select:none;
-      }
-      html{
+      /**{*/
+      /*  margin: 0;*/
+      /*  padding: 0;*/
+      /*  -webkit-touch-callout:none;*/
+      /*  -webkit-user-select:none;*/
+      /*  -khtml-user-select:none;*/
+      /*  -moz-user-select:none;*/
+      /*  -ms-user-select:none;*/
+      /*  user-select:none;*/
+      /*}*/
+      body{
+        min-width: 320px;
+        max-width: 750px;
+        margin: 0 auto;
         background-color: #F5F5F5;
+      }
+      @media screen and (min-width: 750px) {
+        html{
+          font-size: 37.5px!important;
+        }
       }
     </style>
   </head>
