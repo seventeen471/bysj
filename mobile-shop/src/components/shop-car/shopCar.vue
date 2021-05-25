@@ -60,7 +60,7 @@
           <div style="margin-top: -0.4rem;margin-left: 0.2rem">
         <span>不含运费</span>
         <span>合计：</span>
-        <span style="display: inline-block;width: 2.15rem;overflow-x: auto;transform: translateY(0.2rem)">￥{{allCharge}}</span>
+        <span style="display: inline-block;width: 1.8rem;overflow-x: auto;transform: translateY(0.2rem)">￥{{allCharge}}</span>
           </div>
         </div>
         <van-button type="primary" color="#FA8072" class="goPay" @click="goPay()">去结算 ({{checkedMount}})</van-button>

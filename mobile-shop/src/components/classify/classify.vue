@@ -29,8 +29,8 @@
           <span :style="'position:absolute;left:46vw;color:'+(oderIndex===2?'#FA8072':'#bfbfbf')" @click="oderClick(2)">销量</span>
           <span :style="'position:absolute;left:60vw;color:'+(oderIndex===3?'#FA8072':'#bfbfbf')" @click="oderClick(3)">
             价格
-            <van-icon size="0.2rem" style="transform: rotateZ(-90deg);position: absolute;top: 0.02rem;left: 7vw;" :color="oderIndex===3&&!isUp?'#FA8072':'#bfbfbf'" name="play" />
-            <van-icon size="0.2rem" style="transform: rotateZ(90deg);position: absolute;top: 0.18rem;left: 7vw;" :color="oderIndex===3&&isUp?'#FA8072':'#bfbfbf'"  name="play" />
+            <van-icon size="0.2rem" style="transform: rotateZ(-90deg) translateX(0.05rem)" :color="oderIndex===3&&!isUp?'#FA8072':'#bfbfbf'" name="play" />
+            <van-icon size="0.2rem" style="transform: rotateZ(90deg);position: absolute;top: 0.2rem;right: 0" :color="oderIndex===3&&isUp?'#FA8072':'#bfbfbf'"  name="play" />
           </span>
         </div>
         <div class="body classBody">
@@ -384,7 +384,7 @@
         font-size: 0.4rem;
         line-height: 0.8rem;
         margin-right: 2%;
-        transform: translateY(-0.15rem);
+        transform: translateY(-0.18rem);
         color: grey;
       }
     }
@@ -484,12 +484,10 @@
     width: 10rem;
     height: 5rem;
     background-color: #fff;
-    margin-left: -3%;
-    padding-top: 12%;
-    margin-top: -1%;
+    margin: 0.5rem 1rem 1rem -1.6rem;
     img{
       display: block;
-      width: 2rem;
+      width: 1.8rem;
       margin: 0 auto;
     }
     p{

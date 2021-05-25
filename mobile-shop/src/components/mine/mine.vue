@@ -27,12 +27,12 @@
         <div>{{0}}<p>积分</p></div>
       </div>
       <div class="oder-form-div" style="height: 3.9rem;">
-        <p style="transform: translateY(0.4rem);opacity: 0.8">我的订单</p>
+        <p style="transform: translateY(0.4rem);">我的订单</p>
         <div class="all" @click="goUrl('myForm?index=a')">
           <span>全部订单</span>
           <van-icon name="arrow" color="#ccc" size="0.36rem" style="transform: translate(-0.15rem,0.04rem)"/>
         </div>
-        <div class="oder-form" style="height: 3.5rem">
+        <div class="oder-form" style="height: 3rem;">
           <div @click="goUrl('myForm?index=b')">
             <van-icon name="credit-pay" color="#bfbfbf" size="0.85rem" style="transform: translateX(0.65rem)"/>
             <p>待支付</p>
@@ -52,7 +52,7 @@
         </div>
       </div>
       <div class="functionDiv">
-        <p style="transform: translateY(0.4rem);opacity: 0.8">常用功能</p>
+        <p style="transform: translateY(0.4rem);">常用功能</p>
       <div class="function">
         <div>
           <van-icon name="vip-card-o" color="#bfbfbf" size="0.85rem" style="transform: translateX(0.65rem)"/>
@@ -169,10 +169,11 @@
         font-size: 0.43rem;
         color: rgba(0,0,0,0.8);
         padding-left: 3%;
+        padding-bottom: 0.35rem;
       }
       .function, .oder-form {
         width: 10rem;
-        height: 5rem;
+        height: 4.6rem;
         display: flex;
         justify-content: space-around;
         flex-wrap: wrap;
@@ -185,6 +186,7 @@
             font-size: 0.36rem;
             color: rgba(0,0,0,0.6);
             text-align: center;
+            margin-top: -0.02rem;
           }
         }
       }
@@ -192,6 +194,9 @@
   }
   .oder-form {
     transform: translateY(-0.3rem);
+    p{
+      margin-top: -0.05rem;
+    }
     div {
       padding-top: 0;
     }
