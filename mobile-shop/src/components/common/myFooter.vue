@@ -84,7 +84,7 @@
     align-items: center;
     font-size: 0.35rem;
     background-color: #fff;
-    padding-top: 0.8vh;
+    padding-top: 0.17rem;
     p{
       margin-top: 0;
     }
