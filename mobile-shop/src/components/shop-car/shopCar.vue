@@ -57,10 +57,10 @@
       <div class="bottomDiv" :style="notFirst==='true'?'bottom:0':''">
         <van-checkbox v-model="allChecked" checked-color="#FA8072" icon-size="0.55rem" class="allCheck" @click="allCheckClick()">全选</van-checkbox>
         <div class="spanDiv">
-          <div style="float: right;margin-right: -2%">
+          <div style="margin-top: -0.4rem;margin-left: 0.2rem">
         <span>不含运费</span>
         <span>合计：</span>
-        <span>￥{{allCharge}}</span>
+        <span style="display: inline-block;width: 2.15rem;overflow-x: auto;transform: translateY(0.2rem)">￥{{allCharge}}</span>
           </div>
         </div>
         <van-button type="primary" color="#FA8072" class="goPay" @click="goPay()">去结算 ({{checkedMount}})</van-button>
@@ -438,11 +438,11 @@
   }
   .bottomDiv{
     width: 100vw;
-    height: 8vh;
+    height: 2rem;
     background-color: #fff;
     border-bottom: 1px solid #f5f5f5;
     position: absolute;
-    bottom: 8vh;
+    bottom: 1.9rem;
     .allCheck{
      font-size: 0.45rem;
       color: rgba(0,0,0,0.7);
@@ -451,13 +451,13 @@
       left: 4%;
     }
     .goPay{
-      width: 24vw;
-      height: 65%;
+      width: 23vw;
+      height: 60%;
       position: absolute;
       top: 16%;
       right: 4%;
-      font-size: 0.45rem;
       border-radius: 0.2rem;
+      font-size: 0.42rem;
       white-space: nowrap;
     }
     .spanDiv{
@@ -514,7 +514,7 @@
           height: 20%;
           position: relative;
           .p1 {
-            font-size: 0.42rem;
+            font-size: 0.38rem;
             color: rgba(0, 0, 0, 0.8);
             position: absolute;
             bottom: 0;
@@ -527,6 +527,7 @@
           overflow: hidden;
           text-overflow: ellipsis;
           font-size: 0.33rem;
+          margin-top: -0.2rem;
           color: rgba(0,0,0,0.3);
         }
         .charge-add {
