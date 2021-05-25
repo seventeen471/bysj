@@ -26,8 +26,8 @@
         <div>{{0}}<p>优惠券</p></div>
         <div>{{0}}<p>积分</p></div>
       </div>
-      <div class="oder-form-div" style="height: 3.5rem;">
-        <p>我的订单</p>
+      <div class="oder-form-div" style="height: 3.9rem;">
+        <p style="transform: translateY(0.4rem);opacity: 0.8">我的订单</p>
         <div class="all" @click="goUrl('myForm?index=a')">
           <span>全部订单</span>
           <van-icon name="arrow" color="#ccc" size="0.36rem" style="transform: translate(-0.15rem,0.04rem)"/>
@@ -52,7 +52,7 @@
         </div>
       </div>
       <div class="functionDiv">
-        <p>常用功能</p>
+        <p style="transform: translateY(0.4rem);opacity: 0.8">常用功能</p>
       <div class="function">
         <div>
           <van-icon name="vip-card-o" color="#bfbfbf" size="0.85rem" style="transform: translateX(0.65rem)"/>
@@ -121,8 +121,8 @@
 
       .message {
         position: absolute;
-        top: 27.2%;
-        right: 6.5%;
+        top: 1rem;
+        right: 5%;
       }
 
       .info {
@@ -131,7 +131,7 @@
           height: 2rem;
           border-radius: 50%;
           position: absolute;
-          top: 40%;
+          top: 1.5rem;
           left: 8%;
         }
         span {
@@ -162,8 +162,7 @@
       width: 10rem;
       height: 6.2rem;
       background-color: #fff;
-      margin-top: 5%;
-      padding-top: 5%;
+      margin-top: 0.5rem;
       position: relative;
       p{
         font-weight: bolder;
@@ -178,11 +177,9 @@
         justify-content: space-around;
         flex-wrap: wrap;
         align-content: space-around;
-        margin-top: 3%;
         div {
           width: 2.1rem;
           height: 2.1rem;
-          padding-top: 2%;
           p{
             font-weight: normal;
             font-size: 0.36rem;
@@ -201,7 +198,7 @@
   }
   .all{
     position: absolute;
-    top: 7.5%;
+    top: -0.12rem;
     right: 1.5%;
     span{
       color: #cccccc;
@@ -210,7 +207,7 @@
   }
   .rich{
     width: 10rem;
-    height: 12%;
+    height: 3rem;
     background-color: #fff;
     display: flex;
     justify-content: space-around;
