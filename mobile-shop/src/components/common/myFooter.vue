@@ -80,12 +80,11 @@
   .footer{
     display: flex;
     width: 100%;
-    height: 7.6vh;
     justify-content: space-around;
     align-items: center;
     font-size: 0.35rem;
     background-color: #fff;
-    padding-top: 0.8%;
+    padding-top: 0.8vh;
     p{
       margin-top: 0;
     }

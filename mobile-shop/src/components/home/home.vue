@@ -7,10 +7,10 @@
         <van-icon name="location" color="#fff" size="0.8rem" class="location"/>
         <span v-if="$store.state.place.small_address">{{$store.state.place.small_address}}</span>
         <span v-if="!$store.state.place.small_address">选择收货地址</span>
-        <van-icon name="play" color="#fff" style="transform: rotateZ(90deg) scale(0.5) translate(2.2rem)"/>
+        <van-icon name="play" color="#fff" style="transform: rotateZ(90deg) scale(0.5);position: absolute;top: 4.3vh"/>
           </router-link>
           <router-link to="/myNews">
-        <van-icon name="bell" color="#fff" size="0.6rem" class="message" style="position: absolute;top: 6.4%;left: 32%"/>
+        <van-icon name="bell" color="#fff" size="0.6rem" class="message" style="position: absolute;top: 1.2vh;left: 32%"/>
           </router-link>
         </div>
         <div :style="scrollTop <= 32 ? searchCSS1 : searchCSS2">
@@ -19,7 +19,7 @@
           shape="round"
           background="#FA8072"
           placeholder="冬瓜"
-          style="transform: translateY(0.95rem); width: 10rem;"
+          style="transform: translateY(3vh); width: 10rem;"
           disabled
           @click="goToSearch()"
         />
@@ -65,15 +65,15 @@
           <div class="className"><span @click="classClick(5)">乳品烘焙</span><span @click="classClick(6)">米面粮油</span>
             <span @click="classClick(7)">方便速食</span><span @click="classClick(8)">酒饮零食</span></div>
         </div>
-        <div style="margin-top: -2.05rem">
+        <div style="margin-top: -10vh">
         <div style="width: 100%;background-color: #F5F5F5">
         <div class="vip">
-          <van-icon name="vip-card" color="#FFD700" size="0.8rem" style="transform: translate(-4rem, 0.06rem);"/>
+          <van-icon name="vip-card" color="#FFD700" size="0.8rem" style="transform: translate(-4rem, -0.3vh);"/>
           <p>开通会员，享9.5折</p>
-          <p style="transform: translate(4.4rem,0.15rem);">开通</p><van-icon name="arrow" size="0.4rem" color="#FA8072" style="transform: translate(3.6rem,-0.15rem)"/>
+          <p style="transform: translate(4.4rem,0.15rem);">开通</p><van-icon name="arrow" size="0.4rem" color="#FA8072" style="transform: translate(3.6rem,-1.3vh)"/>
         </div>
         </div>
-        <div style="width: 100%; height: 0.267rem;background-color: #F5F5F5"></div>
+        <div style="width: 100%; height: 0.8vh;background-color: #F5F5F5"></div>
         <div class="timeShop">
           <div class="timeShopHerder">
             <div class="l">l</div><p>限时抢购</p>
@@ -92,7 +92,7 @@
                 <p class="p2">{{item['small_title']}}</p>
                 <div class="charge-add">
                   <span class="charge">￥{{item['charge']}}</span>
-                  <van-icon name="add" size="0.5rem" color="#FF6347" class="shop-car" @click.stop="addThis(item, $event)"/>
+                  <van-icon name="add" size="0.45rem" color="#FF6347" class="shop-car" @click.stop="addThis(item, $event)"/>
                 </div>
               </li>
             </ul>
@@ -147,7 +147,7 @@
             // hidshow: true,  //显示或者隐藏footer
             scrollTop: '0',
             searchCSS1: '',
-            searchCSS2: 'transform: translateY(-34px);position: fixed;background-color:#FA8072;z-index:999;',
+            searchCSS2: 'transform: translateY(-5.4vh);position: fixed;background-color:#FA8072;z-index:999;',
             // distanceY: 0,
             leftScroll: 0,
             hotRecommendArr: [],
@@ -337,7 +337,7 @@
   }
   .location{
     margin-left: 0.3rem;
-    transform: translateY(43px) scale(0.8);
+    transform: translateY(4vh) scale(0.8);
   }
   .message{
     transform: translate(5.7rem, 32px);
@@ -351,15 +351,15 @@
       display: inline-block;
       color: #fff;
       font-size: 0.45rem;
-      transform: translateY(36px);
+      transform: translateY(3vh);
     }
   }
     .swipe{
       width: 9.2rem;
-      height: 132px;
+      height: 16vh;
       overflow: hidden;
       border-radius: 0.213rem;
-      transform: translate(0.373rem, -100px);
+      transform: translate(0.373rem, -12vh);
       img{
         width: 100%;
         z-index: 1;
@@ -385,15 +385,15 @@
       }
     }
     .homeClass{
-      height: 180px;
-      transform: translate(-0.1rem,-86px);
+      height: 23vh;
+      transform: translate(-0.1rem,-10.8vh);
       background-color: #fff;
-      padding-top: 10px;
+      padding-top: 0.1rem;
       .class1,.class2{
         width: 100%;
         display: flex;
         justify-content: space-around;
-        padding-top: 1%;
+        margin-top: 0.1vh;
         /*div{*/
         /*  !*margin-top: 5%;*!*/
         /*}*/
@@ -402,22 +402,22 @@
         display: flex;
         width: 100%;
         justify-content: space-around;
-        transform: translate(0.107rem,7px);
+        transform: translate(0.107rem,1vh);
         height: 30px;
         span{
           color: rgba(0,0,0,0.8);
-          font-size: 0.38rem;
+          font-size: 0.37rem;
         }
       }
       div{
         width: 1.5rem;
-        height: 56px;
+        height: 1.5rem;
         overflow: hidden;
       }
     }
     .vip{
-      width: 93%;
-      height: 34px;
+      width: 95%;
+      height: 4.3vh;
       background-color: #FFEFD5;
       margin: 0 auto;
       border-radius: 0.2rem;
@@ -435,7 +435,7 @@
     .timeShop{
       position: relative;
       width: 100%;
-      height: 200px;
+      height: 21vh;
       background-color: #fff;
       .timeShopHerder{
         width: 100%;
@@ -446,10 +446,10 @@
           /*transform: translate(0.3rem,0.02rem);*/
           position: absolute;
           left: 3%;
-          top: 5px;
+          top: -0.8vh;
           color: #FA8072;
           font-weight: bolder;
-          font-size: larger;
+          transform: scale(0.6);
         }
         p{
           color: black;
@@ -463,7 +463,8 @@
           /*transform: translate(3.2rem,-2.32rem);*/
           position: absolute;
           left: 30%;
-          top: 6px;
+          top: 0.2vh;
+          font-size: 0.5rem;
           span {
             display: inline-block;
             width: 0.4rem;
@@ -481,8 +482,8 @@
           color: #FA8072;
           /*font-weight: normal;*/
           font-weight: lighter;
-          font-size: 0.42rem;
-          transform: translate(7.95rem,3px);
+          font-size: 0.41rem;
+          transform: translate(7.95rem,0.2vh);
         }
       }
       .timeShopBody{
@@ -548,7 +549,7 @@
             height: 20%;
             position: relative;
             .p1 {
-              font-size: 0.41rem;
+              font-size: 0.38rem;
               color: rgba(0, 0, 0, 0.8);
               position: absolute;
               bottom: 0;
@@ -561,13 +562,14 @@
             overflow: hidden;
             text-overflow: ellipsis;
             font-size: 0.33rem;
+            transform: translateY(-1vh);
             color: rgba(0,0,0,0.3);
           }
           .charge-add {
             width: 88%;
             margin: 0 auto;
             height: 15%;
-            padding-top: 6%;
+            padding-top: 2%;
             .charge {
               color: #FF6347;
               font-size: 0.45rem;
@@ -583,40 +585,40 @@
     }
   }
   .classImg1{
-    transform: scale(6.5) translate(0.58rem,9.5px);
+    transform: scale(6) translate(0.58rem,1.1vh);
   }
   .classImg2{
-    transform: scale(6.5) translate(0.295rem,9.5px);
+    transform: scale(6) translate(0.295rem,1.1vh);
   }
   .classImg3{
-    transform: scale(6.5) translate(0,9.5px);
+    transform: scale(6) translate(0,1.1vh);
   }
   .classImg4{
-    transform: scale(6.5) translate(-0.3rem,9.5px);
+    transform: scale(6) translate(-0.3rem,1.1vh);
   }
   .classImg5{
-    transform: scale(6.5) translate(-0.58rem,9.5px);
+    transform: scale(6) translate(-0.58rem,1.1vh);
   }
   .classImg6{
-    transform: scale(6.5) translate(0.59rem,-2.4px);
+    transform: scale(6) translate(0.59rem,-0.45vh);
   }
   .classImg7{
-    transform: scale(6.5) translate(0.3rem,-2.4px);
+    transform: scale(6) translate(0.3rem,-0.45vh);
   }
   .classImg8{
-    transform: scale(6.5) translate(0,-2.4px);
+    transform: scale(6) translate(0,-0.45vh);
   }
   .timeShopBody {
     ul {
       img {
-        width: 2.6rem;
-        height: 80px;
+        width: 2.4rem;
+        height: 8.8vh;
       }
 
       .p1-div {
         width: 100%;
         margin: 0 auto;
-        height: 10%;
+        height: 1.5vh;
         position: relative;
         .p1 {
           font-size: 0.3rem;
@@ -645,13 +647,14 @@
 
         .charge {
           color: #FF6347;
-          font-size: 0.45rem;
+          font-size: 0.43rem;
           float: left;
+          margin-top: -1vh;
         }
 
         .shop-car {
-          margin-left: 18%;
-          margin-top: 2px;
+          margin-left: 14%;
+          transform: translateY(-2.9vh);
         }
       }
     }
