@@ -158,10 +158,10 @@
     .newAddress{
       width: 80%;
       display: block;
-      height: 6%;
+      height: 1.2rem;
       border-radius: 0.2rem;
       position: absolute;
-      bottom: 3%;
+      bottom: 0.8rem;
       left: 10.2%;
     }
     }

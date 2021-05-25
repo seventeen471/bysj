@@ -215,7 +215,7 @@
     top: 2.161rem;
   }
   .mark{
-    height: 6%;
+    height: 1.2rem;
     font-size: 0.42rem;
     color: rgba(0,0,0,0.8);
     background-color: #fff;
@@ -232,14 +232,14 @@
     }
   }
   .list{
-    height: 6%;
+    height: 1.2rem;
     font-size: 0.42rem;
   }
   .addressButton{
     width: 80%;
     display: block;
-    margin: 4% auto;
-    height: 5%;
+    margin: 0.4rem auto;
+    height: 1.2rem;
     border-radius: 0.2rem;
   }
 </style>
