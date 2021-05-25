@@ -29,8 +29,8 @@
           <span :style="'position:absolute;left:46vw;color:'+(oderIndex===2?'#FA8072':'#bfbfbf')" @click="oderClick(2)">销量</span>
           <span :style="'position:absolute;left:60vw;color:'+(oderIndex===3?'#FA8072':'#bfbfbf')" @click="oderClick(3)">
             价格
-            <van-icon size="0.2rem" style="transform: rotateZ(-90deg);position: absolute;top: 25%;left: 7vw;" :color="oderIndex===3&&!isUp?'#FA8072':'#bfbfbf'" name="play" />
-            <van-icon size="0.2rem" style="transform: rotateZ(90deg);position: absolute;top: 45%;left: 7vw;" :color="oderIndex===3&&isUp?'#FA8072':'#bfbfbf'"  name="play" />
+            <van-icon size="0.2rem" style="transform: rotateZ(-90deg);position: absolute;top: 0.02rem;left: 7vw;" :color="oderIndex===3&&!isUp?'#FA8072':'#bfbfbf'" name="play" />
+            <van-icon size="0.2rem" style="transform: rotateZ(90deg);position: absolute;top: 0.18rem;left: 7vw;" :color="oderIndex===3&&isUp?'#FA8072':'#bfbfbf'"  name="play" />
           </span>
         </div>
         <div class="body classBody">
@@ -362,29 +362,29 @@
           font-size: 0.5rem;
           display: inline-block;
           position: absolute;
-          top: 0;
+          top: 0.05rem;
           left: 0;
         }
       }
     }
     .top-nav{
       width: 100vw;
-      height: 5.2vh;
+      height: 1.2rem;
       overflow-x: scroll;
       background-color: #f5f5f5;
       white-space: nowrap;
-      padding-top: 2%;
       div{
         display: inline-block;
         width: 25vw;
-        height: 4vh;
+        height: 0.8rem;
         text-align: center;
         background-color: #fff;
         border: 1px solid #fff;
         border-radius: 0.1rem;
         font-size: 0.4rem;
-        line-height: 4vh;
+        line-height: 0.8rem;
         margin-right: 2%;
+        transform: translateY(-0.15rem);
         color: grey;
       }
     }
@@ -392,11 +392,12 @@
       position: absolute;
       right: 0;
       width: 72vw;
-      height: 3vh;
+      height: 0.6rem;
       border-top: 1px solid #f5f5f5;
       border-bottom: 1px solid #f5f5f5;
       font-size: 0.32rem;
-      line-height: 3vh;
+      line-height: 0.6rem;
+      margin-top: 0.1rem;
       color: #bfbfbf;
       span{
         display: inline-block;
@@ -410,7 +411,7 @@
       height: 72.5vh;
       overflow-y: scroll;
       overflow-x: hidden;
-      div{
+      .one{
         width: 100%;
         height: 20%;
         border-bottom: 1px solid #F5F5F5;
@@ -433,11 +434,9 @@
     .oneRightDiv{
       margin-left: 2%;
       width: 60%!important;
-      height: 80%!important;
       display: flex;
       flex-direction: column;
       div:nth-child(1){
-        height: 65%;
         display: flex;
         flex-direction: column;
         border: none!important;
@@ -449,16 +448,14 @@
           text-align: left;
         }
         p:nth-child(1){
-          /*height: 60%;*/
-          margin-top: 4%;
           font-size: 0.38rem;
           white-space: nowrap;
           opacity: 0.8;
         }
         p:nth-child(2){
-          margin-top: 2%;
           font-size: 0.32rem;
           opacity: 0.4;
+          margin-top: -0.1rem;
           /*height: 40%;*/
         }
       }
