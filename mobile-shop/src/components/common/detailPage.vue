@@ -137,18 +137,19 @@
     }
     .wordDiv{
       width: 100%;
-      height: 18%;
+      height: 3.3rem;
       background-color: #fff;
       padding-left: 3%;
       p:nth-child(1){
         font-size: 0.45rem;
         opacity: 0.8;
+        padding-top: 0.35rem;
       }
       p:nth-child(2){
         font-size: 0.38rem;
         opacity: 0.4;
-        margin-top: 2%;
-        margin-bottom: 5%;
+        margin-top: -0.2rem;
+        padding-bottom: 0.01rem;
       }
       .charge{
         color: #FF6347;

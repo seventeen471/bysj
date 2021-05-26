@@ -95,7 +95,10 @@ const store = new Vuex.Store({
       state.isDeleteChoosed = value;
     },
     setDetaliObj(state,obj){
-      state.detailObj = obj;
+      state.detailObj.src_d = ''
+      setTimeout(() => {
+        state.detailObj = obj;
+      })
     },
     setPlace(state,obj){
       state.place = obj;

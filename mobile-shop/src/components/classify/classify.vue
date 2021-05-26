@@ -29,8 +29,8 @@
           <span :style="'position:absolute;left:46vw;color:'+(oderIndex===2?'#FA8072':'#bfbfbf')" @click="oderClick(2)">销量</span>
           <span :style="'position:absolute;left:60vw;color:'+(oderIndex===3?'#FA8072':'#bfbfbf')" @click="oderClick(3)">
             价格
-            <van-icon size="0.2rem" style="transform: rotateZ(-90deg) translateX(0.05rem)" :color="oderIndex===3&&!isUp?'#FA8072':'#bfbfbf'" name="play" />
-            <van-icon size="0.2rem" style="transform: rotateZ(90deg);position: absolute;top: 0.2rem;right: 0" :color="oderIndex===3&&isUp?'#FA8072':'#bfbfbf'"  name="play" />
+            <van-icon size="0.2rem" style="transform: rotateZ(-90deg);position: absolute;top: 0.04rem;right: -0.35rem" :color="oderIndex===3&&!isUp?'#FA8072':'#bfbfbf'" name="play" />
+            <van-icon size="0.2rem" style="transform: rotateZ(90deg);position: absolute;top: 0.2rem;right: -0.35rem" :color="oderIndex===3&&isUp?'#FA8072':'#bfbfbf'"  name="play" />
           </span>
         </div>
         <div class="body classBody">
@@ -256,7 +256,8 @@
           }, false);
       },
       watch: {
-          $route(){
+          $route(to, from){
+            if (this.$route.path !== '/classify') return
             try {
               document.getElementsByClassName('top-nav')[0].scrollLeft = parseFloat(this.topScroll);
               document.getElementsByClassName('left-nav')[0].scrollTop = parseFloat(this.leftScroll);
