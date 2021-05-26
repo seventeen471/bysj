@@ -331,7 +331,7 @@
 <style lang="less" scoped>
   #home{
     width: 10rem;
-    height: 92vh;
+    height: 100vh;
     overflow-x: hidden;
     overflow-y: scroll;
   }

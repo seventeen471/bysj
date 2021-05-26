@@ -295,7 +295,7 @@
 <style lang="less" scoped>
   #shopCar{
     width: 10rem;
-    height: 92vh;
+    height: 100vh;
     overflow-x: hidden;
     overflow-y: scroll;
   }
@@ -335,7 +335,7 @@
     padding-bottom: 1.7%;
     .emptyDiv {
       width: 100vw;
-      height: 45%;
+      height: 7rem;
       background-color: #fff;
       padding-top: 10%;
       p{
@@ -442,7 +442,7 @@
     background-color: #fff;
     border-bottom: 1px solid #f5f5f5;
     position: absolute;
-    bottom: 1.9rem;
+    bottom: 1.65rem;
     .allCheck{
      font-size: 0.45rem;
       color: rgba(0,0,0,0.7);

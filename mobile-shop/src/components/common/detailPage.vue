@@ -171,7 +171,7 @@
   }
   .footer{
     width: 100%;
-    height: 9vh;
+    height: 1.8rem;
     background-color: #fff;
     position: absolute;
     bottom: 0;

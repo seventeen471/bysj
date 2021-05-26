@@ -3,9 +3,9 @@
       <div class="footer">
         <router-link to="home">
           <div :style="$route.path === '/home' ? yellow : grey">
-            <van-icon v-if="$route.path !== '/home'" name="shop-o" size="0.8rem" color="#bfbfbf"/>
-            <van-icon v-if="$route.path === '/home'" name="shop" color="#FA8072" size="0.8rem"/>
-            <p style="margin-left: 0.06rem">首页</p>
+            <van-icon v-if="$route.path !== '/home'" name="shop-o" size="0.7rem" color="#bfbfbf"/>
+            <van-icon v-if="$route.path === '/home'" name="shop" color="#FA8072" size="0.7rem"/>
+            <p>首页</p>
           </div>
         </router-link>
         <router-link to="classify">
@@ -17,18 +17,18 @@
         </router-link>
         <router-link to="shopCar">
           <div :style="$route.path === '/shopCar' ? yellow : grey" class="shopCar">
-            <van-icon name="shopping-cart-o" size="0.8rem" color="#bfbfbf" v-if="$route.path !== '/shopCar' && !$store.state.shopCarArr.length"/>
-            <van-icon name="shopping-cart" color="#FA8072" size="0.8rem" v-if="$route.path === '/shopCar' && !$store.state.shopCarArr.length"/>
-            <van-icon name="shopping-cart-o" size="0.8rem" color="#bfbfbf" :info="info" v-if="$route.path !== '/shopCar' && $store.state.shopCarArr.length"/>
-            <van-icon name="shopping-cart" color="#FA8072" size="0.8rem" :info="info" v-if="$route.path === '/shopCar' && $store.state.shopCarArr.length"/>
-            <p style="transform: translateX(-0.06rem)">购物车</p>
+            <van-icon name="shopping-cart-o" size="0.7rem" color="#bfbfbf" v-if="$route.path !== '/shopCar' && !$store.state.shopCarArr.length"/>
+            <van-icon name="shopping-cart" color="#FA8072" size="0.7rem" v-if="$route.path === '/shopCar' && !$store.state.shopCarArr.length"/>
+            <van-icon name="shopping-cart-o" size="0.7rem" color="#bfbfbf" :info="info" v-if="$route.path !== '/shopCar' && $store.state.shopCarArr.length"/>
+            <van-icon name="shopping-cart" color="#FA8072" size="0.7rem" :info="info" v-if="$route.path === '/shopCar' && $store.state.shopCarArr.length"/>
+            <p style="transform: translateX(-0.1rem)">购物车</p>
           </div>
         </router-link>
         <router-link to="mine">
           <div :style="$route.path === '/mine' ? yellow : grey">
-            <van-icon name="manager-o" size="0.8rem" color="#bfbfbf" v-if="$route.path !== '/mine'"/>
-            <van-icon name="manager" color="#FA8072" size="0.8rem" v-if="$route.path === '/mine'"/>
-            <p style="margin-left: 0.06rem">我的</p>
+            <van-icon name="manager-o" size="0.7rem" color="#bfbfbf" v-if="$route.path !== '/mine'"/>
+            <van-icon name="manager" color="#FA8072" size="0.7rem" v-if="$route.path === '/mine'"/>
+            <p>我的</p>
           </div>
         </router-link>
       </div>
@@ -80,11 +80,13 @@
   .footer{
     display: flex;
     width: 100%;
+    height: 1.4rem;
+    padding-top: 0.24rem;
+    position: absolute;
+    bottom: 0;
     justify-content: space-around;
-    align-items: center;
     font-size: 0.35rem;
     background-color: #fff;
-    padding-top: 0.17rem;
     p{
       margin-top: 0;
     }
@@ -93,8 +95,7 @@
   .classify{
     transform: translateX(0.113rem);
     img {
-      width: 0.72rem;
-      margin-top: 0.12rem;
+      width: 0.65rem;
     }
   }
   .shopCar{

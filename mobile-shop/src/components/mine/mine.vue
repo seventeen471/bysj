@@ -34,19 +34,19 @@
         </div>
         <div class="oder-form" style="height: 3rem;">
           <div @click="goUrl('myForm?index=b')">
-            <van-icon name="credit-pay" color="#bfbfbf" size="0.85rem" style="transform: translateX(0.65rem)"/>
+            <van-icon name="credit-pay" color="#bfbfbf" size="0.7rem" style="transform: translateX(0.65rem)"/>
             <p>待支付</p>
           </div>
           <div @click="goUrl('myForm?index=c')">
-            <van-icon name="send-gift-o" color="#bfbfbf" size="0.85rem" style="transform: translateX(0.65rem)"/>
+            <van-icon name="send-gift-o" color="#bfbfbf" size="0.7rem" style="transform: translateX(0.65rem)"/>
             <p>待收货</p>
           </div>
           <div @click="goUrl('myForm?index=d')">
-            <van-icon name="comment-o" color="#bfbfbf" size="0.85rem" style="transform: translateX(0.65rem)"/>
+            <van-icon name="comment-o" color="#bfbfbf" size="0.7rem" style="transform: translateX(0.65rem)"/>
             <p>待评价</p>
           </div>
           <div @click="goUrl('afterSale')">
-            <van-icon name="after-sale" color="#bfbfbf" size="0.85rem" style="transform: translateX(0.65rem)"/>
+            <van-icon name="after-sale" color="#bfbfbf" size="0.7rem" style="transform: translateX(0.65rem)"/>
             <p>售后/退款</p>
           </div>
         </div>
@@ -55,35 +55,35 @@
         <p style="transform: translateY(0.4rem);">常用功能</p>
       <div class="function">
         <div>
-          <van-icon name="vip-card-o" color="#bfbfbf" size="0.85rem" style="transform: translateX(0.65rem)"/>
+          <van-icon name="vip-card-o" color="#bfbfbf" size="0.7rem" style="transform: translateX(0.65rem)"/>
           <p>会员中心</p>
         </div>
         <div @click="goUrl('myAddress')">
-          <van-icon name="notes-o" color="#bfbfbf" size="0.85rem" style="transform: translateX(0.65rem)"/>
+          <van-icon name="notes-o" color="#bfbfbf" size="0.7rem" style="transform: translateX(0.65rem)"/>
           <p>收货地址</p>
         </div>
         <div>
-          <van-icon name="gift-o" color="#bfbfbf" size="0.85rem" style="transform: translateX(0.65rem)"/>
+          <van-icon name="gift-o" color="#bfbfbf" size="0.7rem" style="transform: translateX(0.65rem)"/>
           <p>邀请有礼</p>
         </div>
         <div>
-          <van-icon name="service-o" color="#bfbfbf" size="0.85rem" style="transform: translateX(0.65rem)"/>
+          <van-icon name="service-o" color="#bfbfbf" size="0.7rem" style="transform: translateX(0.65rem)"/>
           <p>联系客服</p>
         </div>
         <div>
-          <van-icon name="balance-o" color="#bfbfbf" size="0.85rem" style="transform: translateX(0.65rem)"/>
+          <van-icon name="balance-o" color="#bfbfbf" size="0.7rem" style="transform: translateX(0.65rem)"/>
           <p>我的余额</p>
         </div>
         <div>
-          <van-icon name="refund-o" color="#bfbfbf" size="0.85rem" style="transform: translateX(0.65rem)"/>
+          <van-icon name="refund-o" color="#bfbfbf" size="0.7rem" style="transform: translateX(0.65rem)"/>
           <p>我的积分</p>
         </div>
         <div>
-          <van-icon name="envelop-o" color="#bfbfbf" size="0.85rem" style="transform: translateX(0.65rem)"/>
+          <van-icon name="envelop-o" color="#bfbfbf" size="0.7rem" style="transform: translateX(0.65rem)"/>
           <p>意见反馈</p>
         </div>
         <div @click="goUrl('set')">
-          <van-icon name="setting-o" color="#bfbfbf" size="0.85rem" style="transform: translateX(0.78em)"/>
+          <van-icon name="setting-o" color="#bfbfbf" size="0.7rem" style="transform: translateX(0.78em)"/>
           <p>设置</p>
         </div>
       </div>
@@ -110,7 +110,7 @@
 <style lang="less" scoped>
   #mine {
     width: 10rem;
-    height: 92vh;
+    height: 100vh;
     overflow-x: hidden;
     overflow-y: scroll;
     .header {

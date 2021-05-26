@@ -299,7 +299,7 @@
 <style lang="less" scoped>
   #classify{
     width: 10rem;
-    height: 92vh;
+    height: 100vh;
     overflow-x: hidden;
     overflow-y: hidden;
   }
@@ -374,9 +374,10 @@
       overflow-x: scroll;
       background-color: #f5f5f5;
       white-space: nowrap;
+      display: flex;
+      align-items: center;
       div{
         display: inline-block;
-        width: 25vw;
         height: 0.8rem;
         text-align: center;
         background-color: #fff;
@@ -384,9 +385,9 @@
         border-radius: 0.1rem;
         font-size: 0.4rem;
         line-height: 0.8rem;
-        margin-right: 2%;
-        transform: translateY(-0.18rem);
         color: grey;
+        margin: 0 0.2rem;
+        padding: 0 0.2rem;
       }
     }
     .oder{
