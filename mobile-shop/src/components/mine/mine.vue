@@ -84,7 +84,7 @@
         </div>
         <div @click="goUrl('set')">
           <van-icon name="setting-o" color="#bfbfbf" size="0.7rem" style="transform: translateX(0.78em)"/>
-          <p>设置</p>
+          <p style="transform: translateX(-0.15rem)">设置</p>
         </div>
       </div>
       </div>

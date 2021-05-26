@@ -289,10 +289,10 @@
   }
   .one{
     width: 10rem;
-    height: 28vh;
+    height: 5.3rem;
     background-color: #fff;
     position: relative;
-    margin-top: 2%;
+    margin-top: 0.2rem;
     padding-bottom: 3%;
     div:nth-child(1){
       height: 17%;
@@ -307,7 +307,7 @@
       }
     }
     .goodsDiv{
-      height: 50%;
+      height: 2.5rem;
       width: 95%;
       margin: 0 auto;
       border-bottom: 2px solid #f5f5f5;
@@ -323,12 +323,11 @@
     }
     div:nth-child(3){
       /*display: inline-block;*/
-      height: 17%;
       float: right;
       margin-right: 3%;
-      margin-top: 1%;
+      margin-top: -0.4rem;
       span:nth-child(1){
-        font-size: 0.4rem;
+        font-size: 0.38rem;
         opacity: 0.8;
       }
       span:nth-child(2){

@@ -203,36 +203,36 @@
     }
     .foot{
       width: 100%;
-      height: 10%;
+      height: 1.8rem;
+      padding-top: 0.25rem;
       background-color: #fff;
       position: absolute;
       bottom: 0;
       display: flex;
       justify-content: space-between;
-      align-items: center;
       div{
         width: 60%;
         span:nth-child(1){
           opacity: 0.6;
-          font-size: 0.42rem;
+          font-size: 0.4rem;
           margin-left: 5%;
         }
         span:nth-child(2){
-          font-size: 0.42rem;
+          font-size: 0.4rem;
           color: #FA8072;
         }
         span:nth-child(3){
-          font-size: 0.58rem;
+          font-size: 0.5rem;
           color: #FA8072;
           font-weight: bold;
         }
       }
       .makeDealButton{
         margin-right: 4%;
-        width: 35%;
+        width: 30%;
         border-radius: 0.2rem;
-        font-size: 0.4rem;
         font-weight: bold;
+        white-space: nowrap;
       }
     }
   }
@@ -269,7 +269,6 @@
       align-items: center;
       div:nth-child(1),div:nth-child(3){
         width: 25%;
-        height: 70%;
         img{
           width: 1.5rem;
           margin-left: 14%;
@@ -278,7 +277,7 @@
       div:nth-child(2){
         width: 50%;
         height: 70%;
-        font-size: 0.41rem;
+        font-size: 0.38rem;
         opacity: 0.8;
       }
       div:nth-child(3){
@@ -295,12 +294,12 @@
   }
   .afterList{
     width: 10rem;
-    height: 34%;
+    height: 6.2rem;
     background-color: #fff;
     /*padding-left: %;*/
     /*padding-right: 3%;*/
     div{
-      height: 20%;
+      height: 1.2rem;
       border-bottom: 1px solid #f5f5f5;
       display: flex;
       align-items: center;
