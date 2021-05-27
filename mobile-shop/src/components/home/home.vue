@@ -464,7 +464,7 @@
           /*transform: translate(3.2rem,-2.32rem);*/
           position: absolute;
           left: 30%;
-          top: 0.04rem;
+          top: 0.07rem;
           font-size: 0.5rem;
           span {
             display: inline-block;
@@ -508,7 +508,6 @@
           li{
             display: inline-block;
             width: 2.65rem;
-            height: 200px;
             margin-right: 0.06rem;
             /*z-index: 2;*/
           }
@@ -645,7 +644,7 @@
         width: 88%;
         margin: 0 auto;
         height: 15%;
-        padding-top: 6%;
+        padding-top: 12%;
 
         .charge {
           color: #FF6347;
