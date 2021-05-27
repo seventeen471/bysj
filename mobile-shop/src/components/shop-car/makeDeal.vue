@@ -28,31 +28,31 @@
               <img :src="item.src"/>
               </div>
               <div>{{item.big_title}}</div>
-              <div><div><span>￥</span><span style="color: #FA8072;font-size: 0.48rem;">{{item.charge}}</span></div><div><span>x</span><span>{{item.myMount}}</span></div></div>
+              <div><div><span>￥</span><span style="color: #FA8072;font-size: 0.48rem;">{{item.charge}}</span></div><span class="x-mount"><span>x</span><span>{{item.myMount}}</span></span></div>
             </div>
           </div>
           <div class="afterList">
           <div><span>商品总额</span><span>￥{{$store.state.dealObj.allCharge}}</span></div>
-          <div><span>优惠券抵扣</span><span>-￥{{dikou}}<van-icon class="icon" name="arrow" color="rgba(0,0,0,0.5)" size="0.4rem"/></span></div>
+          <div><span>优惠券抵扣</span><span>-￥{{dikou}}<van-icon class="icon" name="arrow" color="rgba(0,0,0,0.5)" style="transform: translateY(0.06rem)" size="0.4rem"/></span></div>
           <div><span>配送费</span><span>￥{{postFee}}</span></div>
-          <div><span>订单备注</span><span style="opacity: 0.4">去备注<van-icon class="icon" name="arrow" color="rgba(0,0,0,0.5)" size="0.4rem"/></span></div>
-            <div><span>合计</span><span>￥{{total}}</span></div>
+          <div><span>订单备注</span><span style="opacity: 0.4">去备注<van-icon class="icon" name="arrow" color="rgba(0,0,0,0.5)" style="transform: translateY(0.06rem)" size="0.4rem"/></span></div>
+            <div class="calc"><span>合计 &nbsp;￥{{total}}</span></div>
           </div>
           <p>支付方式</p>
           <div class="payType">
             <van-radio-group checked-color="#FA8072" v-model="radio">
               <van-cell-group>
-                <van-cell title="余额" icon="http://192.168.43.218/shop/img/myMoney.png" clickable @click="radio = '1'">
+                <van-cell title="余额" :icon="$url + '/shop/img/myMoney.png'" clickable @click="radio = '1'">
                   <template #right-icon>
                     <van-radio name="1" />
                   </template>
                 </van-cell>
-                <van-cell title="微信" icon="http://192.168.43.218/shop/img/weChatPay.png" clickable @click="radio = '2'">
+                <van-cell title="微信" :icon="$url + '/shop/img/weChatPay.png'" clickable @click="radio = '2'">
                   <template #right-icon>
                     <van-radio name="2" />
                   </template>
                 </van-cell>
-                <van-cell title="支付宝" icon="http://192.168.43.218/shop/img/zfbPay.png" clickable @click="radio = '3'">
+                <van-cell title="支付宝" :icon="$url + '/shop/img/zfbPay.png'" clickable @click="radio = '3'">
                   <template #right-icon>
                     <van-radio name="3" />
                   </template>
@@ -63,7 +63,9 @@
         </div>
         <div class="foot">
           <div><span>待付：</span><span>￥</span><span>{{total}}</span></div>
+          <div>
           <van-button type="primary" color="#FA8072" class="makeDealButton" @click="makeDeal()">确认下单</van-button>
+          </div>
         </div>
       </div>
     </div>
@@ -203,8 +205,7 @@
     }
     .foot{
       width: 100%;
-      height: 1.8rem;
-      padding-top: 0.25rem;
+      height: 10%;
       background-color: #fff;
       position: absolute;
       bottom: 0;
@@ -212,6 +213,11 @@
       justify-content: space-between;
       div{
         width: 60%;
+        display: flex;
+        align-items: center;
+        &:nth-child(2){
+          justify-content: flex-end;
+        }
         span:nth-child(1){
           opacity: 0.6;
           font-size: 0.4rem;
@@ -229,17 +235,19 @@
       }
       .makeDealButton{
         margin-right: 4%;
-        width: 30%;
+        width: 70%;
+        //height: 10%;
         border-radius: 0.2rem;
         font-weight: bold;
         white-space: nowrap;
+        padding-left: 24%;
       }
     }
   }
   .one{
     position: relative;
     width: 10rem;
-    height: 12%;
+    height: 1.8rem;
     background-color: #fff;
     padding-left: 3.5%;
     padding-top: 3%;
@@ -278,6 +286,8 @@
         width: 50%;
         height: 70%;
         font-size: 0.38rem;
+        display: flex;
+        align-items: center;
         opacity: 0.8;
       }
       div:nth-child(3){
@@ -288,6 +298,12 @@
           span:nth-child(1){
             font-size: 0.35rem;
           }
+        }
+        .x-mount{
+          margin-right: 0.4rem;
+          display: inline-block;
+          transform: translateY(-0.5rem);
+          font-size: 0.35rem;
         }
       }
     }
@@ -316,11 +332,14 @@
         color: red;
       }
     }
-    div:nth-child(5){
-      width: 30%;
-      float: right;
-      text-align: right;
-      margin-right: 3%;
+    .calc{
+      span{
+        &:nth-child(1){
+          width: 10rem;
+          text-align: right;
+          display: inline-block;
+        }
+      }
     }
   }
   .payType{

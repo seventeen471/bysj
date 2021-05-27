@@ -42,14 +42,15 @@
               <img :src="item.src"/>
             </div>
             <div>{{item.big_title}}</div>
-            <div><div><span>￥</span><span style="color: #FA8072;font-size: 0.48rem;">{{item.charge}}</span></div><div><span>x</span><span>{{item.myMount}}</span></div></div>
+            <div><div><span>￥</span><span style="color: #FA8072;font-size: 0.48rem;">{{item.charge}}</span></div><span class="x-mount"><span>x</span><span>{{item.myMount}}</span></span></div>
           </div>
         </div>
         <div class="afterList">
           <div><span>商品总额</span><span>￥{{formObj.all_fee}}</span></div>
-          <div><span>优惠券抵扣</span><span>-￥{{formObj.sub_fee}}<van-icon class="icon" name="arrow" color="rgba(0,0,0,0.5)" size="0.4rem"/></span></div>
+          <div><span>优惠券抵扣</span><span>-￥{{formObj.sub_fee}}<van-icon class="icon" name="arrow" style="transform: translateY(0.06rem)" color="rgba(0,0,0,0.5)" size="0.4rem"/></span></div>
           <div><span>配送费</span><span>￥{{formObj.post_fee}}</span></div>
-          <div style="width: 30%;float: right;text-align: right;margin-right: 3%;"><span>{{formObj.status==='0'?'待付款':'实付款'}}</span><span>￥{{formObj.true_pay}}</span></div>
+          <div><span>订单备注</span><span style="opacity: 0.4">查看备注<van-icon class="icon" name="arrow" color="rgba(0,0,0,0.5)" style="transform: translateY(0.06rem)" size="0.4rem"/></span></div>
+          <div class="calc"><span>{{formObj.status==='0'?'待付款':'实付款'}} &nbsp;￥{{formObj.true_pay}}</span></div>
         </div>
         <div class="info">
           <div><span>订单编号：</span><span class="copytxt">{{formObj.form_id}}</span><button @click="copy()">复制</button></div>
@@ -255,7 +256,6 @@
     .wordDiv{
       height: 10%;
       /*background-color: #fff;*/
-      margin-top: 5%;
       flex-direction: column;
       display: flex;
       justify-content: space-around;
@@ -271,7 +271,7 @@
     }
   }
   .address{
-    height: 9%;
+    height: 1.7rem;
     background-color: #fff;
     margin-top: 3%;
     border-bottom: 1px solid #f5f5f5;
@@ -316,7 +316,6 @@
       align-items: center;
       div:nth-child(1),div:nth-child(3){
         width: 25%;
-        height: 70%;
         img{
           width: 1.5rem;
           margin-left: 14%;
@@ -325,7 +324,9 @@
       div:nth-child(2){
         width: 50%;
         height: 70%;
-        font-size: 0.41rem;
+        font-size: 0.38rem;
+        display: flex;
+        align-items: center;
         opacity: 0.8;
       }
       div:nth-child(3){
@@ -337,17 +338,23 @@
             font-size: 0.35rem;
           }
         }
+        .x-mount{
+          margin-right: 0.4rem;
+          display: inline-block;
+          transform: translateY(-0.5rem);
+          font-size: 0.35rem;
+        }
       }
     }
   }
   .afterList{
     width: 10rem;
-    height: 28%;
+    height: 6.15rem;
     background-color: #fff;
     /*padding-left: %;*/
     /*padding-right: 3%;*/
     div{
-      height: 24.5%;
+      height: 1.2rem;
       border-bottom: 1px solid #f5f5f5;
       display: flex;
       align-items: center;
@@ -364,11 +371,14 @@
         color: red;
       }
     }
-    div:nth-child(5){
-      /*width: 30%;*/
-      float: right;
-      text-align: right;
-      margin-right: 3%;
+    .calc{
+      span{
+        &:nth-child(1){
+          width: 10rem;
+          text-align: right;
+          display: inline-block;
+        }
+      }
     }
   }
   .info{
@@ -386,8 +396,7 @@
     button{
       float: right;
       margin-right: 4%;
-      font-size: 0.4rem;
-      width: 12%;
+      font-size: 0.38rem;
       margin-top: -1%;
     }
   }
