@@ -89,7 +89,7 @@
           return {
             searchClick: false,
             searchValue: '',
-            myWords: JSON.parse(window.localStorage.getItem('myWords')),
+            myWords: JSON.parse(window.localStorage.getItem('myWords')) || [],
             hotWords: ['牛肉','鸡蛋','火锅','牛排','排骨','牛奶','虾','鸡胸肉','豆腐','土豆','水饺','面包'],
             hotRecommendArr: [],
             searchResultArr: [],
@@ -98,7 +98,6 @@
         },
       methods: {
           search() {
-            Indicator.open();
             this.searchClick = true; // 显示购物车图标
             // setTimeout(() => {
             //   this.showNeed = true;
@@ -106,17 +105,10 @@
             if (!this.searchValue) {
               this.searchValue = '冬瓜';
             }
-              let isHas = false;
-              for (const item of this.myWords) {
-                isHas = (item === this.searchValue);
-                if (isHas) {break;}
-              }
-              if (!isHas) {
-                this.myWords.push(this.searchValue);
-                this.myWords.reverse();
-                window.localStorage.setItem('myWords', JSON.stringify(this.myWords));
-              }
-            // const arr = Array.from(new Set([...this.myWords]));
+            if ((this.myWords.length && !this.myWords.includes(this.searchValue)) || !this.myWords.length) {
+              this.myWords.unshift(this.searchValue)
+              window.localStorage.setItem('myWords', JSON.stringify(this.myWords));
+            }
             this.getSearchResult();
           },
           back(){
@@ -143,6 +135,7 @@
          this.searchResultArr = [];
           let param = new URLSearchParams();
           param.append('key_words', this.searchValue);
+         Indicator.open()
           axios.post(this.$url + '/shop/search.php',param).then((data) => {
             Indicator.close();
             if (data.data) {
