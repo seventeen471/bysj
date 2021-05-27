@@ -114,7 +114,7 @@
             </div>
         </div>
         </div>
-        <div style="text-align: center;color: #bfbfbf;font-size:0.4rem;margin-bottom:15%;padding-top:0.6rem;background-color: #F5F5F5"> -- 已经到底了 -- </div>
+        <div style="text-align: center;color: #bfbfbf;font-size:0.4rem;margin-bottom:2.5rem;padding-top:0.6rem;background-color: #F5F5F5"> -- 已经到底了 -- </div>
       </div>
       </div>
     </div>

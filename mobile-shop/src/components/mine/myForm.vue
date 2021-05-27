@@ -3,17 +3,19 @@
       <div class="header">
         <div class="topDiv"></div>
         <van-icon name="arrow-left" color="rgba(0,0,0,0.6)" size="0.6rem" style="position: absolute;top: 57%;left: 1%" @click="back()"/>
+<!--        <input value="搜索订单">-->
+<!--        <van-icon class="search" size="0.5rem" color="rgba(0,0,0,0.6)" name="search" />-->
         <p>我的订单</p>
       </div>
       <div class="body">
         <van-tabs v-model="active" animated swipeable color="#FA8072">
           <van-tab title="全部" name="a">
-            <div class="one" v-for="item in allListArr" :key="item.form_id" @click="gotoResult(item.form_id)">
-              <div><span>{{item.time}}</span><span>{{item.status | statusName}}</span></div>
-              <div class="goodsDiv">
+            <div class="one" v-for="item in allListArr" :key="item.form_id">
+              <div @click="gotoResult(item.form_id)"><span>{{item.time}}</span><span>{{item.status | statusName}}</span></div>
+              <div class="goodsDiv" @click="gotoResult(item.form_id)">
                 <img v-for="item2 in JSON.parse(item.goods_obj)" :key="item2.id" :src="item2.src">
               </div>
-              <div><span>共{{item.all_mount}}件 实付：￥</span><span>{{item.true_pay}}</span></div>
+              <div @click="gotoResult(item.form_id)"><span>共{{item.all_mount}}件 实付：￥</span><span>{{item.true_pay}}</span></div>
               <div v-if="item.status==='0'">
                 <span @click.stop="goPay(item.form_id)">去付款</span>
                 <span @click.stop="cancelDeal(item.form_id)">取消订单</span>
@@ -31,9 +33,21 @@
               <div v-if="item.status==='4'">
                 <span @click.stop="updateStatus(item.form_id,'5')">确认退款</span>
               </div>
-              <div v-if="item.status==='5' || item.status==='6'">
-                <span @click.stop="deleteDeal(item.form_id, item.list_id)">删除订单</span>
-              </div>
+              <van-popover
+                v-model="showPopover"
+                trigger="click"
+                :actions="actions"
+                placement="bottom-start"
+                @select="onSelect"
+                class="more"
+              >
+                <template #reference>
+                  <span type="primary" @click="setCurrentFrom(item.status, item.form_id, item.list_id)">更多</span>
+                </template>
+              </van-popover>
+<!--              <div v-if="item.status==='2' || item.status==='3' || item.status==='5' || item.status==='6'">-->
+<!--                <span @click.stop="deleteDeal(item.form_id, item.list_id)">删除订单</span>-->
+<!--              </div>-->
             </div>
             <p class="noMore">没有更多订单了</p>
           </van-tab>
@@ -93,6 +107,8 @@
   import { Dialog } from 'vant';
   import Vue from 'vue';
   import myDialog from '../common/myDialog'
+  import { Popover } from 'vant';
+  Vue.use(Popover);
   Vue.use(Dialog);
     export default {
         name: "myForm",
@@ -104,12 +120,30 @@
           Arr1: [],
           Arr2: [],
           isVisible: false,
-          payId: ''
+          payId: '',
+          showPopover: false,
+          actions: [{ text: '删除订单', disabled: true}],
+          currentFrom: {}
         }
       },
       methods:{
         back(){
           this.$router.go(-1);
+        },
+        setCurrentFrom(status, form_id, list_id) {
+          if (status === '2' || status === '3' || status === '5' || status === '6') {
+            this.actions[0].disabled = false
+          } else {
+            this.actions[0].disabled = true
+          }
+          this.currentFrom.form_id = form_id
+          this.currentFrom.list_id = list_id
+        },
+        onSelect(action) {
+          switch (action.text) {
+            case '删除订单':
+              this.deleteDeal(this.currentFrom.form_id,this.currentFrom.list_id)
+          };
         },
         gotoResult(id){
           this.$router.push('/dealResult?id=' + id);
@@ -272,6 +306,24 @@
       height: 46%;
       background-color: rgba(0, 0, 0, 0.12);
     }
+    .search{
+      position: absolute;
+      top: 1.32rem;
+      left: 2rem;
+      opacity: 0.5;
+    }
+    input{
+      transform: translateY(-1vh);
+      width: 70vw;
+      margin-left: 1.5rem;
+      height: 0.65rem;
+      border-radius: 5rem;
+      border-color: transparent;
+      background-color: #F5F5F5;
+      text-align: center;
+      font-size: 0.4rem;
+      color: #bfbfbf;
+    }
     p{
       text-align: center;
       margin-top: 2.5%;
@@ -370,5 +422,10 @@
     font-size: 0.4rem;
     opacity: 0.5;
     margin-top: 20%;
+  }
+  .more{
+    font-size: 0.38rem;
+    opacity: 0.8;
+    transform: translate(0.4rem, 0.65rem);
   }
 </style>

@@ -40,7 +40,7 @@ export default {
     getMyAddress(){
       let param = new URLSearchParams();
       param.append('user', this.$store.state.userInfo.tel);
-      axios.post(this.$url + 'shop/getAddress.php',param).then((data) => {
+      axios.post(this.$url + '/shop/getAddress.php',param).then((data) => {
         this.myAddressList = data.data.data;
         this.$store.commit('setMyAddressList',data.data.data);
         this.myAddressList.forEach(e => {
@@ -53,7 +53,7 @@ export default {
   },
   created(){
     Indicator.open('请稍候...');
-    axios.get(this.$url + 'shop/getHotRecommend.php').then((data) => {
+    axios.get(this.$url + '/shop/getHotRecommend.php').then((data) => {
       Indicator.close();
     }).catch(() => {
       Indicator.close();
@@ -71,7 +71,7 @@ export default {
     if (token) {
       let param = new URLSearchParams();
       param.append('token', token);
-      axios.post(this.$url + 'shop/login.php',param).then((data) => {
+      axios.post(this.$url + '/shop/login.php',param).then((data) => {
         this.$store.commit('setUserInfo', data.data.data[0]);
         this.$store.commit('setIsLogin', true);
         this.getMyAddress();

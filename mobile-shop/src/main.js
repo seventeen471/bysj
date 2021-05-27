@@ -48,7 +48,7 @@ document.addEventListener('plusready', () => {
     }
   },false);
 });
-Vue.prototype.$url = 'http://1.117.38.119/'
+Vue.prototype.$url = 'http://1.117.38.119'
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
