@@ -120,16 +120,16 @@
             let gc = new BMap.Geocoder();
             gc.getLocation(point, (rs) => {
               const opts = {
-                width: 100,     // 信息窗口宽度
-                title: rs.surroundingPois[0]['title'], // 信息窗口标题
-                fontSize: 0.4+'rem',
+                // width: 180,     // 信息窗口宽度
+                title: '', // 信息窗口标题
+                fontSize: 12+'px',
                 enableAutoPan: true,
                 offset: new BMap.Size(0, -25),
               };
               const html =
-                `<span style="color: gray;font-size: 0.4rem">地址：${rs.address}</span><br/>
+                `<span style="font-size: 0.4rem">${rs.surroundingPois[0]['title']}</span><br/><span style="color: gray;font-size: 0.36rem">地址：${rs.address}</span><br/>
         <div>
-          <div><button style=\'display:block;margin:0 auto;color:#FA8072;font-size: 0.4rem;\' id=\'markerInfo\'> 确定 </button></div></div>`
+          <div><button style=\'display:block;margin:0 auto;color:#FA8072;font-size: 0.4rem;\' id=\'markerInfo\'> 选择 </button></div></div>`
               const infoWindow = new BMap.InfoWindow(html, opts);  // 创建信息窗口对象
               map.openInfoWindow(infoWindow, e.point); // 开启信息窗口
               setTimeout(() => {
@@ -157,12 +157,16 @@
     }
       },
       mounted() {
+        if (document.getElementById('map')) {
+          document.getElementById('map').style.height = this.$route.query.isAdd ? '105%' : '60%'
+        }
           this.initMap();
-          this.h = document.documentElement.clientHeight || document.body.clientHeight;
-        this.$refs.placeBody.style.height = this.h * 0.83 + 'px';
         },
       watch: {
           $route(){
+            if (document.getElementById('map')) {
+              document.getElementById('map').style.height = this.$route.query.isAdd ? '105%' : '60%'
+            }
           }
       },
       beforeRouteLeave (to, from, next) {
@@ -232,8 +236,8 @@
   }
   .body{
     width: 100%;
-    /*height: 83vh;*/
-    overflow-y: scroll;
+    height: calc(100vh - 3.6rem);
+    overflow-y: auto;
     overflow-x: hidden;
     position: absolute;
     top: 3.6rem;
@@ -245,11 +249,10 @@
       height: 3.5%;
       font-size: 0.38rem;
       opacity: 0.6;
-      padding-top: 2%;
       padding-left: 4%;
     }
     div{
-      height: 12%;
+      height: 2rem;
       background-color: #fff;
       display: flex;
       flex-direction: column;
@@ -257,13 +260,14 @@
       padding-left: 4%;
       position: relative;
       p:nth-child(1){
-        font-size: 0.42rem;
+        font-size: 0.4rem;
         font-weight: bold;
+        transform: translateY(0.2rem);
       }
       p:nth-child(2){
-        margin-top: 2%;
         font-size: 0.37rem;
         opacity: 0.6;
+        transform: translateY(-0.3rem);
       }
       .aim{
         position: absolute;
