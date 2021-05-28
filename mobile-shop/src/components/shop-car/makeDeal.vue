@@ -124,6 +124,11 @@
           param.append('truePay', this.total);
           axios.post(this.$url + '/shop/editForm.php',param).then((data) => {
             if (data.data.isSucc) {
+              this.$store.state.checkArr.forEach((e,index) => {
+                this.$store.commit('changeIsDeleteChoosed',true);
+                this.$store.commit('subShopCar',e);
+              });
+              this.$store.state.checkArr = []; // 清掉购物车里全部已选的
               this.isVisible = true;
               this.formId = data.data.formId;
             }

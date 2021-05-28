@@ -158,7 +158,9 @@
           let param = new URLSearchParams();
           param.append('user', this.$store.state.userInfo.tel);
           axios.post(this.$url + '/shop/queryForm.php',param).then((data) => {
-            this.allListArr = data.data.data.reverse();
+            this.allListArr = data.data.data.sort((a, b) => {
+              return new Date(b.time).getTime() - new Date(a.time).getTime()
+            });
             this.allListArr.forEach(e => {
               if (e.status === '0') {
                 this.Arr0.push(e);

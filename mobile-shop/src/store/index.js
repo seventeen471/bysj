@@ -9,6 +9,7 @@ const store = new Vuex.Store({
   state: {
     // isAnimate: false,
     shopCarArr: [],
+    checkArr: [],
     pageX: '',
     pageY: '',
     isDeleteChoosed: false,
@@ -56,35 +57,28 @@ const store = new Vuex.Store({
         state.shopCarArr.push(obj);
       }
     },
-    subShopCar(state,obj){
-      // for (let i=0 ; i<state.shopCarArr.length; i++) {
-      //   if (state.shopCarArr[i].id === obj.id) {
-      //     let oldMount = obj.myMount;
-      //     if (oldMount === 1) {
-      //
-      //     }
-      //     state.shopCarArr.splice(i,1);
-      //     if (oldMount !== 1) {
-      //       obj['myMount'] = oldMount - 1;
-      //       state.shopCarArr.push(obj);
-      //     }
-      //     break;
-      //   }
-      // }
+    subShopCar(state,id){
       let newArr = [];
-      for (let i = 0; i < state.shopCarArr.length; i++) {
-        if (state.shopCarArr[i].id === obj.id) {
-          if (state.isDeleteChoosed) {
-            continue;
-          }
-          obj.myMount = state.shopCarArr[i].myMount - 1;
-          if (obj.myMount !== 0) {
-            newArr.push(obj);
+      state.shopCarArr.forEach(e => {
+        if (e.id === id) {
+          if (!state.isDeleteChoosed) {
+            e.myMount -= 1
+            if (e.myMount !== 0) {
+              newArr.push(e);
+            } else {
+              setTimeout(() => {
+                state.checkArr.splice(1, state.checkArr.indexOf(id))
+              })
+            }
+          } else {
+            setTimeout(() => {
+              state.checkArr.splice(1, state.checkArr.indexOf(id))
+            })
           }
         } else {
-          newArr.push(state.shopCarArr[i]); //放进去原有的
+          newArr.push(e); //放进去原有的
         }
-      }
+      })
       state.shopCarArr = newArr;
     },
     changePageX(state,value){

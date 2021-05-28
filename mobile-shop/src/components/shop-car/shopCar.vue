@@ -5,7 +5,7 @@
         <div class="topDiv"></div>
         <van-icon v-if="notFirst==='true'" name="arrow-left" color="rgba(0,0,0,0.6)" size="0.6rem" style="position: absolute;top: 57%;left: 1%" @click="back()"/>
         <p>购物车</p>
-        <span v-if="checkArr.length" @click="deleteChoosed()">删除</span>
+        <span v-if="$store.state.checkArr.length" @click="deleteChoosed()">删除</span>
       </div>
       <div class="shopCarBody" :style="notFirst==='true'?'height:81.4vh':''">
         <div class="emptyDiv" v-if="!$store.state.shopCarArr.length">
@@ -18,7 +18,7 @@
           </router-link>
         </div>
         <div class="goodsDiv">
-          <van-checkbox-group v-model="checkArr">
+          <van-checkbox-group v-model="$store.state.checkArr">
             <van-checkbox class="goods" label-disabled checked-color="#FA8072" icon-size="0.55rem" v-for="item in $store.state.shopCarArr" :name="item.id" :key="item.id">
 <!--            <van-checkbox class="goods" checked-color="#FA8072" icon-size="0.55rem" v-for="(item,i) in $store.state.shopCarObj" :name="i" :key="i">-->
 <!--              <div>{{i}}</div>-->
@@ -85,7 +85,7 @@
           return {
             allChecked: false,
             bodyScroll: 0,
-            checkArr: [],
+            // checkArr: [],
             // goodsArr: [],
             hotRecommendArr: [],
             notFirst: false
@@ -117,44 +117,22 @@
           // Toast.success('添加成功');
         },
         subThis(item){
-          this.$store.commit('subShopCar',item);
-          let isHas = false;
-            for (let i = 0; i < this.$store.state.shopCarArr.length; i++) {
-              if (this.$store.state.shopCarArr[i].id === item.id) {
-                isHas = true;
-              }
-            }
-            if (!isHas) {
-              this.checkArr.forEach((e,index) => {
-                if (e === item.id) {
-                  this.checkArr.splice(index,1);
-                }
-              });
-            }
+          this.$store.commit('changeIsDeleteChoosed',false);
+          this.$store.commit('subShopCar',item.id, false);
         },
         allCheckClick() {
-          if (!this.$store.state.shopCarArr.length) {
-            this.allChecked = false;
-          }
           if (this.allChecked) {
-            this.checkArr = [];
-            for (let item of this.$store.state.shopCarArr) {
-              this.checkArr.push(item.id);
-            }
+            this.$store.state.checkArr = this.$store.state.shopCarArr.map(e => e.id);
           } else {
-            this.checkArr = [];
+            this.$store.state.checkArr = [];
           }
         },
-        deleteChoosed(){
-          this.checkArr.forEach((e,index) => {
-            const obj = {};
-            obj['id'] = e;
+        deleteChoosed(){  // 删除全部已选的
+          this.$store.state.checkArr.forEach((e,index) => {
             this.$store.commit('changeIsDeleteChoosed',true);
-            this.$store.commit('subShopCar',obj);
-            // this.checkArr.splice(index,1);
-            // this.deleteChoosed();
+            this.$store.commit('subShopCar',e);
           });
-          this.checkArr = [];
+          this.$store.state.checkArr = [];
         },
         intoDetail(obj){
           this.$router.push('detailPage');
@@ -173,17 +151,14 @@
           return obj;
         },
         goPay(){
-          if (!this.checkArr.length) {
+          if (!this.$store.state.checkArr.length) {
             Toast('请先选择商品');
           } else {
             this.$router.push('/makeDeal');
-            setTimeout(() => {
-              this.deleteChoosed();
-            },1000);
           }
           let dealObj = {};
           let dealGoods = [];
-          this.checkArr.forEach(e => {
+          this.$store.state.checkArr.forEach(e => {
             dealGoods.push(this.getOneInfo(e));
           });
           dealObj['dealGoods'] = dealGoods;
@@ -206,30 +181,25 @@
           }
           this.notFirst = window.sessionStorage.getItem('notFirst');
         },
-        checkArr(){
-          let has = 0;
-          for (let id of this.checkArr){
-            for (let item of this.$store.state.shopCarArr) {
-              if (id === item.id) {
-                has ++;
-                break;
-              }
-            }
-          }
-          if (this.$store.state.shopCarArr.length === has) {
-            this.allChecked = true;
+        "$store.state.checkArr"(){
+          if (this.$store.state.checkArr.length && this.$store.state.shopCarArr.length) {
+            this.allChecked = this.$store.state.checkArr.length === this.$store.state.shopCarArr.length
           } else {
-            this.allChecked = false;
-          }
-          if (!this.checkArr.length) {
-            this.allChecked = false;
+            this.allChecked = false
           }
         },
+        "$store.state.shopCarArr" () {
+          if (this.$store.state.checkArr.length && this.$store.state.shopCarArr.length) {
+            this.allChecked = this.$store.state.checkArr.length === this.$store.state.shopCarArr.length
+          } else {
+            this.allChecked = false
+          }
+        }
       },
       computed: {
           allCharge(){
             let charge = 0;
-            for (let id of this.checkArr){
+            for (let id of this.$store.state.checkArr){
               for (let item of this.$store.state.shopCarArr) {
                 if (id === item.id) {
                   charge += item.charge * item.myMount;
@@ -240,7 +210,7 @@
           },
         checkedMount() {
           let checkedMount = 0;
-          for (let id of this.checkArr){
+          for (let id of this.$store.state.checkArr){
             for (let item of this.$store.state.shopCarArr) {
               if (id === item.id) {
                 checkedMount += item.myMount;

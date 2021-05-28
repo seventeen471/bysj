@@ -46,6 +46,7 @@ export default {
         this.myAddressList.forEach(e => {
           if (e.isDefault === 'true') {
             this.$store.commit('setPlace',e);
+            this.$store.commit('setPlace_receipt',e);
           }
         });
       });
