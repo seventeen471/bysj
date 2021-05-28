@@ -26,28 +26,30 @@
               <div v-if="item.status==='2'">
                 <span>去评价</span>
                 <span @click.stop="again(JSON.parse(item.goods_obj),item.all_mount,item.all_fee)">再来一单</span>
+                <span @click.stop="deleteDeal(item.form_id, item.list_id)">删除订单</span>
               </div>
               <div v-if="item.status==='3'">
                 <span @click.stop="again(JSON.parse(item.goods_obj),item.all_mount,item.all_fee)">再来一单</span>
+                <span @click.stop="deleteDeal(item.form_id, item.list_id)">删除订单</span>
               </div>
               <div v-if="item.status==='4'">
                 <span @click.stop="updateStatus(item.form_id,'5')">确认退款</span>
               </div>
-              <van-popover
-                v-model="showPopover"
-                trigger="click"
-                :actions="actions"
-                placement="bottom-start"
-                @select="onSelect"
-                class="more"
-              >
-                <template #reference>
-                  <span type="primary" @click="setCurrentFrom(item.status, item.form_id, item.list_id)">更多</span>
-                </template>
-              </van-popover>
-<!--              <div v-if="item.status==='2' || item.status==='3' || item.status==='5' || item.status==='6'">-->
-<!--                <span @click.stop="deleteDeal(item.form_id, item.list_id)">删除订单</span>-->
-<!--              </div>-->
+<!--              <van-popover-->
+<!--                v-model="showPopover"-->
+<!--                trigger="click"-->
+<!--                :actions="actions"-->
+<!--                placement="bottom-start"-->
+<!--                @select="onSelect"-->
+<!--                class="more"-->
+<!--              >-->
+<!--                <template #reference>-->
+<!--                  <span type="primary" @click="setCurrentFrom(item.status, item.form_id, item.list_id)">更多</span>-->
+<!--                </template>-->
+<!--              </van-popover>-->
+              <div v-if="item.status==='5' || item.status==='6'">
+                <span @click.stop="deleteDeal(item.form_id, item.list_id)">删除订单</span>
+              </div>
             </div>
             <p class="noMore">没有更多订单了</p>
           </van-tab>
@@ -392,7 +394,7 @@
       height: 13%;
       /*width: 50%;*/
       /*float: right;*/
-      margin-right: 2.4%;
+      //margin-right: 2.4%;
       margin-top: 2%;
       position: absolute;
       bottom: 6%;
@@ -409,11 +411,8 @@
         border: 1px solid lightgray;
         text-align: center;
         padding-top: 2%;
+        margin-right: 0.33rem;
         /*margin-right: 0.1rem;*/
-      }
-      span:nth-child(1){
-        /*transform: translateX(30%);*/
-        margin-right: 8%;
       }
     }
   }
