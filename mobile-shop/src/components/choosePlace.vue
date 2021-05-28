@@ -22,7 +22,7 @@
         <div v-if="!$route.query.isAdd" style="margin-bottom: 1%" v-for="item in $store.state.myAddressList" :key="item.id" @click="choosePlace(item)">
           <p>{{item['small_address']}}
             &nbsp;
-            <van-tag color='#FA8072'>{{item['mark']}}</van-tag>
+            <van-tag color='#FA8072' class="tag">{{item['mark']}}</van-tag>
             &nbsp;
             <van-tag v-if="item['isDefault']==='true'" color="light-grey">默认</van-tag></p>
           <p>{{item['big_address']}}</p>
@@ -273,6 +273,12 @@
         position: absolute;
         right: 5%;
         top: 35%;
+      }
+      .tag{
+        width: 0.7rem;
+        text-align: center;
+        display: inline-block;
+        transform: translateY(-0.03rem);
       }
     }
   }

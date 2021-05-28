@@ -81,14 +81,14 @@
         getRadio() {
           if (this.$route.query.isChoose) {
             for (let i=0;i<this.myAddressList.length;i++) {
-              if (this.myAddressList[i].id===this.$store.state.place.id) {
+              if (this.myAddressList[i].id===this.$store.state.place_receipt.id) {
                 this.radio = i;
               }
             }
           }
         },
         chooseIt(item){
-          this.$store.commit('setPlace',item);
+          this.$store.commit('setPlace_receipt',item);
           setTimeout(() => {
             this.$router.go(-1);
           },150);

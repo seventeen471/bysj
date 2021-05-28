@@ -9,15 +9,16 @@
 <!--          <p>地址选择</p>-->
           <div class="one" @click="$router.push('/myAddress?isChoose=true')">
             <div>
-              <strong>{{$store.state.place['small_address']+$store.state.place['door_no']}}</strong>
+              <strong v-if="$store.state.place['door_no']">{{$store.state.place_receipt['small_address']+$store.state.place['door_no']}}</strong>
+              <strong v-else="$store.state.place['door_no']">{{$store.state.place_receipt['small_address']}}</strong>
               &nbsp;
-              <van-tag color='#FA8072'>{{$store.state.place['mark']}}</van-tag>
+              <van-tag color='#FA8072'>{{$store.state.place_receipt['mark']}}</van-tag>
               &nbsp;
-              <van-tag v-if="$store.state.place['isDefault']==='true'" color="light-grey">默认</van-tag>
+              <van-tag v-if="$store.state.place_receipt['isDefault']==='true'" color="light-grey">默认</van-tag>
             </div>
             <div>
-              <span>{{$store.state.place['name']}}</span>
-              <span>{{$store.state.place['phone']}}</span>
+              <span>{{$store.state.place_receipt['name']}}</span>
+              <span>{{$store.state.place_receipt['phone']}}</span>
             </div>
               <van-icon class="icon" name="arrow-left" color="rgba(0,0,0,0.5)" size="0.6rem"/>
           </div>
@@ -115,7 +116,7 @@
           param.append('goodsObj', JSON.stringify(this.$store.state.dealObj.dealGoods));
           param.append('time', new Date().toLocaleDateString() + ' ' + new Date().toTimeString().substring(0,8));
           param.append('payType', this.radio); // 1余2微3支
-          param.append('addressId', this.$store.state.place.id);
+          param.append('addressId', this.$store.state.place_receipt.id);
           param.append('allMount', this.allMount);
           param.append('allFee', this.$store.state.dealObj.allCharge);
           param.append('subFee', this.dikou);

@@ -8,7 +8,7 @@
         <p>我的订单</p>
       </div>
       <div class="body">
-        <van-tabs v-model="active" animated swipeable color="#FA8072">
+        <van-tabs v-model="active" animated color="#FA8072">
           <van-tab title="全部" name="a">
             <div class="one" v-for="item in allListArr" :key="item.form_id">
               <div @click="gotoResult(item.form_id)"><span>{{item.time}}</span><span>{{item.status | statusName}}</span></div>

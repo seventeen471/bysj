@@ -15,6 +15,8 @@ const store = new Vuex.Store({
     detailObj: {},
     place: {
     },
+    place_receipt: {
+    },
     userInfo: {},
     isLogin: false,
     chooseAddress: {},
@@ -102,6 +104,9 @@ const store = new Vuex.Store({
     },
     setPlace(state,obj){
       state.place = obj;
+    },
+    setPlace_receipt(state,obj){
+      state.place_receipt = obj;
     },
     setUserInfo(state,obj){
       state.userInfo = obj;
