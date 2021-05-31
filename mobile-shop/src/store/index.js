@@ -67,12 +67,12 @@ const store = new Vuex.Store({
               newArr.push(e);
             } else {
               setTimeout(() => {
-                state.checkArr.splice(1, state.checkArr.indexOf(id))
+                state.checkArr.splice(state.checkArr.indexOf(id), 1)
               })
             }
           } else {
             setTimeout(() => {
-              state.checkArr.splice(1, state.checkArr.indexOf(id))
+              state.checkArr.splice(state.checkArr.indexOf(id), 1)
             })
           }
         } else {
